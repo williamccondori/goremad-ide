@@ -1,0 +1,86 @@
+version: "3.4"
+
+networks:
+  goremad:
+    external:
+      name: goremad
+
+services:
+  goremad-ide-mongodb:
+    image: mongo:latest
+    container_name: goremad-ide-mongodb
+    restart: always
+    volumes:
+      - ./data/goremad-ide-mongodb/data/db/:/data/db
+    env_file:
+      - .goremad-ide-mongodb.env
+    networks:
+      - goremad
+  goremad-ide-postgres:
+    image: postgis/postgis:14-master
+    container_name: goremad-ide-postgres
+    restart: always
+    volumes:
+      - ./data/goremad-ide-postgres/data:/var/lib/postgresql/data
+    env_file:
+      - .goremad-ide-postgres.env
+    networks:
+      - goremad
+    ports:
+      - "5432:5432"
+  goremad-ide-geoserver:
+    image: docker.osgeo.org/geoserver:2.22.0
+    container_name: goremad-ide-geoserver
+    restart: always
+    volumes:
+      - ./data/goremad-ide-geoserver/geoserver_data:/opt/geoserver_data
+    env_file:
+      - .goremad-ide-geoserver.env
+    networks:
+      - goremad
+    depends_on:
+      - goremad-ide-postgres
+    ports:
+      - 9001:8080
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.goremad-ide-geoserver.loadbalancer.server.port=8080"
+      - "traefik.http.routers.goremad-ide-geoserver.rule=Host(`geoserver.ide.regionmadrededios.gob.pe`)"
+      - "traefik.http.routers.goremad-ide-geoserver.entrypoints=websecure"
+      - "traefik.http.routers.goremad-ide-geoserver.tls.certresolver=ssl"
+      - "traefik.http.routers.goremad-ide-geoserver.tls=true"
+      - "traefik.goremad-ide-geoserver.headers.SSLRedirect=true"
+  goremad-ide-backend:
+    image: williamccondori/goremad-ide-backend:latest
+    container_name: goremad-ide-backend
+    restart: always
+    env_file:
+      - .goremad-ide-backend.env
+    networks:
+      - goremad
+    depends_on:
+      - goremad-ide-mongodb
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.goremad-ide-backend.loadbalancer.server.port=8080"
+      - "traefik.http.routers.goremad-ide-backend.rule=Host(`api.ide.regionmadrededios.gob.pe`)"
+      - "traefik.http.routers.goremad-ide-backend.entrypoints=websecure"
+      - "traefik.http.routers.goremad-ide-backend.tls.certresolver=ssl"
+      - "traefik.http.routers.goremad-ide-backend.tls=true"
+      - "traefik.goremad-ide-backend.headers.SSLRedirect=true"
+  goremad-ide-frontend:
+    image: williamccondori/goremad-ide-frontend:latest
+    container_name: goremad-ide-frontend
+    restart: always
+    networks:
+      - goremad
+    depends_on:
+      - goremad-ide-backend
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.goremad-ide-frontend.loadbalancer.server.port=8080"
+      - "traefik.http.routers.goremad-ide-frontend.rule=Host(`ide.regionmadrededios.gob.pe`)"
+      - "traefik.http.routers.goremad-ide-frontend.entrypoints=websecure"
+      - "traefik.http.routers.goremad-ide-frontend.tls.certresolver=ssl"
+      - "traefik.http.routers.goremad-ide-frontend.tls=true"
+      - "traefik.goremad-ide-frontend.headers.SSLRedirect=true"
