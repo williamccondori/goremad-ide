@@ -1,10 +1,6 @@
 name: goremad-ide-backend
 
 on:
-  merge_request:
-    branches: ["main"]
-    paths:
-      - backend/**
   push:
     branches: ["main"]
     paths:
