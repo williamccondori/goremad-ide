@@ -28,7 +28,7 @@
               :data-source="informacionCapa.informacion"
               size="small"
             >
-              <template slot="clave" slot-scope="fila">
+              <template #clave="fila">
                 <b>{{ fila.clave }}:</b>
               </template>
             </a-table>

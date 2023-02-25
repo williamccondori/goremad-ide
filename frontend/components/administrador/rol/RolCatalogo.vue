@@ -6,14 +6,14 @@
     :data-source="usuarios"
     size="middle"
   >
-    <template slot="roles" slot-scope="roles">
+    <template #roles="roles">
       <a-space>
         <a-tag v-for="rol in roles" :key="rol" :color="obtenerColor(rol)">
           {{ rol }}
         </a-tag>
       </a-space>
     </template>
-    <template slot="acciones" slot-scope="id, row">
+    <template #acciones="id, row">
       <a-button
         v-if="!row.roles.includes('superusuario')"
         type="dashed"

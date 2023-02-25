@@ -7,15 +7,15 @@
     class="tabla"
     bordered
   >
-    <template slot="label" slot-scope="value">
+    <template #label="value">
       <a-tag color="purple"> {{ value }}</a-tag>
     </template>
-    <template slot="boolean" slot-scope="value">
+    <template #boolean="value">
       <a-tag :color="value ? 'green' : 'red'">
         {{ value ? "SI" : "NO" }}
       </a-tag>
     </template>
-    <template slot="actions" slot-scope="id">
+    <template #actions="id">
       <a-button
         v-if="showEdit"
         type="dashed"

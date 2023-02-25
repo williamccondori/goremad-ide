@@ -9,7 +9,7 @@
     "start": "nuxt start",
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix .",
-    "format": "prettier .  --write"
+    "format": "prettier . --ignore-path .gitignore --write"
   },
   "dependencies": {
     "@nuxtjs/auth-next": "^5.0.0-1595976864.509d9d6",

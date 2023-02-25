@@ -6,7 +6,7 @@
     :data-source="serviciosExternos"
     size="middle"
   >
-    <template slot="acciones" slot-scope="id">
+    <template #acciones="id">
       <a-button type="dashed" size="small" @click="editar(id)">
         <a-icon type="edit" />
       </a-button>

@@ -137,7 +137,7 @@
         </a-form-model-item>
         <a-form-model-item label="Nombre a mostrar" prop="titulo">
           <a-input v-model="formularioCreacion.titulo" disabled>
-            <template slot="addonBefore">
+            <template #addonBefore>
               <a-icon type="global" />
             </template>
           </a-input>
