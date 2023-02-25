@@ -1,5 +1,7 @@
 FROM node:lts-alpine AS build
 
+ENV NODE_OPTIONS=--openssl-legacy-provider
+
 WORKDIR /src
 
 COPY package*.json ./
@@ -8,7 +10,7 @@ RUN npm install
 
 COPY . .
 
-RUN npm run build
+RUN npm run generate
 
 FROM node:lts-alpine AS production
 
