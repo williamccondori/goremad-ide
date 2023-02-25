@@ -1,14 +1,18 @@
 export default {
   ssr: false,
   head: {
-    title: "GEOGOREMAD",
+    title: "IDE - Gobierno Regional de Madre de Dios",
     htmlAttrs: {
       lang: "es",
     },
     meta: [
       { charset: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { hid: "description", name: "description", content: "El GEOGOREMAD" },
+      {
+        hid: "description",
+        name: "description",
+        content: "Gobierno Regional de Madre de Dios",
+      },
     ],
     link: [
       { rel: "icon", type: "image/png", href: "/logo.png" },

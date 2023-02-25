@@ -10,6 +10,9 @@ RUN npm install
 
 COPY . .
 
+ARG BASE_URL
+ENV BASE_URL=$BASE_URL
+
 RUN npm run generate
 
 FROM node:lts-alpine AS production

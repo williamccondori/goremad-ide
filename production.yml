@@ -2,8 +2,7 @@ version: "3.4"
 
 networks:
   goremad:
-    external:
-      name: goremad
+    name: goremad
 
 services:
   goremad-ide-mongodb:
