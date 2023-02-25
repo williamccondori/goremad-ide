@@ -72,6 +72,8 @@ services:
     image: williamccondori/goremad-ide-frontend:latest
     container_name: goremad-ide-frontend
     restart: always
+    env_file:
+      - .goremad-ide-frontend.env
     networks:
       - goremad
     depends_on:
