@@ -4,11 +4,11 @@ on:
   merge_request:
     branches: ["main"]
     paths:
-      - ide/frontend/**
+      - frontend/**
   push:
     branches: ["main"]
     paths:
-      - ide/frontend/**
+      - frontend/**
 
 env:
   PROJECT_NAME: goremad-ide-frontend
