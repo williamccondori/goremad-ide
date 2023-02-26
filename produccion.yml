@@ -25,8 +25,6 @@ services:
       - .goremad-ide-postgres.env
     networks:
       - goremad
-    ports:
-      - "5432:5432"
   goremad-ide-geoserver:
     image: docker.osgeo.org/geoserver:2.22.0
     container_name: goremad-ide-geoserver
@@ -39,8 +37,6 @@ services:
       - goremad
     depends_on:
       - goremad-ide-postgres
-    ports:
-      - 9001:8080
     labels:
       - "traefik.enable=true"
       - "traefik.http.services.goremad-ide-geoserver.loadbalancer.server.port=8080"
@@ -49,6 +45,24 @@ services:
       - "traefik.http.routers.goremad-ide-geoserver.tls.certresolver=ssl"
       - "traefik.http.routers.goremad-ide-geoserver.tls=true"
       - "traefik.goremad-ide-geoserver.headers.SSLRedirect=true"
+  goremad-ide-geonetwork:
+    image: geonetwork:3.12.8
+    container_name: goremad-ide-geonetwork
+    restart: always
+    volumes:
+      - ./data/goremad-ide-geonetwork/geonetwork:/var/lib/geonetwork
+    env_file:
+      - .goremad-ide-geonetwork.env
+    networks:
+      - goremad
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.goremad-ide-geonetwork.loadbalancer.server.port=8080"
+      - "traefik.http.routers.goremad-ide-geonetwork.rule=Host(`metadatos.ide.regionmadrededios.gob.pe`)"
+      - "traefik.http.routers.goremad-ide-geonetwork.entrypoints=websecure"
+      - "traefik.http.routers.goremad-ide-geonetwork.tls.certresolver=ssl"
+      - "traefik.http.routers.goremad-ide-geonetwork.tls=true"
+      - "traefik.goremad-ide-geonetwork.headers.SSLRedirect=true"
   goremad-ide-backend:
     image: williamccondori/goremad-ide-backend:latest
     container_name: goremad-ide-backend
@@ -61,8 +75,8 @@ services:
       - goremad-ide-mongodb
     labels:
       - "traefik.enable=true"
-      - "traefik.http.services.goremad-ide-backend.loadbalancer.server.port=8080"
-      - "traefik.http.routers.goremad-ide-backend.rule=Host(`api.ide.regionmadrededios.gob.pe`)"
+      - "traefik.http.services.goremad-ide-backend.loadbalancer.server.port=8000"
+      - "traefik.http.routers.goremad-ide-backend.rule=Host(`visor.ide.regionmadrededios.gob.pe`)"
       - "traefik.http.routers.goremad-ide-backend.entrypoints=websecure"
       - "traefik.http.routers.goremad-ide-backend.tls.certresolver=ssl"
       - "traefik.http.routers.goremad-ide-backend.tls=true"
@@ -71,8 +85,6 @@ services:
     image: williamccondori/goremad-ide-frontend:latest
     container_name: goremad-ide-frontend
     restart: always
-    env_file:
-      - .goremad-ide-frontend.env
     networks:
       - goremad
     depends_on:
