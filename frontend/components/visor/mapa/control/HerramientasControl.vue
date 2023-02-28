@@ -39,12 +39,12 @@
 import { mapActions } from "vuex";
 import { LControl } from "vue2-leaflet";
 import CapaBaseVentana from "@/components/visor/CapaBaseVentana.vue";
-import WebMapServiceFormularioVentana from "@/components/visor/WebMapServiceFormularioVentana.vue";
+// import WebMapServiceFormularioVentana from "@/components/visor/WebMapServiceFormularioVentana.vue";
 export default {
   components: {
     LControl,
     CapaBaseVentana,
-    WebMapServiceFormularioVentana,
+    // WebMapServiceFormularioVentana,
   },
   methods: {
     ...mapActions("visor", [

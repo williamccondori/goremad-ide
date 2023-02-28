@@ -1,25 +1,29 @@
 <template>
   <div class="app--pagina">
-    <a-spin :spinning="estaCargando">
+    <ASpin :spinning="estaCargando">
       <div class="contenedor-principal">
         <AplicacionCabecera />
-        <a-layout style="background: none">
+        <ALayout style="background: none">
           <AdministracionMenu v-if="$auth.loggedIn" />
-          <a-layout-content style="padding: 1rem">
+          <ALayoutContent style="padding: 1rem">
             <nuxt />
-          </a-layout-content>
-        </a-layout>
+          </ALayoutContent>
+        </ALayout>
       </div>
-    </a-spin>
+    </ASpin>
   </div>
 </template>
 
 <script>
+import { Spin, Layout } from "ant-design-vue";
 import { mapState, mapActions } from "vuex";
 import AplicacionCabecera from "@/components/compartido/AplicacionCabecera.vue";
 import AdministracionMenu from "@/components/administrador/compartido/AdministracionMenu.vue";
 export default {
   components: {
+    ASpin: Spin,
+    ALayout: Layout,
+    ALayoutContent: Layout.Content,
     AplicacionCabecera,
     AdministracionMenu,
   },

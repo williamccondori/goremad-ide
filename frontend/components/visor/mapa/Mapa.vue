@@ -24,7 +24,7 @@
         <CapaCapa />
         <!--Adicionales.-->
         <DibujoControl />
-        <CapasInteroperablesLayer />
+        <!-- <CapasInteroperablesLayer /> -->
       </LMap>
     </client-only>
     <CapaCatalogoVentana />
@@ -56,7 +56,7 @@ import CapaBaseCapa from "@/components/visor/mapa/capa/CapaBaseCapa.vue";
 import CapaCapa from "@/components/visor/mapa/capa/CapaCapa.vue";
 // Adicionales.
 import DibujoControl from "@/components/visor/mapa-control/DibujoControl.vue";
-import CapasInteroperablesLayer from "@/components/visor/CapasInteroperablesLayer.vue";
+// import CapasInteroperablesLayer from "@/components/visor/CapasInteroperablesLayer.vue";
 // Ventanas.
 import CapaCatalogoVentana from "@/components/visor/capa/CapaCatalogoVentana.vue";
 // import CapaBaseCatalogoVentana from "@/components/visor/capa-base/CapaBaseCatalogoVentana.vue";
@@ -78,7 +78,7 @@ export default {
     CapaCapa,
     // Adicionales
     DibujoControl,
-    CapasInteroperablesLayer,
+    // CapasInteroperablesLayer,
     // Ventanas.
     CapaCatalogoVentana,
   },

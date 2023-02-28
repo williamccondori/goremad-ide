@@ -1,20 +1,21 @@
 <template>
   <div class="pagina-principal">
-    <a-card shadow="never" :style="{ width: esMovil ? '100%' : '400px' }">
+    <ACard shadow="never" :style="{ width: esMovil ? '100%' : '400px' }">
       <div style="text-align: center">
-        <img src="/logo.png" alt="logo" width="150" />
+        <NuxtImg src="/logo.png" alt="logo" width="150" />
       </div>
-      <a-divider />
+      <ADivider />
       <InicioSesionFormulario />
-    </a-card>
+    </ACard>
   </div>
 </template>
 
 <script>
+import { Card, Divider } from "ant-design-vue";
 import { mapState } from "vuex";
 import InicioSesionFormulario from "@/components/administrador/inicio-sesion/InicioSesionFormulario.vue";
 export default {
-  components: { InicioSesionFormulario },
+  components: { ACard: Card, ADivider: Divider, InicioSesionFormulario },
   layout: "administrador",
   computed: {
     ...mapState(["esMovil"]),

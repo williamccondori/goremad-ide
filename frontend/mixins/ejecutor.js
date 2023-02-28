@@ -1,4 +1,6 @@
 import { mapActions } from "vuex";
+import { notification } from "ant-design-vue";
+
 export default {
   methods: {
     ...mapActions(["establecerCargando"]),
@@ -19,7 +21,7 @@ export default {
      * @param {Sring} mensaje
      */
     $mostrarMensajeCorrecto(mensaje) {
-      this.$notification.success({
+      notification.success({
         message: "Correcto",
         description: mensaje ?? "El proceso se realizó correctamente",
       });
@@ -36,7 +38,7 @@ export default {
         throw contenido?.mensaje ?? error.message;
       }
       const mensaje = this.obtenerMensajeError(contenido?.mensaje, codigoError);
-      this.$notification.error({
+      notification.error({
         message: `Error: ${codigoError}`,
         description: mensaje,
       });

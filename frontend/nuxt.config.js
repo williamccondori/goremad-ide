@@ -1,5 +1,6 @@
 export default {
   ssr: false,
+  target: "static",
   head: {
     title: "IDE - Gobierno Regional de Madre de Dios",
     htmlAttrs: {
@@ -23,22 +24,13 @@ export default {
     ],
   },
   css: ["@/assets/less/variables.less", "@/assets/css/global.css"],
-  plugins: ["@/plugins/antd-ui", "@/plugins/ejecutor", "@/plugins/mapa"],
+  plugins: ["@/plugins/ejecutor", "@/plugins/mapa"],
   loading: false,
-  components: false,
-  buildModules: [],
+  components: true,
+  buildModules: ["@nuxt/image"],
   modules: ["@nuxtjs/axios", "@nuxtjs/auth-next"],
   axios: {
     baseURL: process.env.BASE_URL || "http://localhost:8000/api/v1",
-  },
-  build: {
-    loaders: {
-      less: {
-        lessOptions: {
-          javascriptEnabled: true,
-        },
-      },
-    },
   },
   router: {
     middleware: ["auth"],

@@ -1,47 +1,58 @@
 <template>
   <div class="app--contenedor-horizontal-espaciado cabecera">
-    <div class="app--contenedor" style="align-items: center; gap: 1rem">
-      <img src="/logo.png" alt="logo" width="60" />
-      <div class="titulo">
-        <NuxtLink to="/">
-          <h1>
-            <span>Infraestructura de Datos Espaciales</span>
-          </h1>
-          <h2>Gobierno Regional de Madre de Dios</h2>
-        </NuxtLink>
+    <NuxtLink
+      to="/"
+      class="app--contenedor"
+      style="align-items: center; gap: 1rem"
+    >
+      <NuxtImg src="/logo.png" alt="logo" width="60" />
+      <div v-if="!esMovil" class="titulo">
+        <h1>
+          <span>Infraestructura de Datos Espaciales</span>
+        </h1>
+        <h2>Gobierno Regional de Madre de Dios</h2>
       </div>
-    </div>
+    </NuxtLink>
     <div v-if="$auth.loggedIn">
-      <a-dropdown>
-        <a-menu slot="overlay" @click="seleccionarOpcion">
-          <a-menu-item key="irVisor">
-            <a-icon type="global" />
+      <ADropdown>
+        <AMenu slot="overlay" @click="seleccionarOpcion">
+          <AMenuItem key="irVisor">
+            <AIcon type="global" />
             Visor <b style="color: orange">GEOGOREMAD</b>
-          </a-menu-item>
-          <a-menu-item key="irAdministrador">
-            <a-icon type="gold" />
+          </AMenuItem>
+          <AMenuItem key="irAdministrador">
+            <AIcon type="gold" />
             Administrador
-          </a-menu-item>
-          <a-menu-item key="cerrarSesion">
-            <a-icon type="lock" />
+          </AMenuItem>
+          <AMenuItem key="cerrarSesion">
+            <AIcon type="lock" />
             Cerrar sesión
-          </a-menu-item>
-        </a-menu>
-        <a-button type="dashed" class="avatar">
-          <a-avatar shape="circle" icon="user" />
+          </AMenuItem>
+        </AMenu>
+        <AButton type="dashed" class="avatar">
+          <AAvatar shape="circle" icon="user" />
           <span>
             {{ $auth.user?.username }}
           </span>
-          <a-icon type="down" />
-        </a-button>
-      </a-dropdown>
+          <AIcon type="down" />
+        </AButton>
+      </ADropdown>
     </div>
   </div>
 </template>
 
 <script>
+import { Avatar, Button, Dropdown, Icon, Menu } from "ant-design-vue";
 import { mapState } from "vuex";
 export default {
+  components: {
+    AAvatar: Avatar,
+    AButton: Button,
+    ADropdown: Dropdown,
+    AIcon: Icon,
+    AMenu: Menu,
+    AMenuItem: Menu.Item,
+  },
   computed: {
     ...mapState(["esMovil"]),
   },

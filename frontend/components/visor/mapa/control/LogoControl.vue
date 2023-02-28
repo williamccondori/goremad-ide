@@ -1,7 +1,7 @@
 <template>
   <LControl position="bottomleft">
     <NuxtLink to="/">
-      <img src="/logo.png" alt="logo" width="180" />
+      <NuxtImg src="/logo.png" alt="logo" width="180" />
     </NuxtLink>
   </LControl>
 </template>

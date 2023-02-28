@@ -1,12 +1,12 @@
 <template>
-  <a-modal
+  <AModal
     :title="null"
     :footer="null"
     :closable="false"
     :visible="estaAbiertoBienvenidaModal"
   >
     <div class="cabecera">
-      <img src="/logo.png" alt="logo" />
+      <NuxtImg src="/logo.png" alt="logo" />
       <h1>GEOGOREMAD</h1>
       <h2>Infraestructura de Datos Espaciales</h2>
     </div>
@@ -25,11 +25,11 @@
         información errónea.
       </p>
     </div>
-    <a-checkbox v-model="terminosAceptados">
+    <ACheckbox v-model="terminosAceptados">
       Acepto los términos y condiciones de uso.
-    </a-checkbox>
-    <a-divider />
-    <a-button
+    </ACheckbox>
+    <ADivider />
+    <AButton
       html-type="button"
       type="primary"
       :disabled="!terminosAceptados"
@@ -37,12 +37,19 @@
       @click="cerrarModal()"
     >
       Ingresar
-    </a-button>
-  </a-modal>
+    </AButton>
+  </AModal>
 </template>
 
 <script>
+import { Modal, Checkbox, Divider, Button } from "ant-design-vue";
 export default {
+  components: {
+    AModal: Modal,
+    ACheckbox: Checkbox,
+    ADivider: Divider,
+    AButton: Button,
+  },
   data() {
     return {
       terminosAceptados: false,

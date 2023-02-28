@@ -1,11 +1,11 @@
 <template>
   <div v-if="configuracionAplicada" class="app--pagina">
-    <a-spin :spinning="estaCargando">
+    <ASpin :spinning="estaCargando">
       <div class="contenedor-principal">
         <AplicacionCabecera />
         <nuxt />
       </div>
-    </a-spin>
+    </ASpin>
   </div>
   <div v-else class="app--pagina">
     <PaginaCarga />
@@ -13,11 +13,12 @@
 </template>
 
 <script>
+import { Spin } from "ant-design-vue";
 import { mapState, mapActions } from "vuex";
 import AplicacionCabecera from "@/components/compartido/AplicacionCabecera.vue";
 import PaginaCarga from "@/components/visor/compartido/PaginaCarga.vue";
 export default {
-  components: { AplicacionCabecera, PaginaCarga },
+  components: { ASpin: Spin, AplicacionCabecera, PaginaCarga },
   data() {
     return {
       configuracionAplicada: false,

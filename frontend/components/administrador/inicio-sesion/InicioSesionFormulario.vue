@@ -1,10 +1,10 @@
 <template>
-  <a-form-model
+  <AFormModel
     ref="referenciaFormulario"
     :model="formulario"
     @submit.prevent="iniciarSesion()"
   >
-    <a-form-model-item
+    <AFormModelItem
       prop="username"
       :rules="[
         {
@@ -13,16 +13,16 @@
         },
       ]"
     >
-      <a-input
+      <AInput
         v-model="formulario.username"
         placeholder="Ingrese el nombre de usuario"
       >
         <template #prefix>
-          <a-icon type="user" style="color: gray" />
+          <AIcon type="user" style="color: gray" />
         </template>
-      </a-input>
-    </a-form-model-item>
-    <a-form-model-item
+      </AInput>
+    </AFormModelItem>
+    <AFormModelItem
       prop="password"
       :rules="[
         {
@@ -31,34 +31,45 @@
         },
       ]"
     >
-      <a-input-password
+      <AInputPassword
         v-model="formulario.password"
         placeholder="Ingrese la contraseña de usuario"
       >
         <template #prefix>
-          <a-icon type="key" style="color: gray" />
+          <AIcon type="key" style="color: gray" />
         </template>
-      </a-input-password>
-    </a-form-model-item>
+      </AInputPassword>
+    </AFormModelItem>
     <div>
-      <a-button html-type="submit" type="primary" block>
+      <AButton html-type="submit" type="primary" block>
         Iniciar sesión
-      </a-button>
-      <a-divider />
-      <a-button block @click="() => $router.push('/')">
+      </AButton>
+      <ADivider />
+      <AButton block @click="() => $router.push('/')">
         Regresar al inicio
-      </a-button>
+      </AButton>
     </div>
-  </a-form-model>
+  </AFormModel>
 </template>
 
 <script>
+import { FormModel, Input, Icon, Button, Divider } from "ant-design-vue";
+
 const formulario = {
   username: "",
   password: "",
 };
 
 export default {
+  components: {
+    AFormModel: FormModel,
+    AFormModelItem: FormModel.Item,
+    AInput: Input,
+    AInputPassword: Input.Password,
+    AIcon: Icon,
+    AButton: Button,
+    ADivider: Divider,
+  },
   data() {
     return {
       formulario: { ...formulario },

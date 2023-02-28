@@ -2,9 +2,9 @@
   <div id="animacionCargando">
     <div class="contenedor">
       <div class="contenedor-pajaro">
-        <img class="pajaro" src="/pajaro.svg" />
+        <NuxtImg class="pajaro" src="/pajaro.svg" />
       </div>
-      <img class="fondo" src="/fondo.svg" />
+      <NuxtImg class="fondo" src="/fondo.svg" />
       <div class="fondo-gradiente" />
     </div>
   </div>

@@ -4,7 +4,6 @@
       message="Página en construcción"
       description="Esta página está en construcción. Pronto estará disponible."
       type="warning"
-      show-icon
     />
   </PortalPagina>
 </template>
@@ -16,6 +15,7 @@ export default {
     PortalPagina,
   },
   auth: false,
+  layout: "portal",
   methods: {},
 };
 </script>

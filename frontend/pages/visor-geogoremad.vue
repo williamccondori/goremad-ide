@@ -1,8 +1,8 @@
 <template>
   <PortalPagina titulo="Visor GEOGOREMAD">
-    <a-button type="primary" @click="() => $router.push('/geogoremad')">
-      Ingresar al <b style="margin-left: 0.5rem">GEOGOREMAD</b>
-    </a-button>
+    <NuxtLink to="/geogoremad">
+      Ingresar al <b style="color: orange">GEOGOREMAD</b>
+    </NuxtLink>
   </PortalPagina>
 </template>
 
@@ -13,6 +13,7 @@ export default {
     PortalPagina,
   },
   auth: false,
+  layout: "portal",
   methods: {},
 };
 </script>

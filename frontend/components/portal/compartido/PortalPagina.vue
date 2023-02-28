@@ -1,15 +1,21 @@
 <template>
-  <a-card class="app--altura-100">
+  <ACard class="app--altura-100">
     <div v-if="titulo">
-      <a-page-header :title="titulo" @back="() => $router.back()" />
-      <a-divider />
+      <APageHeader :title="titulo" @back="() => $router.back()" />
+      <ADivider />
     </div>
     <slot />
-  </a-card>
+  </ACard>
 </template>
 
 <script>
+import { Card, Divider, PageHeader } from "ant-design-vue";
 export default {
+  components: {
+    ACard: Card,
+    ADivider: Divider,
+    APageHeader: PageHeader,
+  },
   props: {
     titulo: {
       type: String,
