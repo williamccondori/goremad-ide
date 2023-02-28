@@ -9,7 +9,7 @@
     "dev": "SET NODE_OPTIONS=--openssl-legacy-provider && nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
-    "generate": "SET NODE_OPTIONS=--openssl-legacy-provider && nuxt generate",
+    "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore --fix .",
     "format": "prettier . --ignore-path .gitignore --write"
   },
