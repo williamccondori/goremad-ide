@@ -7,20 +7,20 @@
       :default-selected-keys="[$route.path]"
       @click="seleccionarOpcion"
     >
-      <AMenuItem key="/">
+      <AMenuItem key="/portal">
         <AIcon type="home" />
         <span>Inicio</span>
       </AMenuItem>
-      <AMenuItem key="/visor-geogoremad">
-        <AIcon type="appstore" />
-        <span>Visor <b style="color: orange">GEOGOREMAD</b></span>
-      </AMenuItem>
-      <AMenuItem key="/interoperabilidad">
-        <AIcon type="appstore" />
+      <AMenuItem key="/portal/interoperabilidad">
+        <AIcon type="global" />
         <span>Interoperabilidad</span>
       </AMenuItem>
+      <AMenuItem key="/portal/catalogo-objetos">
+        <AIcon type="folder" />
+        <span>Catálogo de objetos</span>
+      </AMenuItem>
       <AMenuItem key="/administrador">
-        <AIcon type="appstore" />
+        <AIcon type="apartment" />
         <span>Portal de administración</span>
       </AMenuItem>
     </AMenu>

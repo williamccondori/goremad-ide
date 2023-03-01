@@ -1,6 +1,6 @@
 <template>
-  <PortalPagina titulo="Catálogos">
-    <a-alert
+  <PortalPagina titulo="Catálogo de objetos">
+    <AAlert
       message="Página en construcción"
       description="Esta página está en construcción. Pronto estará disponible."
       type="warning"
@@ -9,9 +9,11 @@
 </template>
 
 <script>
+import { Alert } from "ant-design-vue";
 import PortalPagina from "@/components/portal/compartido/PortalPagina.vue";
 export default {
   components: {
+    AAlert: Alert,
     PortalPagina,
   },
   auth: false,

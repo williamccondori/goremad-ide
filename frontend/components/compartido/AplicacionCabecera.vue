@@ -63,7 +63,7 @@ export default {
       } else if (key === "irAdministrador") {
         this.$router.push("/administrador");
       } else if (key === "irVisor") {
-        this.$router.push("/geogoremad");
+        this.$router.push("/");
       }
     },
   },
@@ -75,7 +75,8 @@ export default {
   z-index: 999;
   padding: 0 2rem;
   background-color: white;
-  box-shadow: rgb(1 41 112 / 10%) 0px 2px 20px;
+  box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%),
+    0 1px 5px 0 rgb(0 0 0 / 20%);
 }
 .avatar {
   display: flex;
