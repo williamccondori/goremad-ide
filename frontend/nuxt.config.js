@@ -24,7 +24,7 @@ export default {
     ],
   },
   css: ["@/assets/less/variables.less", "@/assets/css/global.css"],
-  plugins: ["@/plugins/ejecutor", "@/plugins/mapa"],
+  plugins: ["@/plugins/ejecutor", "@/plugins/mapa", "@/plugins/ant-modal"],
   loading: false,
   components: true,
   buildModules: ["@nuxt/image"],

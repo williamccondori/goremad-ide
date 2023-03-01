@@ -1,5 +1,5 @@
 <template>
-  <a-table
+  <ATable
     bordered
     row-key="id"
     :columns="columnas"
@@ -7,24 +7,31 @@
     size="middle"
   >
     <template #acciones="id">
-      <a-button type="dashed" size="small" @click="editar(id)">
-        <a-icon type="edit" />
-      </a-button>
-      <a-popconfirm
+      <AButton type="dashed" size="small" @click="editar(id)">
+        <AIcon type="edit" />
+      </AButton>
+      <APopconfirm
         title="¿Está seguro que desea eliminar este registro?"
         @confirm="eliminar(id)"
       >
-        <a-button type="dashed" size="small">
-          <a-icon type="delete" />
-        </a-button>
-      </a-popconfirm>
+        <AButton type="dashed" size="small">
+          <AIcon type="delete" />
+        </AButton>
+      </APopconfirm>
     </template>
-  </a-table>
+  </ATable>
 </template>
 
 <script>
+import { Table, Button, Popconfirm, Icon } from "ant-design-vue";
 import { mapState, mapActions } from "vuex";
 export default {
+  components: {
+    ATable: Table,
+    AButton: Button,
+    APopconfirm: Popconfirm,
+    AIcon: Icon,
+  },
   data() {
     return {
       columnas: [

@@ -1,30 +1,31 @@
 <template>
-  <a-modal
+  <AModal
     :footer="null"
     :visible="estaAbiertoCompartirVistaModal"
     @cancel="cerrarCompartirVistaModal()"
   >
-    <span slot="title">
+    <span slot="title" style="text-transform: uppercase">
       <b>Compartir</b>
     </span>
-    <a-form-model
+    <AFormModel
       ref="referenciaFormulario"
       :model="formulario"
       @submit.prevent="compartir()"
     >
-      <a-form-model-item label="Ruta" prop="url">
-        <a-input v-model="formulario.url" :read-only="true">
-          <a-icon slot="addonBefore" type="global" />
-        </a-input>
-      </a-form-model-item>
-      <a-button html-type="submit" type="primary" block icon="copy">
+      <AFormModelItem label="Ruta" prop="url">
+        <AInput v-model="formulario.url" :read-only="true">
+          <AIcon slot="addonBefore" type="global" />
+        </AInput>
+      </AFormModelItem>
+      <AButton html-type="submit" type="primary" block icon="copy">
         Copiar y cerrar ventana
-      </a-button>
-    </a-form-model>
-  </a-modal>
+      </AButton>
+    </AFormModel>
+  </AModal>
 </template>
 
 <script>
+import { Modal, FormModel, Input, Icon, Button } from "ant-design-vue";
 import { mapState, mapActions } from "vuex";
 
 const formulario = {
@@ -32,6 +33,14 @@ const formulario = {
 };
 
 export default {
+  components: {
+    AModal: Modal,
+    AFormModel: FormModel,
+    AFormModelItem: FormModel.Item,
+    AInput: Input,
+    AIcon: Icon,
+    AButton: Button,
+  },
   data() {
     return {
       formulario: { ...formulario },

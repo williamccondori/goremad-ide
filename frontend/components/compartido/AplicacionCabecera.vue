@@ -5,7 +5,7 @@
       class="app--contenedor"
       style="align-items: center; gap: 1rem"
     >
-      <NuxtImg src="/logo.png" alt="logo" width="60" />
+      <img src="/logo.png" alt="logo" width="60" />
       <div v-if="!esMovil" class="titulo">
         <h1>
           <span>Infraestructura de Datos Espaciales</span>
@@ -91,5 +91,8 @@ export default {
 }
 .titulo h1 span {
   color: green;
+}
+.titulo h2 {
+  color: orange;
 }
 </style>

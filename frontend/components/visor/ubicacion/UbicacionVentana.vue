@@ -1,20 +1,20 @@
 <template>
-  <a-drawer
-    width="25rem"
+  <ADrawer
     placement="left"
+    :width="esMovil ? '100%' : 400"
     :visible="estaAbiertoUbicacionVentana"
     @close="cerrarUbicacionVentana()"
   >
-    <span slot="title">
+    <span slot="title" style="text-transform: uppercase">
       <b>Búsqueda de ubicaciones</b>
     </span>
     <div class="app--contenedor-vertical">
-      <a-form-model
+      <AFormModel
         ref="referenciaFormulario"
         :model="formulario"
         @submit.prevent="buscar()"
       >
-        <a-form-model-item
+        <AFormModelItem
           label="Término de búsqueda"
           prop="query"
           :rules="[
@@ -24,24 +24,24 @@
             },
           ]"
         >
-          <a-input
+          <AInput
             v-model="formulario.query"
             placeholder="Ingrese el término de búsqueda"
           />
-        </a-form-model-item>
-        <a-button html-type="submit" type="primary" icon="search" block>
+        </AFormModelItem>
+        <AButton html-type="submit" type="primary" icon="search" block>
           Buscar
-        </a-button>
-      </a-form-model>
-      <a-divider />
+        </AButton>
+      </AFormModel>
+      <ADivider />
       <div class="app--contenedor-horizontal-espaciado">
         <span>Todos los elementos:</span>
-        <a-tag color="green" style="margin: 0">
+        <ATag color="green" style="margin: 0">
           {{ resultados.length }}
-        </a-tag>
+        </ATag>
       </div>
       <div class="app--contenedor-vertical-pequenio">
-        <a-button
+        <AButton
           v-for="resultado in resultados"
           :key="resultado.id"
           type="dashed"
@@ -49,10 +49,10 @@
           @click="ver(resultado)"
         >
           {{ resultado.nombre }}
-        </a-button>
+        </AButton>
       </div>
       <div>
-        <a-button
+        <AButton
           block
           type="danger"
           icon="delete"
@@ -61,14 +61,15 @@
           @click="limpiar()"
         >
           Limpiar
-        </a-button>
+        </AButton>
       </div>
     </div>
     <section />
-  </a-drawer>
+  </ADrawer>
 </template>
 
 <script>
+import { Drawer, FormModel, Input, Button, Divider, Tag } from "ant-design-vue";
 import { mapState, mapActions } from "vuex";
 
 const formulario = {
@@ -76,6 +77,15 @@ const formulario = {
 };
 
 export default {
+  components: {
+    ADrawer: Drawer,
+    AFormModel: FormModel,
+    AFormModelItem: FormModel.Item,
+    AInput: Input,
+    AButton: Button,
+    ADivider: Divider,
+    ATag: Tag,
+  },
   data() {
     return {
       formulario: { ...formulario },
@@ -83,6 +93,7 @@ export default {
     };
   },
   computed: {
+    ...mapState(["esMovil"]),
     ...mapState("visor", ["estaAbiertoUbicacionVentana"]),
   },
   watch: {

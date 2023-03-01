@@ -2,7 +2,7 @@
   <div class="pagina-principal">
     <ACard shadow="never" :style="{ width: esMovil ? '100%' : '400px' }">
       <div style="text-align: center">
-        <NuxtImg src="/logo.png" alt="logo" width="150" />
+        <img src="/logo.png" alt="logo" width="150" />
       </div>
       <ADivider />
       <InicioSesionFormulario />

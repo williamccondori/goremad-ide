@@ -1,5 +1,5 @@
 <template>
-  <a-drawer
+  <ADrawer
     :width="esMovil ? '100%' : 400"
     :mask-closable="false"
     :visible="estaAbiertoServicioExternoFormularioVentana"
@@ -82,10 +82,11 @@
         </a-button>
       </div>
     </a-form-model>
-  </a-drawer>
+  </ADrawer>
 </template>
 
 <script>
+import { Drawer } from "ant-design-vue";
 import { mapState, mapActions } from "vuex";
 
 const formulario = {
@@ -97,6 +98,9 @@ const formulario = {
 };
 
 export default {
+  components: {
+    ADrawer: Drawer,
+  },
   data() {
     return {
       formulario: { ...formulario },

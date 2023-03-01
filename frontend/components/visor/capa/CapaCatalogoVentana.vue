@@ -1,15 +1,15 @@
 <template>
-  <a-drawer
+  <ADrawer
     :width="esMovil ? '100%' : 400"
-    :visible="estaAbiertoCapaVentana"
-    @close="cerrarCapaVentana()"
+    :visible="estaAbiertoCapaCatalogoVentana"
+    @close="cerrarCapaCatalogoVentana()"
   >
     <span slot="title" style="text-transform: uppercase">
       <b>Capas</b>
     </span>
-    <a-tabs type="card">
-      <a-tab-pane key="operables" tab="Capas">
-        <a-tree
+    <ATabs type="card">
+      <ATabPane key="operables" tab="Capas">
+        <ATree
           checkable
           style="overflow-x: auto"
           :replace-fields="{
@@ -23,16 +23,13 @@
           :selectable="false"
           :check-strictly="false"
           @check="seleccionarCapa"
-        >
-          <a-icon slot="switcherNode" type="folder" />
-        </a-tree>
-      </a-tab-pane>
-      <a-tab-pane key="interoperables" tab="Capas interoperables">
-        <a-alert
+        />
+      </ATabPane>
+      <ATabPane key="interoperables" tab="Capas interoperables">
+        <AAlert
           message="Característica en construcción"
           description="Esta característica está en construcción. Pronto estará disponible."
           type="warning"
-          show-icon
         />
         <!-- <a-tree
           checkable
@@ -49,18 +46,26 @@
           :auto-expand-parent="true"
           @check="onCheck"
         /> -->
-      </a-tab-pane>
-    </a-tabs>
-  </a-drawer>
+      </ATabPane>
+    </ATabs>
+  </ADrawer>
 </template>
 
 <script>
+import { Drawer, Tabs, Alert, Tree } from "ant-design-vue";
 import { mapState, mapActions } from "vuex";
 export default {
+  components: {
+    ADrawer: Drawer,
+    ATabs: Tabs,
+    ATabPane: Tabs.TabPane,
+    AAlert: Alert,
+    ATree: Tree,
+  },
   computed: {
     ...mapState(["esMovil"]),
     ...mapState("visor", [
-      "estaAbiertoCapaVentana",
+      "estaAbiertoCapaCatalogoVentana",
       "capasEstructura",
       "capas",
       "capasActivas",
@@ -71,7 +76,7 @@ export default {
   },
   methods: {
     ...mapActions("visor", [
-      "cerrarCapaVentana",
+      "cerrarCapaCatalogoVentana",
       "establecerCapasInteroperablesActivas",
       "establecerCapasActivas",
     ]),

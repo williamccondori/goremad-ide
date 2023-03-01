@@ -1,19 +1,19 @@
 <template>
-  <a-drawer
-    width="25rem"
+  <ADrawer
     placement="left"
+    :width="esMovil ? '100%' : 400"
     :visible="estaAbiertoMarcadorFormularioVentana"
     @close="cerrarMarcadorFormularioVentana()"
   >
-    <span slot="title">
+    <span slot="title" style="text-transform: uppercase">
       <b>Agregar marcador</b>
     </span>
-    <a-form-model
+    <AFormModel
       ref="referenciaFormulario"
       :model="formulario"
       @submit.prevent="guardar()"
     >
-      <a-form-model-item
+      <AFormModelItem
         prop="nombre"
         label="Nombre:"
         :rules="[
@@ -23,12 +23,12 @@
           },
         ]"
       >
-        <a-input
+        <AInput
           v-model="formulario.nombre"
           placeholder="Ingrese el nombre del marcador"
         />
-      </a-form-model-item>
-      <a-form-model-item
+      </AFormModelItem>
+      <AFormModelItem
         prop="zoom"
         label="Zoom:"
         :rules="[
@@ -38,15 +38,15 @@
           },
         ]"
       >
-        <a-input
+        <AInput
           v-model="formulario.zoom"
           placeholder="Ingrese el zoom del mapa"
           disabled
         />
-      </a-form-model-item>
-      <a-row :gutter="16">
-        <a-col :span="12">
-          <a-form-model-item
+      </AFormModelItem>
+      <ARow :gutter="16">
+        <ACol :span="12">
+          <AFormModelItem
             prop="latitud"
             label="Latitud:"
             :rules="[
@@ -56,11 +56,11 @@
               },
             ]"
           >
-            <a-input v-model="formulario.latitud" disabled />
-          </a-form-model-item>
-        </a-col>
-        <a-col :span="12">
-          <a-form-model-item
+            <AInput v-model="formulario.latitud" disabled />
+          </AFormModelItem>
+        </ACol>
+        <ACol :span="12">
+          <AFormModelItem
             prop="longitud"
             label="Longitud:"
             :rules="[
@@ -70,18 +70,19 @@
               },
             ]"
           >
-            <a-input v-model="formulario.longitud" disabled />
-          </a-form-model-item>
-        </a-col>
-      </a-row>
-      <a-button html-type="submit" type="primary" icon="save" block>
+            <AInput v-model="formulario.longitud" disabled />
+          </AFormModelItem>
+        </ACol>
+      </ARow>
+      <AButton html-type="submit" type="primary" icon="save" block>
         Guardar
-      </a-button>
-    </a-form-model>
-  </a-drawer>
+      </AButton>
+    </AFormModel>
+  </ADrawer>
 </template>
 
 <script>
+import { Drawer, FormModel, Input, Button, Row, Col } from "ant-design-vue";
 import { mapState, mapActions } from "vuex";
 
 const formulario = {
@@ -92,12 +93,22 @@ const formulario = {
 };
 
 export default {
+  components: {
+    ADrawer: Drawer,
+    AFormModel: FormModel,
+    AFormModelItem: FormModel.Item,
+    AInput: Input,
+    AButton: Button,
+    ARow: Row,
+    ACol: Col,
+  },
   data() {
     return {
       formulario: { ...formulario },
     };
   },
   computed: {
+    ...mapState(["esMovil"]),
     ...mapState("visor", [
       "estaAbiertoMarcadorFormularioVentana",
       "informacionPosicion",

@@ -6,7 +6,7 @@
     :visible="estaAbiertoBienvenidaModal"
   >
     <div class="cabecera">
-      <NuxtImg src="/logo.png" alt="logo" />
+      <NuxtImg src="/logo.png" alt="logo" provider="static" />
       <h1>GEOGOREMAD</h1>
       <h2>Infraestructura de Datos Espaciales</h2>
     </div>

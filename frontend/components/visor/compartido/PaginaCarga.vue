@@ -2,17 +2,13 @@
   <div id="animacionCargando">
     <div class="contenedor">
       <div class="contenedor-pajaro">
-        <NuxtImg class="pajaro" src="/pajaro.svg" />
+        <img class="pajaro" src="/pajaro.svg" />
       </div>
-      <NuxtImg class="fondo" src="/fondo.svg" />
+      <img class="fondo" src="/fondo.svg" />
       <div class="fondo-gradiente" />
     </div>
   </div>
 </template>
-
-<script>
-export default {};
-</script>
 
 <style scoped>
 #animacionCargando {

@@ -1,5 +1,5 @@
 <template>
-  <a-card hoverable size="small" @click="establecerCapaBaseActiva(capaBase.id)">
+  <ACard hoverable size="small" @click="establecerCapaBaseActiva(capaBase.id)">
     <template #cover>
       <client-only>
         <LMap
@@ -12,15 +12,18 @@
         </LMap>
       </client-only>
     </template>
-    <a-card-meta :title="capaBase.nombre" :description="capaBase.atribucion" />
-  </a-card>
+    <ACardMeta :title="capaBase.nombre" :description="capaBase.atribucion" />
+  </ACard>
 </template>
 
 <script>
+import { Card } from "ant-design-vue";
 import { mapActions } from "vuex";
 import { LMap, LTileLayer } from "vue2-leaflet";
 export default {
   components: {
+    ACard: Card,
+    ACardMeta: Card.Meta,
     LMap,
     LTileLayer,
   },

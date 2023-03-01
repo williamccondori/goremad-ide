@@ -27,7 +27,17 @@
         <!-- <CapasInteroperablesLayer /> -->
       </LMap>
     </client-only>
+
     <CapaCatalogoVentana />
+    <CapaResumenVentana />
+
+    <UbicacionVentana />
+    <CoordenadaVentana />
+    <DibujoVentana />
+    <CompartirModal />
+    <MarcadorCatalogoVentana />
+    <CapaBaseCatalogoVentana />
+    <!-- <WebMapServiceFormularioVentana /> -->
   </div>
 </template>
 
@@ -54,12 +64,19 @@ import UtilidadesControl from "@/components/visor/mapa/control/UtilidadesControl
 // Capas.
 import CapaBaseCapa from "@/components/visor/mapa/capa/CapaBaseCapa.vue";
 import CapaCapa from "@/components/visor/mapa/capa/CapaCapa.vue";
+import CapaResumenVentana from "@/components/visor/capa/CapaResumenVentana.vue";
 // Adicionales.
 import DibujoControl from "@/components/visor/mapa-control/DibujoControl.vue";
 // import CapasInteroperablesLayer from "@/components/visor/CapasInteroperablesLayer.vue";
 // Ventanas.
 import CapaCatalogoVentana from "@/components/visor/capa/CapaCatalogoVentana.vue";
-// import CapaBaseCatalogoVentana from "@/components/visor/capa-base/CapaBaseCatalogoVentana.vue";
+import UbicacionVentana from "@/components/visor/ubicacion/UbicacionVentana.vue";
+import CoordenadaVentana from "@/components/visor/coordenada/CoordenadaVentana.vue";
+import DibujoVentana from "@/components/visor/dibujo/DibujoVentana.vue";
+import MarcadorCatalogoVentana from "@/components/visor/marcador/MarcadorCatalogoVentana.vue";
+import CompartirModal from "@/components/visor/compartir/CompartirModal.vue";
+import CapaBaseCatalogoVentana from "~/components/visor/capa-base/CapaBaseCatalogoVentana.vue";
+
 export default {
   components: {
     LMap,
@@ -80,7 +97,14 @@ export default {
     DibujoControl,
     // CapasInteroperablesLayer,
     // Ventanas.
+    CapaResumenVentana,
     CapaCatalogoVentana,
+    UbicacionVentana,
+    CoordenadaVentana,
+    DibujoVentana,
+    MarcadorCatalogoVentana,
+    CompartirModal,
+    CapaBaseCatalogoVentana,
   },
 
   data() {

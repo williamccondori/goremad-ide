@@ -1,24 +1,26 @@
 <template>
   <LControl position="bottomright">
     <div v-if="informacionPosicion">
-      <a-tag color="green" class="informacion-posicion">
+      <ATag color="green" class="informacion-posicion">
         <i class="bx bxs-map" />
         {{ informacionPosicion.latitud }},
         {{ informacionPosicion.longitud }}
-      </a-tag>
-      <a-tag color="green" class="informacion-posicion">
+      </ATag>
+      <ATag color="green" class="informacion-posicion">
         <i class="bx bx-search" />
         {{ informacionPosicion.zoom }}
-      </a-tag>
+      </ATag>
     </div>
   </LControl>
 </template>
 
 <script>
+import { Tag } from "ant-design-vue";
 import { mapState } from "vuex";
 import { LControl } from "vue2-leaflet";
 export default {
   components: {
+    ATag: Tag,
     LControl,
   },
   computed: {

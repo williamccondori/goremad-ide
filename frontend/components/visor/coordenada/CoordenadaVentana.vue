@@ -1,20 +1,19 @@
 <template>
-  <a-drawer
-    width="25rem"
+  <ADrawer
     placement="left"
+    :width="esMovil ? '100%' : 400"
     :visible="estaAbiertoCoordenadaVentana"
     @close="cerrarCoordenadaVentana()"
   >
-    <span slot="title">
+    <span slot="title" style="text-transform: uppercase">
       <b>Búsqueda de coordenadas</b>
     </span>
-
-    <a-form-model
+    <AFormModel
       ref="referenciaFormulario"
       :model="formulario"
       @submit.prevent="buscar()"
     >
-      <a-form-model-item
+      <AFormModelItem
         label="Sistema de coordenadas"
         prop="proyeccion"
         :rules="[
@@ -24,12 +23,12 @@
           },
         ]"
       >
-        <a-select v-model="formulario.proyeccion" @change="cambiarProyeccion()">
-          <a-select-option value="latlong">GEOGRÁFICA</a-select-option>
-          <a-select-option value="utm">UTM</a-select-option>
-        </a-select>
-      </a-form-model-item>
-      <a-form-model-item
+        <ASelect v-model="formulario.proyeccion" @change="cambiarProyeccion()">
+          <ASelectOption value="latlong">GEOGRÁFICA</ASelectOption>
+          <ASelectOption value="utm">UTM</ASelectOption>
+        </ASelect>
+      </AFormModelItem>
+      <AFormModelItem
         label="Datum"
         prop="datum"
         :rules="[
@@ -39,20 +38,20 @@
           },
         ]"
       >
-        <a-select
+        <ASelect
           v-model="formulario.datum"
           :disabled="formulario.proyeccion !== 'utm'"
         >
-          <a-select-option
+          <ASelectOption
             v-for="datum in datums"
             :key="datum.codigo"
             :value="datum.codigo"
           >
             {{ datum.etiqueta }}
-          </a-select-option>
-        </a-select>
-      </a-form-model-item>
-      <a-form-model-item
+          </ASelectOption>
+        </ASelect>
+      </AFormModelItem>
+      <AFormModelItem
         label="Zona UTM"
         prop="zona"
         :rules="[
@@ -62,16 +61,16 @@
           },
         ]"
       >
-        <a-select
+        <ASelect
           v-model="formulario.zona"
           :disabled="formulario.proyeccion !== 'utm'"
         >
-          <a-select-option value="17">17</a-select-option>
-          <a-select-option value="18">18</a-select-option>
-          <a-select-option value="19">19</a-select-option>
-        </a-select>
-      </a-form-model-item>
-      <a-form-model-item
+          <ASelectOption value="17">17</ASelectOption>
+          <ASelectOption value="18">18</ASelectOption>
+          <ASelectOption value="19">19</ASelectOption>
+        </ASelect>
+      </AFormModelItem>
+      <AFormModelItem
         :label="formulario.proyeccion === 'utm' ? 'X' : 'Longitud'"
         prop="x"
         :rules="[
@@ -83,12 +82,12 @@
           },
         ]"
       >
-        <a-input
+        <AInput
           v-model="formulario.x"
           placeholder="Ingrese el término de búsqueda"
         />
-      </a-form-model-item>
-      <a-form-model-item
+      </AFormModelItem>
+      <AFormModelItem
         :label="formulario.proyeccion === 'utm' ? 'Y' : 'Latitud'"
         prop="y"
         :rules="[
@@ -100,19 +99,20 @@
           },
         ]"
       >
-        <a-input
+        <AInput
           v-model="formulario.y"
           placeholder="Ingrese el término de búsqueda"
         />
-      </a-form-model-item>
-      <a-button html-type="submit" type="primary" icon="search" block>
+      </AFormModelItem>
+      <AButton html-type="submit" type="primary" icon="search" block>
         Buscar
-      </a-button>
-    </a-form-model>
-  </a-drawer>
+      </AButton>
+    </AFormModel>
+  </ADrawer>
 </template>
 
 <script>
+import { Drawer, FormModel, Input, Button, Select } from "ant-design-vue";
 import { mapState, mapActions } from "vuex";
 
 const formulario = {
@@ -127,6 +127,15 @@ const datumsLatLong = [{ codigo: "WGS84", etiqueta: "WGS84" }];
 const datumsUtm = [{ codigo: "PSAD56", etiqueta: "PSAD56" }];
 
 export default {
+  components: {
+    ADrawer: Drawer,
+    AFormModel: FormModel,
+    AFormModelItem: FormModel.Item,
+    AInput: Input,
+    AButton: Button,
+    ASelect: Select,
+    ASelectOption: Select.Option,
+  },
   data() {
     return {
       formulario: { ...formulario },
@@ -134,6 +143,7 @@ export default {
     };
   },
   computed: {
+    ...mapState(["esMovil"]),
     ...mapState("visor", ["estaAbiertoCoordenadaVentana"]),
   },
   watch: {
