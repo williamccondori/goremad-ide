@@ -27,6 +27,9 @@
       <AButton type="dashed" title="Descargar información">
         <i class="bx bx-download" />
       </AButton>
+      <AButton type="dashed" title="Portal" @click="abrirPortalInformacion()">
+        <i class="bx bx-book" />
+      </AButton>
     </div>
   </LControl>
 </template>
@@ -47,6 +50,9 @@ export default {
       "abrirCapaBaseCatalogoVentana",
       "abrirWebMapServiceFormularioVentana",
     ]),
+    abrirPortalInformacion() {
+      this.$router.push("/portal");
+    },
   },
 };
 </script>

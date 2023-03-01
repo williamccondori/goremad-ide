@@ -27,7 +27,7 @@ export default {
   plugins: ["@/plugins/ejecutor", "@/plugins/mapa", "@/plugins/ant-modal"],
   loading: false,
   components: true,
-  buildModules: ["@nuxt/image"],
+  buildModules: [],
   modules: ["@nuxtjs/axios", "@nuxtjs/auth-next"],
   axios: {
     baseURL: process.env.BASE_URL || "http://localhost:8000/api/v1",
