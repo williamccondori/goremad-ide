@@ -11,6 +11,8 @@ GruposCapas = base_datos['grupos_capas']
 ServiciosExternos = base_datos['servicios_externos']
 Usuarios = base_datos['usuarios']
 Publicaciones = base_datos['publicaciones']
+Programaciones = base_datos['programaciones']
+ImagenesSatelitales = base_datos['imagenes_satelitales']
 
 print("Se ha iniciado la conexión con MongoDB en la clase: %s" % __name__)
 print("Se ha iniciado la conexión con MongoDB versión: %s" % cliente_mongo.server_info()['version'])

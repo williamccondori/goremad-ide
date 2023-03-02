@@ -9,6 +9,7 @@ from app.api.controllers.administrador.autenticacion_controller import autentica
 from app.api.controllers.administrador.capa_base_controller import capa_base_controller
 from app.api.controllers.administrador.configuracion_controller import configuracion_controller
 from app.api.controllers.administrador.grupo_capa_controller import grupo_capa_controller
+from app.api.controllers.administrador.imagen_satelital_controller import imagen_satelital_controller
 from app.api.controllers.administrador.resumen_controller import resumen_controller
 from app.api.controllers.administrador.servicio_externo_controller import servicio_externo_controller
 from app.api.controllers.administrador.usuario_controller import usuario_controller
@@ -40,7 +41,8 @@ app.include_router(configuracion_controller, prefix="/api/v1/configuraciones", t
 app.include_router(grupo_capa_controller, prefix="/api/v1/grupos-capas", tags=["Grupos de capas"])
 app.include_router(resumen_controller, prefix="/api/v1/resumenes", tags=["Resúmenes"])
 app.include_router(servicio_externo_controller, prefix="/api/v1/servicios-externos", tags=["Servicios externos"])
-app.include_router(usuario_controller, prefix="/api/v1/usuarios", tags=["Usuarios"])
+app.include_router(usuario_controller, prefix="/api/v1/usuarios", tags=["Usuarios"]),
+app.include_router(imagen_satelital_controller, prefix="/api/v1/imagenes-satelitales", tags=["Imagenes satelitales"])
 
 app.include_router(inicial_visor_controller, prefix="/api/v1/visor/iniciales", tags=["Iniciales (Visor)"])
 app.include_router(ubicacion_visor_controller, prefix="/api/v1/visor/ubicaciones", tags=["Ubicaciones (Visor)"])

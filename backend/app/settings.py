@@ -17,6 +17,10 @@ class Settings(BaseSettings):
     GEOSERVER_USER: str
     GEOSERVER_PASSWORD: str
 
+    SENTINEL_HUB_USUARIO: str
+    SENTINEL_HUB_PASSWORD: str
+    CARPETA_IMAGENES_SATELITALES: str
+
     class Config:
         env_file = ".env"
         env_file_encoding = 'utf-8'
