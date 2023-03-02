@@ -18,7 +18,7 @@ class ProgramacionServicio:
 
     async def crear(self, tipo: str, usuario_auditoria_id: str) -> str:
         # Se verifica que no se este ejecutando una descarga
-        existe_descarga = await self._programacion_repositorio.verificar_existencia_por_filtros({
+        existe_descarga: bool = await self._programacion_repositorio.verificar_existencia_por_filtros({
             "estado": base_entidad.ESTADO_ACTIVO,
             "tipo": programacion_entidad.PROGRAMACION_IMAGEN_SATELITAL,
             "estado_ejecucion": programacion_entidad.ESTADO_PENDIENTE
