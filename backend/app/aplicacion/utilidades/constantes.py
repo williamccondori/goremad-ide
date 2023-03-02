@@ -13,3 +13,6 @@ ROL_USUARIO: str = "usuario"  # Rol de usuario.
 
 # Estados.
 NO_APLICA = "NO APLICA"  # No aplica.
+
+# GeoServer.
+ESPACIO_TRABAJO_IMAGENES_SATELITALES = "imagenes_satelitales"  # Espacio de trabajo de las imagenes satelitales.

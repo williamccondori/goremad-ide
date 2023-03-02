@@ -8,9 +8,11 @@ import geopandas as gpd
 import numpy as np
 import rasterio
 from fastapi import Depends
+from geo.Geoserver import Geoserver  # noqa
 from rasterio.mask import mask
 from sentinelsat import SentinelAPI, geojson_to_wkt
 
+from app.aplicacion.utilidades import constantes
 from app.dominio.entidades import programacion_entidad
 from app.dominio.entidades.programacion_entidad import ProgramacionEntidad
 from app.dominio.repositorios.programacion_repositorio import IProgramacionRepositorio
@@ -33,10 +35,8 @@ class ImagenSatelitalServicio:
             # ================== Busqueda y descarga de imagenes ==================
 
             print("Descargando imagen satelital")
-
             api = SentinelAPI(settings.SENTINEL_HUB_USUARIO, settings.SENTINEL_HUB_PASSWORD,
                               'https://scihub.copernicus.eu/dhus')
-
             with open(GEOJSON_ARCHIVO, 'r') as f:
                 geojson_texto = f.read()
             geojson = geojson_to_wkt(
@@ -66,8 +66,6 @@ class ImagenSatelitalServicio:
                             banda = nombre.split('_')[-2]
                             rutas[banda] = zf.extract(nombre, folder_salida)
 
-                # ================== Recorte ==================
-
                 with rasterio.open(rutas['B04']) as red:
                     crs = red.crs
                     perfil = red.profile
@@ -75,8 +73,6 @@ class ImagenSatelitalServicio:
                 gdf = gpd.read_file(GEOJSON_ARCHIVO)
                 gdf = gdf.to_crs(crs=crs)
                 geometry = gdf[['geometry']].values.flatten()
-
-                # ================== Lectura de bandas ==================
 
                 with rasterio.open(rutas['B04']) as red:
                     corte, out_transform = mask(red, geometry, crop=True)
@@ -93,8 +89,6 @@ class ImagenSatelitalServicio:
                     corte, _ = mask(nir, geometry, crop=True)
                     banda_nir = corte[0].astype('float32')
 
-                # ================== RGB ==================
-
                 perfil.update(
                     count=3,
                     driver='GTiff',
@@ -107,8 +101,6 @@ class ImagenSatelitalServicio:
                     salida.write(banda_roja, 1)
                     salida.write(banda_verde, 2)
                     salida.write(banda_azul, 3)
-
-                # ================== NDVI y NDWI ==================
 
                 perfil.update(
                     count=1,
@@ -125,17 +117,26 @@ class ImagenSatelitalServicio:
                 with rasterio.open(os.path.join(folder_salida, identificador + '_NDWI.tif'), 'w', **perfil) as salida:
                     salida.write(ndwi, 1)
 
-                # ================== Eliminacion de archivos temporales ==================
-
                 ruta_temporal = os.path.join(folder_salida, identificador + '.SAFE')
                 if os.path.exists(ruta_temporal):
                     shutil.rmtree(ruta_temporal)
 
-                # ================== Publicacion en GEOSERVER ==================
-
-                # ================== Registro en la base de datos ==================
-
+                geoserver = Geoserver(settings.GEOSERVER_URL, username=settings.GEOSERVER_USER,
+                                      password=settings.GEOSERVER_PASSWORD)
+                imagenes = ['RGB', 'NDVI', 'NDWI']
+                for imagen in imagenes:
+                    geoserver.create_coveragestore(
+                        os.path.join(folder_salida, identificador + '_' + imagen + '.tif'),
+                        constantes.ESPACIO_TRABAJO_IMAGENES_SATELITALES,
+                        layer_name=identificador + '_' + imagen
+                    )
+                    geoserver.publish_style(
+                        identificador + '_' + imagen,
+                        imagen,
+                        constantes.ESPACIO_TRABAJO_IMAGENES_SATELITALES
+                    )
             print("Descarga exitosa")
+
             programacion.estado_ejecucion = programacion_entidad.ESTADO_TERMINADO
             programacion.fecha_fin = datetime.now()
             programacion.registrar_actualizacion(programacion.usuario_creacion)
