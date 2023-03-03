@@ -382,14 +382,6 @@ h2 {
   display: none !important;
 }
 
-.ant-descriptions-row > th,
-.ant-descriptions-row > td {
-  line-break: anywhere;
-}
-.ant-card-meta-title {
-  white-space: normal;
-}
-
 /*=============================================
 =            Leaflet.            =
 =============================================*/

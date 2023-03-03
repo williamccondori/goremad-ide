@@ -1,5 +1,6 @@
 <template>
   <ADrawer
+    :mask="false"
     :width="esMovil ? '100%' : 400"
     :visible="estaAbiertoCapaResumenVentana"
     @close="cerrarCapaResumenVentana()"

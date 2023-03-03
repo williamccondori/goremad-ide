@@ -38,6 +38,8 @@ export const state = () => ({
   estaAbiertoCapaBaseCatalogoVentana: false,
   estaAbiertoMarcadorCatalogoVentana: false,
   estaAbiertoMarcadorFormularioVentana: false,
+  estaAbiertoImagenSatelitalCatalogoVentana: false,
+  estaAbiertoImagenSatelitalBuscadorFormularioVentana: false,
   estaAbiertoAyudaVentana: false,
   estaAbiertoCompartirVistaModal: false,
 });
@@ -156,6 +158,24 @@ export const actions = {
   cerrarMarcadorFormularioVentana({ commit }) {
     commit("establecerEstaAbiertoMarcadorFormularioVentana", false);
   },
+  abrirImagenSatelitalCatalogoVentana({ commit }) {
+    commit("establecerEstaAbiertoImagenSatelitalCatalogoVentana", true);
+  },
+  cerrarImagenSatelitalCatalogoVentana({ commit }) {
+    commit("establecerEstaAbiertoImagenSatelitalCatalogoVentana", false);
+  },
+  abrirImagenSatelitalBuscadorFormularioVentana({ commit }) {
+    commit(
+      "establecerEstaAbiertoImagenSatelitalBuscadorFormularioVentana",
+      true
+    );
+  },
+  cerrarImagenSatelitalBuscadorFormularioVentana({ commit }) {
+    commit(
+      "establecerEstaAbiertoImagenSatelitalBuscadorFormularioVentana",
+      false
+    );
+  },
   abrirAyudaVentana({ commit }) {
     commit("establecerEstaAbiertoAyudaVentana", true);
   },
@@ -260,6 +280,15 @@ export const mutations = {
   },
   establecerEstaAbiertoMarcadorFormularioVentana(state, payload) {
     state.estaAbiertoMarcadorFormularioVentana = payload;
+  },
+  establecerEstaAbiertoImagenSatelitalCatalogoVentana(state, payload) {
+    state.estaAbiertoImagenSatelitalCatalogoVentana = payload;
+  },
+  establecerEstaAbiertoImagenSatelitalBuscadorFormularioVentana(
+    state,
+    payload
+  ) {
+    state.estaAbiertoImagenSatelitalBuscadorFormularioVentana = payload;
   },
   establecerEstaAbiertoAyudaVentana(state, payload) {
     state.estaAbiertoAyudaVentana = payload;

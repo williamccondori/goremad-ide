@@ -37,6 +37,7 @@
     <CompartirModal />
     <MarcadorCatalogoVentana />
     <CapaBaseCatalogoVentana />
+    <ImagenSatelitalCatalogoVentana />
     <!-- <WebMapServiceFormularioVentana /> -->
   </div>
 </template>
@@ -76,7 +77,8 @@ import CoordenadaVentana from "@/components/visor/coordenada/CoordenadaVentana.v
 import DibujoVentana from "@/components/visor/dibujo/DibujoVentana.vue";
 import MarcadorCatalogoVentana from "@/components/visor/marcador/MarcadorCatalogoVentana.vue";
 import CompartirModal from "@/components/visor/compartir/CompartirModal.vue";
-import CapaBaseCatalogoVentana from "~/components/visor/capa-base/CapaBaseCatalogoVentana.vue";
+import CapaBaseCatalogoVentana from "@/components/visor/capa-base/CapaBaseCatalogoVentana.vue";
+import ImagenSatelitalCatalogoVentana from "@/components/visor/imagen-satelital/ImagenSatelitalCatalogoVentana.vue";
 
 export default {
   components: {
@@ -107,6 +109,7 @@ export default {
     MarcadorCatalogoVentana,
     CompartirModal,
     CapaBaseCatalogoVentana,
+    ImagenSatelitalCatalogoVentana,
   },
 
   data() {

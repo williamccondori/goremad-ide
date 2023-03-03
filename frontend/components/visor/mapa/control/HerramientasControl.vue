@@ -27,6 +27,13 @@
       <AButton type="dashed" title="Descargar información">
         <i class="bx bx-download" />
       </AButton>
+      <AButton
+        type="dashed"
+        title="Imágenes satelitales"
+        @click="abrirImagenSatelitalCatalogoVentana()"
+      >
+        <i class="bx bx-images" />
+      </AButton>
       <AButton type="primary" title="Portal" @click="abrirPortalInformacion()">
         <i class="bx bx-book" />
       </AButton>
@@ -49,6 +56,7 @@ export default {
       "abrirCapaResumenVentana",
       "abrirCapaBaseCatalogoVentana",
       "abrirWebMapServiceFormularioVentana",
+      "abrirImagenSatelitalCatalogoVentana",
     ]),
     abrirPortalInformacion() {
       this.$router.push("/portal");
