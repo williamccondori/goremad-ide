@@ -3,6 +3,10 @@ import threading
 
 from fastapi import APIRouter, Depends
 
+from app.aplicacion.dtos.administrador.obtener_por_id_imagen_satelital_reponse import \
+    ObtenerPorIdImagenSatelitalResponse
+from app.aplicacion.dtos.administrador.obtener_todos_imagen_satelital_response import \
+    ObtenerTodosImagenSatelitalResponse
 from app.aplicacion.servicios.administrador.imagen_satelital_servicio import ImagenSatelitalServicio
 from app.aplicacion.servicios.administrador.programacion_servicio import ProgramacionServicio
 from app.dominio.entidades import programacion_entidad
@@ -22,6 +26,13 @@ class Ejecutor(threading.Thread):
         asyncio.run(self.imagen_satelital_servicio.descargar(self.programacion_id))
 
 
+@imagen_satelital_controller.get("/", response_model=list[ObtenerTodosImagenSatelitalResponse])
+async def obtener_todos(
+        imagen_satelital_servicio: ImagenSatelitalServicio = Depends(ImagenSatelitalServicio),
+        _: UsuarioRegistradoModelo = Depends(obtener_usuario_registrado)) -> list[ObtenerTodosImagenSatelitalResponse]:
+    return await imagen_satelital_servicio.obtener_todos()
+
+
 @imagen_satelital_controller.post("/descargas/", response_model=str)
 async def descargar(
         programacion_servicio: ProgramacionServicio = Depends(ProgramacionServicio),
@@ -36,3 +47,19 @@ async def descargar(
     ejecutor.start()
 
     return programacion_id
+
+
+@imagen_satelital_controller.get("/{imagen_satelital_id}/", response_model=ObtenerPorIdImagenSatelitalResponse)
+async def obtener_por_id(
+        imagen_satelital_id: str,
+        imagen_satelital_servicio: ImagenSatelitalServicio = Depends(ImagenSatelitalServicio),
+        _: UsuarioRegistradoModelo = Depends(obtener_usuario_registrado)) -> ObtenerPorIdImagenSatelitalResponse:
+    return await imagen_satelital_servicio.obtener_por_id(imagen_satelital_id)
+
+
+@imagen_satelital_controller.delete("/{imagen_satelital_id}/", response_model=str)
+async def eliminar(
+        imagen_satelital_id: str,
+        imagen_satelital_servicio: ImagenSatelitalServicio = Depends(ImagenSatelitalServicio),
+        usuario_registrado: UsuarioRegistradoModelo = Depends(obtener_usuario_registrado)) -> str:
+    return await imagen_satelital_servicio.eliminar(imagen_satelital_id, usuario_registrado.id)

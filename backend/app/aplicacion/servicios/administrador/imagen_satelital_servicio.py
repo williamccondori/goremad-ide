@@ -11,12 +11,19 @@ from fastapi import Depends
 from geo.Geoserver import Geoserver  # noqa
 from rasterio.mask import mask
 from sentinelsat import SentinelAPI, geojson_to_wkt
+from shapely import wkt
+from starlette import status
 
+from app.aplicacion.dtos.administrador.obtener_por_id_imagen_satelital_reponse import \
+    ObtenerPorIdImagenSatelitalResponse
+from app.aplicacion.dtos.administrador.obtener_todos_imagen_satelital_response import \
+    ObtenerTodosImagenSatelitalResponse
 from app.aplicacion.utilidades import constantes
 from app.dominio.entidades import programacion_entidad
 from app.dominio.entidades.compartido import base_entidad
 from app.dominio.entidades.imagen_satelital_entidad import ImagenSatelitalEntidad
 from app.dominio.entidades.programacion_entidad import ProgramacionEntidad
+from app.dominio.excepciones.aplicacion_exception import AplicacionException
 from app.dominio.repositorios.imagen_satelital_repositorio import IImagenSatelitalRepositorio
 from app.dominio.repositorios.programacion_repositorio import IProgramacionRepositorio
 from app.infraestructura.mongo_db.repositorios.imagen_satelital_repositorio import ImagenSatelitalRepositorio
@@ -34,7 +41,26 @@ class ImagenSatelitalServicio:
         self._programacion_repositorio = programacion_repositorio
         self._imagen_satelital_repositorio = imagen_satelital_repositorio
 
+    @staticmethod
+    def _obtener_imagen_url(imagen_satelital: ImagenSatelitalEntidad) -> str:
+        geometria = imagen_satelital.metadatos["footprint"]
+        # Se genera poligono a partir de la geometria.
+        poligono = wkt.loads(geometria)
+        # Se obtiene el bbox del poligono.
+        cuadro_delimitador = list(poligono.bounds)
+        cuadro_delimitador_nombre: str = ",".join([str(x) for x in cuadro_delimitador])
+        # Se obtiene el nombre del archivo.
+        imagen_url = f"{settings.GEOSERVER_URL_CLIENTE}/{constantes.ESPACIO_TRABAJO_IMAGENES_SATELITALES}/wms?"
+        imagen_url += f"service=WMS&version=1.1.0&request=GetMap&layers={imagen_satelital.identificador}_RGB"
+        imagen_url += f"&bbox={cuadro_delimitador_nombre}&width=768&height=524&srs=EPSG:4326&styles=&format=image/png"
+        return imagen_url
+
     async def descargar(self, programacion_id: str) -> None:
+        """
+        Descarga las imagenes satelitales de Sentinel 2 de los ultimos 10 dias.
+        Args:
+            programacion_id: Identificador de la programacion.
+        """
         programacion: ProgramacionEntidad = await self._programacion_repositorio.obtener_por_id(programacion_id)
         try:
             api = SentinelAPI(settings.SENTINEL_HUB_USUARIO, settings.SENTINEL_HUB_PASSWORD,
@@ -169,3 +195,54 @@ class ImagenSatelitalServicio:
             programacion.observaciones = str(e)
             programacion.registrar_actualizacion(programacion.usuario_creacion)
             await self._programacion_repositorio.actualizar(programacion_id, programacion)
+
+    async def obtener_todos(self) -> list[ObtenerTodosImagenSatelitalResponse]:
+        """
+        Obtiene todas las imagenes satelitales.
+        Returns:
+            list[ObtenerTodosImagenSatelitalResponse]: Lista de imagenes satelitales.
+        """
+        imagenes_satelitales: list[ImagenSatelitalEntidad] = await self._imagen_satelital_repositorio.obtener_todos({
+            "estado": base_entidad.ESTADO_ACTIVO
+        })
+        return [
+            ObtenerTodosImagenSatelitalResponse(
+                id=imagen_satelital.id,
+                identificador=imagen_satelital.identificador,
+                fecha=imagen_satelital.fecha.strftime("%d/%m/%Y %H:%M:%S"),
+            ) for imagen_satelital in imagenes_satelitales
+        ]
+
+    async def obtener_por_id(self, imagen_satelital_id) -> ObtenerPorIdImagenSatelitalResponse:
+        """
+        Obtiene una imagen satelital por su identificador.
+        Args:
+            imagen_satelital_id (str): Identificador de la imagen satelital.
+        Returns:
+            ObtenerPorIdImagenSatelitalResponse: Informacion de la imagen satelital.
+        """
+        imagen_satelital: ImagenSatelitalEntidad = await self._imagen_satelital_repositorio.obtener_por_id(
+            imagen_satelital_id
+        )
+        if not imagen_satelital.estado:
+            raise AplicacionException("La imagen satelital no existe", status.HTTP_404_NOT_FOUND)
+        imagen_url: str = self._obtener_imagen_url(imagen_satelital)
+        return ObtenerPorIdImagenSatelitalResponse(
+            imagen_url=imagen_url,
+            **imagen_satelital.dict()
+        )
+
+    async def eliminar(self, imagen_satelital_id: str, usuario_auditoria_id: str) -> str:
+        """
+        Elimina una imagen satelital.
+        Args:
+            imagen_satelital_id (str): Identificador de la imagen satelital.
+            usuario_auditoria_id (str): Identificador del usuario que realiza la auditoria.
+        Returns:
+            str: Identificador de la imagen satelital eliminada.
+        """
+        existe_imagen_satelital: bool = await self._imagen_satelital_repositorio.verificar_existencia(
+            imagen_satelital_id)
+        if not existe_imagen_satelital:
+            raise AplicacionException("La imagen satelital no existe", status.HTTP_404_NOT_FOUND)
+        return await self._imagen_satelital_repositorio.eliminar(imagen_satelital_id, usuario_auditoria_id)

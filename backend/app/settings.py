@@ -16,6 +16,7 @@ class Settings(BaseSettings):
     GEOSERVER_URL: str
     GEOSERVER_USER: str
     GEOSERVER_PASSWORD: str
+    GEOSERVER_URL_CLIENTE: str
 
     SENTINEL_HUB_USUARIO: str
     SENTINEL_HUB_PASSWORD: str
