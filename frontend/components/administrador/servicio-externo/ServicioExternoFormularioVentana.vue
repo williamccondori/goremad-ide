@@ -8,12 +8,12 @@
     <span slot="title" style="text-transform: uppercase">
       <b>{{ titulo }}</b>
     </span>
-    <a-form-model
+    <AFormModel
       ref="referenciaFormulario"
       :model="formulario"
       @submit.prevent="guardar()"
     >
-      <a-form-model-item
+      <AFormModelItem
         prop="url"
         label="URL:"
         :rules="[
@@ -23,12 +23,12 @@
           },
         ]"
       >
-        <a-input
+        <AInput
           v-model="formulario.url"
           placeholder="Ingrese la URL del servicio externo"
         />
-      </a-form-model-item>
-      <a-form-model-item
+      </AFormModelItem>
+      <AFormModelItem
         prop="nombre"
         label="Nombre:"
         :rules="[
@@ -38,12 +38,12 @@
           },
         ]"
       >
-        <a-input
+        <AInput
           v-model="formulario.nombre"
           placeholder="Ingrese el nombre del servicio externo"
         />
-      </a-form-model-item>
-      <a-form-model-item
+      </AFormModelItem>
+      <AFormModelItem
         prop="atribucion"
         label="Atribución:"
         :rules="[
@@ -53,40 +53,47 @@
           },
         ]"
       >
-        <a-input
+        <AInput
           v-model="formulario.atribucion"
           placeholder="Ingrese la atribución del servicio externo"
         />
-      </a-form-model-item>
-      <a-form-model-item prop="grupoCapaId" label="Grupo de capas:">
-        <a-select
+      </AFormModelItem>
+      <AFormModelItem prop="grupoCapaId" label="Grupo de capas:">
+        <ASelect
           v-model="formulario.grupoCapaId"
           :allow-clear="true"
           placeholder="Seleccione un grupo de capas"
         >
-          <a-select-option
+          <ASelectOption
             v-for="elemento in gruposCapas"
             :key="elemento.id"
             :value="elemento.id"
           >
             {{ elemento.nombre }}
-          </a-select-option>
-        </a-select>
-      </a-form-model-item>
-      <a-form-model-item prop="estaHabilitado" label="¿Está habilitado?:">
-        <a-checkbox v-model="formulario.estaHabilitado" />
-      </a-form-model-item>
+          </ASelectOption>
+        </ASelect>
+      </AFormModelItem>
+      <AFormModelItem prop="estaHabilitado" label="¿Está habilitado?:">
+        <ACheckbox v-model="formulario.estaHabilitado" />
+      </AFormModelItem>
       <div>
-        <a-button block html-type="submit" type="primary" icon="save">
+        <AButton block html-type="submit" type="primary" icon="save">
           {{ titulo }}
-        </a-button>
+        </AButton>
       </div>
-    </a-form-model>
+    </AFormModel>
   </ADrawer>
 </template>
 
 <script>
-import { Drawer } from "ant-design-vue";
+import {
+  Drawer,
+  FormModel,
+  Input,
+  Select,
+  Checkbox,
+  Button,
+} from "ant-design-vue";
 import { mapState, mapActions } from "vuex";
 
 const formulario = {
@@ -100,6 +107,13 @@ const formulario = {
 export default {
   components: {
     ADrawer: Drawer,
+    AFormModel: FormModel,
+    AFormModelItem: FormModel.Item,
+    AInput: Input,
+    ASelect: Select,
+    ASelectOption: Select.Option,
+    ACheckbox: Checkbox,
+    AButton: Button,
   },
   data() {
     return {

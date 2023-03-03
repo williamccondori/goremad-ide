@@ -1,31 +1,32 @@
 <template>
   <AdministracionPagina titulo="Configuraciones">
-    <a-tabs type="card">
-      <a-tab-pane key="1" tab="Usuarios">
-        <a-space direction="vertical" class="app--w-100">
-          <a-button
+    <ATabs type="card">
+      <ATabPane key="1" tab="Usuarios">
+        <ASpace direction="vertical" class="app--w-100">
+          <AButton
             type="primary"
             icon="plus"
             @click="abrirUsuarioFormularioVentana()"
           >
             Crear usuario
-          </a-button>
+          </AButton>
           <UsuarioCatalogo />
-        </a-space>
+        </ASpace>
         <UsuarioFormularioVentana />
-      </a-tab-pane>
-      <a-tab-pane key="2" tab="Roles">
+      </ATabPane>
+      <ATabPane key="2" tab="Roles">
         <RolCatalogo />
         <RolFormularioVentana />
-      </a-tab-pane>
-      <a-tab-pane key="3" tab="Variables">
+      </ATabPane>
+      <ATabPane key="3" tab="Variables">
         <VariableFormulario />
-      </a-tab-pane>
-    </a-tabs>
+      </ATabPane>
+    </ATabs>
   </AdministracionPagina>
 </template>
 
 <script>
+import { Button, Space, Tabs } from "ant-design-vue";
 import { mapActions } from "vuex";
 import AdministracionPagina from "@/components/administrador/compartido/AdministracionPagina.vue";
 import UsuarioCatalogo from "@/components/administrador/usuario/UsuarioCatalogo.vue";
@@ -35,6 +36,10 @@ import RolFormularioVentana from "@/components/administrador/rol/RolFormularioVe
 import VariableFormulario from "~/components/administrador/variable/VariableFormulario.vue";
 export default {
   components: {
+    AButton: Button,
+    ASpace: Space,
+    ATabs: Tabs,
+    ATabPane: Tabs.TabPane,
     AdministracionPagina,
     UsuarioCatalogo,
     UsuarioFormularioVentana,

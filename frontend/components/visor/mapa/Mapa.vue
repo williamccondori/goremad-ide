@@ -19,12 +19,12 @@
         <PantallaCompletaControl />
         <NavegadorControl />
         <UbicadorControl />
+        <DibujoControl />
         <!--Capas.-->
         <CapaBaseCapa />
         <CapaCapa />
         <!--Adicionales.-->
-        <DibujoControl />
-        <!-- <CapasInteroperablesLayer /> -->
+        <CapaDetallePopup />
       </LMap>
     </client-only>
 
@@ -61,12 +61,13 @@ import NavegadorControl from "@/components/visor/mapa/control/NavegadorControl.v
 import PantallaCompletaControl from "@/components/visor/mapa/control/PantallaCompletaControl.vue";
 import UbicadorControl from "@/components/visor/mapa/control/UbicadorControl.vue";
 import UtilidadesControl from "@/components/visor/mapa/control/UtilidadesControl.vue";
+import DibujoControl from "@/components/visor/mapa-control/DibujoControl.vue";
 // Capas.
 import CapaBaseCapa from "@/components/visor/mapa/capa/CapaBaseCapa.vue";
 import CapaCapa from "@/components/visor/mapa/capa/CapaCapa.vue";
 import CapaResumenVentana from "@/components/visor/capa/CapaResumenVentana.vue";
 // Adicionales.
-import DibujoControl from "@/components/visor/mapa-control/DibujoControl.vue";
+import CapaDetallePopup from "@/components/visor/capa/CapaDetallePopup.vue";
 // import CapasInteroperablesLayer from "@/components/visor/CapasInteroperablesLayer.vue";
 // Ventanas.
 import CapaCatalogoVentana from "@/components/visor/capa/CapaCatalogoVentana.vue";
@@ -90,11 +91,12 @@ export default {
     PantallaCompletaControl,
     UbicadorControl,
     UtilidadesControl,
+    DibujoControl,
     // Capas.
     CapaBaseCapa,
     CapaCapa,
     // Adicionales
-    DibujoControl,
+    CapaDetallePopup,
     // CapasInteroperablesLayer,
     // Ventanas.
     CapaResumenVentana,

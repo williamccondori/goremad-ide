@@ -16,6 +16,11 @@ export const state = () => ({
   gruposCapas: [],
   estructuraGruposCapas: [],
 
+  /*----------  Imágenes satelitales.  ----------*/
+
+  imagenesSatelitales: [],
+  imagenSatelital: undefined,
+
   /*----------  Configuraciones.  ----------*/
 
   usuarios: [],
@@ -26,6 +31,7 @@ export const state = () => ({
 
   estaAbiertoCapaBaseFormularioVentana: false,
   estaAbiertoServicioExternoFormularioVentana: false,
+  estaAbiertoImagenSatelitalResumenVentana: false,
   estaAbiertoUsuarioFormularioVentana: false,
   estaAbiertoRolFormularioVentana: false,
 });
@@ -61,6 +67,13 @@ export const actions = {
   async obtenerGruposCapasEstructura({ commit }) {
     const { data } = await this.$axios.get("/grupos-capas/estructuras/");
     commit("establecerGruposCapasEstructura", data);
+  },
+
+  /*----------  Imágenes satelitales.  ----------*/
+
+  async obtenerImagenesSatelitales({ commit }) {
+    const { data } = await this.$axios.get("/imagenes-satelitales/");
+    commit("establecerImagenesSatelitales", data);
   },
 
   /*----------  Configuraciones.  ----------*/
@@ -100,6 +113,15 @@ export const actions = {
   },
   cerrarServicioExternoFormularioVentana({ commit }) {
     commit("establecerEstaAbiertoServicioExternoFormularioVentana", false);
+  },
+
+  abrirImagenSatelitalResumenVentana({ commit }, imagenSatelital) {
+    commit("establecerImagenSatelital", imagenSatelital);
+    commit("establecerEstaAbiertoImagenSatelitalResumenVentana", true);
+  },
+  cerrarImagenSatelitalResumenVentana({ commit }) {
+    commit("establecerImagenSatelital", undefined);
+    commit("establecerEstaAbiertoImagenSatelitalResumenVentana", false);
   },
   abrirUsuarioFormularioVentana({ commit }) {
     commit("establecerUsuario", undefined);
@@ -153,6 +175,15 @@ export const mutations = {
     state.estructuraGruposCapas = payload;
   },
 
+  /*----------  Imágenes satelitales.  ----------*/
+
+  establecerImagenesSatelitales(state, payload) {
+    state.imagenesSatelitales = payload;
+  },
+  establecerImagenSatelital(state, payload) {
+    state.imagenSatelital = payload;
+  },
+
   /*----------  Configuraciones.  ----------*/
 
   establecerUsuarios(state, payload) {
@@ -172,6 +203,9 @@ export const mutations = {
   },
   establecerEstaAbiertoServicioExternoFormularioVentana(state, payload) {
     state.estaAbiertoServicioExternoFormularioVentana = payload;
+  },
+  establecerEstaAbiertoImagenSatelitalResumenVentana(state, payload) {
+    state.estaAbiertoImagenSatelitalResumenVentana = payload;
   },
   establecerEstaAbiertoUsuarioFormularioVentana(state, payload) {
     state.estaAbiertoUsuarioFormularioVentana = payload;

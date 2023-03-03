@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-tree
+    <ATree
       :tree-data="estructuraGruposCapas"
       :replace-fields="{
         key: 'id',
@@ -10,22 +10,22 @@
       :default-expand-all="true"
     >
       <template #title="{ id, label }">
-        <a-dropdown :trigger="['contextmenu']">
+        <ADropdown :trigger="['contextmenu']">
           <span>{{ label }}</span>
           <template #overlay>
-            <a-menu @click="({ key: menuId }) => seleccionar(id, menuId)">
-              <a-menu-item key="crear">Crear</a-menu-item>
-              <a-menu-item v-if="id !== 'root'" key="actualizar">
+            <AMenu @click="({ key: menuId }) => seleccionar(id, menuId)">
+              <AMenuItem key="crear">Crear</AMenuItem>
+              <AMenuItem v-if="id !== 'root'" key="actualizar">
                 Actualizar
-              </a-menu-item>
-              <a-menu-item v-if="id !== 'root'" key="eliminar">
+              </AMenuItem>
+              <AMenuItem v-if="id !== 'root'" key="eliminar">
                 Eliminar
-              </a-menu-item>
-            </a-menu>
+              </AMenuItem>
+            </AMenu>
           </template>
-        </a-dropdown>
+        </ADropdown>
       </template>
-    </a-tree>
+    </ATree>
     <ADrawer
       :width="esMovil ? '100%' : 400"
       :mask-closable="false"
@@ -35,28 +35,28 @@
       <span slot="title" style="text-transform: uppercase">
         <b>{{ titulo }}</b>
       </span>
-      <a-form-model
+      <AFormModel
         ref="referenciaFormulario"
         :model="formulario"
         @submit.prevent="guardar()"
       >
-        <a-form-model-item prop="grupoCapaId" label="Grupo de capas:">
-          <a-select
+        <AFormModelItem prop="grupoCapaId" label="Grupo de capas:">
+          <ASelect
             v-model="formulario.grupoCapaId"
             :allow-clear="true"
             :disabled="!esEdicion"
             placeholder="Todos los elementos"
           >
-            <a-select-option
+            <ASelectOption
               v-for="elemento in gruposCapas"
               :key="elemento.id"
               :value="elemento.id"
             >
               {{ elemento.nombre }}
-            </a-select-option>
-          </a-select>
-        </a-form-model-item>
-        <a-form-model-item
+            </ASelectOption>
+          </ASelect>
+        </AFormModelItem>
+        <AFormModelItem
           prop="nombre"
           label="Nombre:"
           :rules="[
@@ -66,26 +66,36 @@
             },
           ]"
         >
-          <a-input
+          <AInput
             v-model="formulario.nombre"
             placeholder="Ingrese el nombre de la capa base"
           />
-        </a-form-model-item>
-        <a-form-model-item prop="estaHabilitado" label="¿Está habilitado?:">
-          <a-checkbox v-model="formulario.estaHabilitado" />
-        </a-form-model-item>
+        </AFormModelItem>
+        <AFormModelItem prop="estaHabilitado" label="¿Está habilitado?:">
+          <ACheckbox v-model="formulario.estaHabilitado" />
+        </AFormModelItem>
         <div>
-          <a-button block html-type="submit" type="primary" icon="save">
+          <AButton block html-type="submit" type="primary" icon="save">
             {{ titulo }}
-          </a-button>
+          </AButton>
         </div>
-      </a-form-model>
+      </AFormModel>
     </ADrawer>
   </div>
 </template>
 
 <script>
-import { Drawer } from "ant-design-vue";
+import {
+  Drawer,
+  Tree,
+  Dropdown,
+  Menu,
+  Select,
+  FormModel,
+  Input,
+  Checkbox,
+  Button,
+} from "ant-design-vue";
 import { mapState, mapActions } from "vuex";
 
 const formulario = {
@@ -97,6 +107,17 @@ const formulario = {
 export default {
   components: {
     ADrawer: Drawer,
+    ATree: Tree,
+    ADropdown: Dropdown,
+    AMenu: Menu,
+    AMenuItem: Menu.Item,
+    ASelect: Select,
+    ASelectOption: Select.Option,
+    AFormModel: FormModel,
+    AFormModelItem: FormModel.Item,
+    AInput: Input,
+    ACheckbox: Checkbox,
+    AButton: Button,
   },
   data() {
     return {

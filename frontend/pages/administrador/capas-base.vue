@@ -1,26 +1,29 @@
 <template>
   <AdministracionPagina titulo="Capas base">
-    <a-space direction="vertical" class="app--w-100">
-      <a-button
+    <ASpace direction="vertical" class="app--w-100">
+      <AButton
         type="primary"
         icon="plus"
         @click="abrirCapaBaseFormularioVentana()"
       >
         Crear capa base
-      </a-button>
+      </AButton>
       <CapaBaseCatalogo />
-    </a-space>
+    </ASpace>
     <CapaBaseFormularioVentana />
   </AdministracionPagina>
 </template>
 
 <script>
+import { Button, Space } from "ant-design-vue";
 import { mapActions } from "vuex";
 import AdministracionPagina from "@/components/administrador/compartido/AdministracionPagina.vue";
 import CapaBaseCatalogo from "@/components/administrador/capa-base/CapaBaseCatalogo.vue";
 import CapaBaseFormularioVentana from "@/components/administrador/capa-base/CapaBaseFormularioVentana.vue";
 export default {
   components: {
+    AButton: Button,
+    ASpace: Space,
     AdministracionPagina,
     CapaBaseCatalogo,
     CapaBaseFormularioVentana,

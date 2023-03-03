@@ -8,12 +8,12 @@
     <span slot="title" style="text-transform: uppercase">
       <b>{{ titulo }}</b>
     </span>
-    <a-form-model
+    <AFormModel
       ref="referenciaFormulario"
       :model="formulario"
       @submit.prevent="guardar()"
     >
-      <a-form-model-item
+      <AFormModelItem
         prop="email"
         label="Correo electrónico:"
         :rules="[
@@ -27,13 +27,13 @@
           },
         ]"
       >
-        <a-input
+        <AInput
           v-model="formulario.email"
           :disabled="esEdicion"
           placeholder="Ingrese el correo electrónico del usuario"
         />
-      </a-form-model-item>
-      <a-form-model-item
+      </AFormModelItem>
+      <AFormModelItem
         prop="username"
         label="Usuario:"
         :rules="
@@ -51,13 +51,13 @@
             : []
         "
       >
-        <a-input
+        <AInput
           v-model="formulario.username"
           :disabled="esEdicion"
           placeholder="Ingrese el usuario"
         />
-      </a-form-model-item>
-      <a-form-model-item
+      </AFormModelItem>
+      <AFormModelItem
         prop="password"
         label="Contraseña:"
         :rules="
@@ -71,38 +71,38 @@
             : []
         "
       >
-        <a-input-password
+        <AInputPassword
           v-model="formulario.password"
           :disabled="esEdicion"
           placeholder="Ingrese la contraseña del usuario"
         />
-      </a-form-model-item>
-      <a-form-model-item prop="nombres" label="Nombres:">
-        <a-input
+      </AFormModelItem>
+      <AFormModelItem prop="nombres" label="Nombres:">
+        <AInput
           v-model="formulario.nombres"
           placeholder="Ingrese los nombres del usuario"
         />
-      </a-form-model-item>
-      <a-form-model-item prop="apellidos" label="Apellidos:">
-        <a-input
+      </AFormModelItem>
+      <AFormModelItem prop="apellidos" label="Apellidos:">
+        <AInput
           v-model="formulario.apellidos"
           placeholder="Ingrese los apellidos del usuario"
         />
-      </a-form-model-item>
-      <a-form-model-item prop="estaHabilitado" label="¿Está habilitado?:">
-        <a-checkbox v-model="formulario.estaHabilitado" />
-      </a-form-model-item>
+      </AFormModelItem>
+      <AFormModelItem prop="estaHabilitado" label="¿Está habilitado?:">
+        <ACheckbox v-model="formulario.estaHabilitado" />
+      </AFormModelItem>
       <div>
-        <a-button block html-type="submit" type="primary" icon="save">
+        <AButton block html-type="submit" type="primary" icon="save">
           {{ titulo }}
-        </a-button>
+        </AButton>
       </div>
-    </a-form-model>
+    </AFormModel>
   </ADrawer>
 </template>
 
 <script>
-import { Drawer } from "ant-design-vue";
+import { Drawer, FormModel, Input, Button, Checkbox } from "ant-design-vue";
 import { mapState, mapActions } from "vuex";
 
 const formulario = {
@@ -117,6 +117,12 @@ const formulario = {
 export default {
   components: {
     ADrawer: Drawer,
+    AFormModel: FormModel,
+    AFormModelItem: FormModel.Item,
+    AInput: Input,
+    AInputPassword: Input.Password,
+    AButton: Button,
+    ACheckbox: Checkbox,
   },
   data() {
     return {

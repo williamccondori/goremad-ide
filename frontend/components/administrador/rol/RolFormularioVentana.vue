@@ -8,28 +8,28 @@
     <span slot="title">
       <b>Actualizar roles</b>
     </span>
-    <a-form-model
+    <AFormModel
       ref="referenciaFormulario"
       :model="formulario"
       @submit.prevent="guardar()"
     >
-      <a-form-model-item prop="esUsuario" label="Usuario:">
-        <a-checkbox v-model="formulario.esUsuario" disabled />
-      </a-form-model-item>
-      <a-form-model-item prop="esAdministrador" label="Administrador:">
-        <a-checkbox v-model="formulario.esAdministrador" />
-      </a-form-model-item>
+      <AFormModelItem prop="esUsuario" label="Usuario:">
+        <ACheckbox v-model="formulario.esUsuario" disabled />
+      </AFormModelItem>
+      <AFormModelItem prop="esAdministrador" label="Administrador:">
+        <ACheckbox v-model="formulario.esAdministrador" />
+      </AFormModelItem>
       <div>
-        <a-button block html-type="submit" type="primary" icon="save">
+        <AButton block html-type="submit" type="primary" icon="save">
           Actualizar roles
-        </a-button>
+        </AButton>
       </div>
-    </a-form-model>
+    </AFormModel>
   </ADrawer>
 </template>
 
 <script>
-import { Drawer } from "ant-design-vue";
+import { Drawer, FormModel, Checkbox, Button } from "ant-design-vue";
 import { mapState, mapActions } from "vuex";
 
 const formulario = {
@@ -40,6 +40,10 @@ const formulario = {
 export default {
   components: {
     ADrawer: Drawer,
+    AFormModel: FormModel,
+    AFormModelItem: FormModel.Item,
+    ACheckbox: Checkbox,
+    AButton: Button,
   },
   data() {
     return {

@@ -1,39 +1,50 @@
 <template>
-  <a-layout-sider v-model="esMovil" :width="esMovil ? 'auto' : '15rem'">
-    <a-menu
+  <ALayoutSider v-model="esMovil" :width="esMovil ? 'auto' : '15rem'">
+    <AMenu
       class="menu"
       theme="dark"
       :router="true"
       :default-selected-keys="[$route.path]"
       @click="seleccionarOpcion"
     >
-      <a-menu-item key="/administrador">
-        <a-icon type="home" />
+      <AMenuItem key="/administrador">
+        <AIcon type="home" />
         <span>Inicio</span>
-      </a-menu-item>
-      <a-menu-item key="/administrador/capas-base">
-        <a-icon type="camera" />
+      </AMenuItem>
+      <AMenuItem key="/administrador/capas-base">
+        <AIcon type="camera" />
         <span>Capas base</span>
-      </a-menu-item>
-      <a-menu-item key="/administrador/servicios-externos">
-        <a-icon type="global" />
+      </AMenuItem>
+      <AMenuItem key="/administrador/servicios-externos">
+        <AIcon type="global" />
         <span>Servicios externos</span>
-      </a-menu-item>
-      <a-menu-item key="/administrador/grupos-capas">
-        <a-icon type="cluster" />
+      </AMenuItem>
+      <AMenuItem key="/administrador/grupos-capas">
+        <AIcon type="cluster" />
         <span>Grupos de capas</span>
-      </a-menu-item>
-      <a-menu-item key="/administrador/configuraciones">
-        <a-icon type="setting" />
+      </AMenuItem>
+      <AMenuItem key="/administrador/imagenes-satelitales">
+        <AIcon type="picture" />
+        <span>Imágenes satelitales</span>
+      </AMenuItem>
+      <AMenuItem key="/administrador/configuraciones">
+        <AIcon type="setting" />
         <span>Configuraciones</span>
-      </a-menu-item>
-    </a-menu>
-  </a-layout-sider>
+      </AMenuItem>
+    </AMenu>
+  </ALayoutSider>
 </template>
 
 <script>
+import { Menu, Icon, Layout } from "ant-design-vue";
 import { mapState } from "vuex";
 export default {
+  components: {
+    AMenu: Menu,
+    AMenuItem: Menu.Item,
+    AIcon: Icon,
+    ALayoutSider: Layout.Sider,
+  },
   computed: {
     ...mapState(["esMovil"]),
   },

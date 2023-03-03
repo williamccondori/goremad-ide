@@ -382,6 +382,14 @@ h2 {
   display: none !important;
 }
 
+.ant-descriptions-row > th,
+.ant-descriptions-row > td {
+  line-break: anywhere;
+}
+.ant-card-meta-title {
+  white-space: normal;
+}
+
 /*=============================================
 =            Leaflet.            =
 =============================================*/
@@ -392,6 +400,17 @@ h2 {
 }
 .leaflet-control-attribution.leaflet-control span {
   display: none;
+}
+.leaflet-popup-content {
+  margin: 0.5rem !important;
+}
+.leaflet-popup-content-wrapper {
+  border-radius: 0 !important;
+}
+.leaflet-popup-content .ant-table {
+  width: 18rem;
+  height: 12rem;
+  overflow-y: scroll;
 }
 
 /*=============================================

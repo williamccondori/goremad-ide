@@ -3,15 +3,15 @@
     bordered
     row-key="id"
     :columns="columnas"
-    :data-source="usuarios"
+    :data-source="imagenesSatelitales"
     size="middle"
   >
     <template #acciones="id">
-      <AButton type="dashed" size="small" @click="editar(id)">
-        <AIcon type="edit" />
+      <AButton type="dashed" size="small" @click="ver(id)">
+        <AIcon type="eye" />
       </AButton>
       <APopconfirm
-        title="¿Está seguro que desea eliminar este registro?"
+        title="¿Está seguro que desea eliminar este registro, no se eliminará de GEOSERVER?"
         @confirm="eliminar(id)"
       >
         <AButton type="dashed" size="small">
@@ -36,9 +36,14 @@ export default {
     return {
       columnas: [
         {
-          title: "Usuario",
-          dataIndex: "username",
-          key: "username",
+          title: "Fecha",
+          dataIndex: "fecha",
+          key: "fecha",
+        },
+        {
+          title: "Identificador",
+          dataIndex: "identificador",
+          key: "identificador",
         },
         {
           title: "Acciones",
@@ -54,7 +59,7 @@ export default {
   async fetch() {
     try {
       this.$iniciarCarga();
-      await this.obtenerUsuarios();
+      await this.obtenerImagenesSatelitales();
     } catch (error) {
       this.$manejarError(error);
     } finally {
@@ -62,29 +67,31 @@ export default {
     }
   },
   computed: {
-    ...mapState("administrador", ["usuarios"]),
+    ...mapState("administrador", ["imagenesSatelitales"]),
   },
   methods: {
     ...mapActions("administrador", [
-      "obtenerUsuarios",
-      "abrirUsuarioFormularioActualizacionVentana",
+      "obtenerImagenesSatelitales",
+      "abrirImagenSatelitalResumenVentana",
     ]),
-    async editar(usuarioId) {
+    async ver(imagenSatelitalId) {
       try {
         this.$iniciarCarga();
-        const { data } = await this.$axios.get(`/usuarios/${usuarioId}/`);
-        this.abrirUsuarioFormularioActualizacionVentana(data);
+        const { data } = await this.$axios.get(
+          `/imagenes-satelitales/${imagenSatelitalId}/`
+        );
+        this.abrirImagenSatelitalResumenVentana(data);
       } catch (error) {
         this.$manejarError(error);
       } finally {
         this.$finalizarCarga();
       }
     },
-    async eliminar(usuarioId) {
+    async eliminar(imagenSatelitalId) {
       try {
         this.$iniciarCarga();
-        await this.$axios.delete(`/usuarios/${usuarioId}/`);
-        await this.obtenerUsuarios();
+        await this.$axios.delete(`/imagenes-satelitales/${imagenSatelitalId}/`);
+        await this.obtenerImagenesSatelitales();
         this.$mostrarMensajeCorrecto();
       } catch (error) {
         this.$manejarError(error);

@@ -1,5 +1,5 @@
 <template>
-  <a-table
+  <ATable
     bordered
     row-key="id"
     :columns="columnas"
@@ -7,28 +7,36 @@
     size="middle"
   >
     <template #roles="roles">
-      <a-space>
-        <a-tag v-for="rol in roles" :key="rol" :color="obtenerColor(rol)">
+      <ASpace>
+        <ATag v-for="rol in roles" :key="rol" :color="obtenerColor(rol)">
           {{ rol }}
-        </a-tag>
-      </a-space>
+        </ATag>
+      </ASpace>
     </template>
-    <template #acciones="id, row">
-      <a-button
+    <template slot="acciones" slot-scope="id, row">
+      <AButton
         v-if="!row.roles.includes('superusuario')"
         type="dashed"
         size="small"
         @click="editar(id)"
       >
-        <a-icon type="edit" />
-      </a-button>
+        <AIcon type="edit" />
+      </AButton>
     </template>
-  </a-table>
+  </ATable>
 </template>
 
 <script>
+import { Table, Button, Icon, Tag, Space } from "ant-design-vue";
 import { mapState, mapActions } from "vuex";
 export default {
+  components: {
+    ATable: Table,
+    AButton: Button,
+    AIcon: Icon,
+    ATag: Tag,
+    ASpace: Space,
+  },
   data() {
     return {
       columnas: [

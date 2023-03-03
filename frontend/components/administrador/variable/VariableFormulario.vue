@@ -1,12 +1,12 @@
 <template>
-  <a-form-model
+  <AFormModel
     ref="referenciaFormulario"
     :model="formulario"
     @submit.prevent="guardar"
   >
-    <a-row :gutter="16" type="flex" justify="center">
-      <a-col :xs="24" :md="12" :xxl="6">
-        <a-form-model-item
+    <ARow :gutter="16" type="flex" justify="center">
+      <ACol :xs="24" :md="12" :xxl="6">
+        <AFormModelItem
           prop="nombreEmpresa"
           label="Nombre de la empresa:"
           :rules="[
@@ -16,12 +16,12 @@
             },
           ]"
         >
-          <a-input
+          <AInput
             v-model="formulario.nombreEmpresa"
             placeholder="Ingrese el nombre de la empresa"
           />
-        </a-form-model-item>
-        <a-form-model-item
+        </AFormModelItem>
+        <AFormModelItem
           prop="latitudInicial"
           label="Latitud inicial:"
           :rules="[
@@ -31,7 +31,7 @@
             },
           ]"
         >
-          <a-input-number
+          <AInputNumber
             v-model="formulario.latitudInicial"
             class="app--w-100"
             :precision="6"
@@ -39,8 +39,8 @@
             :min="-180"
             :max="180"
           />
-        </a-form-model-item>
-        <a-form-model-item
+        </AFormModelItem>
+        <AFormModelItem
           prop="longitudInicial"
           label="Longitud inicial:"
           :rules="[
@@ -50,7 +50,7 @@
             },
           ]"
         >
-          <a-input-number
+          <AInputNumber
             v-model="formulario.longitudInicial"
             class="app--w-100"
             :precision="6"
@@ -58,10 +58,10 @@
             :min="-180"
             :max="180"
           />
-        </a-form-model-item>
-      </a-col>
-      <a-col :xs="24" :md="12" :xxl="6">
-        <a-form-model-item
+        </AFormModelItem>
+      </ACol>
+      <ACol :xs="24" :md="12" :xxl="6">
+        <AFormModelItem
           prop="zoomInicial"
           label="Zoom inicial:"
           :rules="[
@@ -71,62 +71,71 @@
             },
           ]"
         >
-          <a-input-number
+          <AInputNumber
             v-model="formulario.zoomInicial"
             class="app--w-100"
             placeholder="Zoom inicial"
             :min="0"
             :max="18"
           />
-        </a-form-model-item>
-        <a-form-model-item prop="capaBaseInicialId" label="Capa base inicial:">
-          <a-select
+        </AFormModelItem>
+        <AFormModelItem prop="capaBaseInicialId" label="Capa base inicial:">
+          <ASelect
             v-model="formulario.capaBaseInicialId"
             :allow-clear="true"
             placeholder="Seleccione una capa base"
           >
-            <a-select-option
+            <ASelectOption
               v-for="elemento in capasBase"
               :key="elemento.id"
               :value="elemento.id"
             >
               {{ elemento.nombre }}
-            </a-select-option>
-          </a-select>
-        </a-form-model-item>
-        <a-form-model-item
+            </ASelectOption>
+          </ASelect>
+        </AFormModelItem>
+        <AFormModelItem
           prop="serviciosExternosActivosIds"
           label="Servicios externos activos:"
         >
-          <a-select
+          <ASelect
             v-model="formulario.serviciosExternosActivos"
             mode="multiple"
             placeholder="Seleccione uno o más servicios externos"
           >
-            <a-select-option
+            <ASelectOption
               v-for="elemento in serviciosExternos"
               :key="elemento.id"
               :value="elemento.id"
             >
               {{ elemento.nombre }}
-            </a-select-option>
-          </a-select>
-        </a-form-model-item>
-      </a-col>
-    </a-row>
-    <a-row type="flex" justify="center">
-      <a-col :xs="24" :xxl="12">
+            </ASelectOption>
+          </ASelect>
+        </AFormModelItem>
+      </ACol>
+    </ARow>
+    <ARow type="flex" justify="center">
+      <ACol :xs="24" :xxl="12">
         <div>
-          <a-button block html-type="submit" type="primary" icon="save">
+          <AButton block html-type="submit" type="primary" icon="save">
             Actualizar variables
-          </a-button>
+          </AButton>
         </div>
-      </a-col>
-    </a-row>
-  </a-form-model>
+      </ACol>
+    </ARow>
+  </AFormModel>
 </template>
 
 <script>
+import {
+  FormModel,
+  Input,
+  InputNumber,
+  Select,
+  Button,
+  Row,
+  Col,
+} from "ant-design-vue";
 import { mapState, mapActions } from "vuex";
 
 const formulario = {
@@ -139,6 +148,17 @@ const formulario = {
 };
 
 export default {
+  components: {
+    AFormModel: FormModel,
+    AFormModelItem: FormModel.Item,
+    AInput: Input,
+    AInputNumber: InputNumber,
+    ASelect: Select,
+    ASelectOption: Select.Option,
+    AButton: Button,
+    ARow: Row,
+    ACol: Col,
+  },
   data() {
     return {
       formulario: { ...formulario },

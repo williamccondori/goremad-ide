@@ -1,26 +1,29 @@
 <template>
   <AdministracionPagina titulo="Servicios externos">
-    <a-space direction="vertical" class="app--w-100">
-      <a-button
+    <ASpace direction="vertical" class="app--w-100">
+      <AButton
         type="primary"
         icon="plus"
         @click="abrirServicioExternoFormularioVentana()"
       >
         Crear servicio externo
-      </a-button>
+      </AButton>
       <ServicioExternoCatalogo />
-    </a-space>
+    </ASpace>
     <ServicioExternoFormularioVentana />
   </AdministracionPagina>
 </template>
 
 <script>
+import { Button, Space } from "ant-design-vue";
 import { mapActions } from "vuex";
 import AdministracionPagina from "@/components/administrador/compartido/AdministracionPagina.vue";
 import ServicioExternoCatalogo from "@/components/administrador/servicio-externo/ServicioExternoCatalogo.vue";
 import ServicioExternoFormularioVentana from "@/components/administrador/servicio-externo/ServicioExternoFormularioVentana.vue";
 export default {
   components: {
+    AButton: Button,
+    ASpace: Space,
     AdministracionPagina,
     ServicioExternoCatalogo,
     ServicioExternoFormularioVentana,
