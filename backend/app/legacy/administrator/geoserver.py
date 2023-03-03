@@ -15,12 +15,6 @@ WFS_SCHEMA = 'WFS'
 
 geoserver_router = APIRouter()
 
-
-# ==============================================================================
-# Workspaces
-# ==============================================================================
-
-
 class CreateWorkspaceSchema(CustomBaseSchema):
     name: str
 
