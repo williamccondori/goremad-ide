@@ -26,12 +26,17 @@ export default {
         description: mensaje ?? "El proceso se realizó correctamente",
       });
     },
+    $mostrarMensajeAdvertencia(mensaje) {
+      notification.warning({
+        message: "Advertencia",
+        description: mensaje ?? "El proceso se realizó con advertencias",
+      });
+    },
     /**
      * Maneja los errores de la aplicación y muestra un mensaje de error.
      * @param {Error} error
      */
     $manejarError(error) {
-      console.log(error);
       const contenido = error.response?.data;
       const codigoError = parseInt(error.response?.status ?? 500);
       if (codigoError === 500) {

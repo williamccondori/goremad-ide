@@ -9,6 +9,7 @@
     </span>
     <ASpace direction="vertical" class="app--w-100">
       <AButton
+        block
         type="primary"
         icon="search"
         @click="abrirImagenSatelitalBuscadorFormularioVentana()"
@@ -28,7 +29,7 @@
         >
           <ASpace direction="vertical" class="app--w-100">
             <AListItemMeta
-              :title="imagenSatelital.identidicador"
+              :title="imagenSatelital.identificador"
               :description="`Detalles: ${imagenSatelital.descripcion}`"
             >
               <AAvatar
@@ -41,9 +42,30 @@
               />
             </AListItemMeta>
             <ASpace class="app--w-100">
-              <AButton icon="eye" size="small">RGB</AButton>
-              <AButton icon="eye" size="small">NDVI</AButton>
-              <AButton icon="eye" size="small">NDWI</AButton>
+              <AButton
+                size="small"
+                :icon="obtenerTipoIcono(imagenSatelital.rgb)"
+                :type="obtenerTipoBoton(imagenSatelital.rgb)"
+                @click="mostrarImagenSatelital(imagenSatelital.rgb)"
+              >
+                RGB
+              </AButton>
+              <AButton
+                size="small"
+                :icon="obtenerTipoIcono(imagenSatelital.ndvi)"
+                :type="obtenerTipoBoton(imagenSatelital.ndvi)"
+                @click="mostrarImagenSatelital(imagenSatelital.ndvi)"
+              >
+                NDVI
+              </AButton>
+              <AButton
+                size="small"
+                :icon="obtenerTipoIcono(imagenSatelital.ndwi)"
+                :type="obtenerTipoBoton(imagenSatelital.ndwi)"
+                @click="mostrarImagenSatelital(imagenSatelital.ndwi)"
+              >
+                NDWI
+              </AButton>
             </ASpace>
           </ASpace>
         </AListItem>
@@ -74,13 +96,36 @@ export default {
     ...mapState("visor", [
       "estaAbiertoImagenSatelitalCatalogoVentana",
       "imagenesSatelitales",
+      "capas",
+      "capasActivas",
     ]),
   },
   methods: {
     ...mapActions("visor", [
       "cerrarImagenSatelitalCatalogoVentana",
       "abrirImagenSatelitalBuscadorFormularioVentana",
+      "establecerCapasActivas",
     ]),
+    mostrarImagenSatelital(imagenSatelitalId) {
+      const existe = this.capasActivas.includes(imagenSatelitalId);
+      if (existe) {
+        this.establecerCapasActivas(
+          this.capasActivas.filter((id) => id !== imagenSatelitalId)
+        );
+      } else {
+        this.establecerCapasActivas([...this.capasActivas, imagenSatelitalId]);
+      }
+    },
+    obtenerTipoIcono(imagenSatelitalId) {
+      return this.capasActivas.includes(imagenSatelitalId)
+        ? "eye"
+        : "eye-invisible";
+    },
+    obtenerTipoBoton(imagenSatelitalId) {
+      return this.capasActivas.includes(imagenSatelitalId)
+        ? "dashed"
+        : "danger";
+    },
   },
 };
 </script>

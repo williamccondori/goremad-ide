@@ -28,6 +28,10 @@ export const state = () => ({
 
   marcadores: [],
 
+  /*----------  Imagenes satelitales  ----------*/
+
+  imagenesSatelitales: [],
+
   /*----------  Ventanas.  ----------*/
 
   estaAbiertoCapaCatalogoVentana: false,
@@ -70,6 +74,9 @@ export const actions = {
 
   /*----------  Capas.  ----------*/
 
+  agregarCapas({ commit }, capas) {
+    commit("agregarCapas", capas);
+  },
   establacerCapas({ commit }, capas) {
     commit("establecerCapas", capas);
   },
@@ -106,6 +113,15 @@ export const actions = {
   },
   eliminarMarcador({ commit }, marcadorId) {
     commit("eliminarMarcador", marcadorId);
+  },
+
+  /*----------  Imagenes satelitales  ----------*/
+
+  establecerImagenesSatelitales({ commit }, imagenesSatelitales) {
+    commit("establecerImagenesSatelitales", imagenesSatelitales);
+  },
+  agregarImagenSatelital({ commit }, imagenSatelital) {
+    commit("agregarImagenSatelital", imagenSatelital);
   },
 
   /*----------  Ventanas.  ----------*/
@@ -212,6 +228,9 @@ export const mutations = {
 
   /*----------  Capas.  ----------*/
 
+  agregarCapas(state, payload) {
+    state.capas = [...state.capas, ...payload];
+  },
   establecerCapas(state, payload) {
     state.capas = payload;
   },
@@ -253,6 +272,15 @@ export const mutations = {
     state.marcadores = state.marcadores.filter(
       (marcador) => marcador.id !== payload
     );
+  },
+
+  /*----------  Imagenes satelitales  ----------*/
+
+  establecerImagenesSatelitales(state, payload) {
+    state.imagenesSatelitales = payload;
+  },
+  agregarImagenSatelital(state, payload) {
+    state.imagenesSatelitales.push(payload);
   },
 
   /*----------  Ventanas.  ----------*/
