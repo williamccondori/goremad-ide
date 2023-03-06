@@ -1,3 +1,4 @@
+from datetime import datetime
 from uuid import uuid4
 
 from fastapi import Depends
@@ -32,16 +33,23 @@ class ImagenSatelitalServicio:
             filtros["identificador"] = request.identificador
         else:
             # Se transforma a ISO para que el filtro funcione correctamente.
-            fecha_inicio = request.fecha_inicio.replace(hour=0, minute=0, second=0)
-            fecha_fin = request.fecha_fin.replace(hour=23, minute=59, second=59)
+            fecha_inicio = datetime(
+                request.fecha_inicio.year,
+                request.fecha_inicio.month,
+                request.fecha_inicio.day, 0, 0, 0
+            )
+            fecha_fin = datetime(
+                request.fecha_fin.year,
+                request.fecha_fin.month,
+                request.fecha_fin.day, 23, 59, 59
+            )
             filtros["fecha"] = {
-                "$gte": fecha_inicio.isoformat(),
-                "$lte": fecha_fin.isoformat()
+                "$lt": fecha_fin,
+                "$gte": fecha_inicio
             }
         imagenes_satelitales: list[ImagenSatelitalEntidad] = await self._imagen_satelital_repositorio.obtener_todos(
             filtros
         )
-
         return [
             BuscarImagenSatelitalResponse(
                 **imagen_satelital.dict()
