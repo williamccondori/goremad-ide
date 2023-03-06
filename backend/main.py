@@ -10,11 +10,15 @@ from app.api.controllers.administrador.capa_base_controller import capa_base_con
 from app.api.controllers.administrador.configuracion_controller import configuracion_controller
 from app.api.controllers.administrador.grupo_capa_controller import grupo_capa_controller
 from app.api.controllers.administrador.imagen_satelital_controller import imagen_satelital_controller
+from app.api.controllers.administrador.programacion_controller import programacion_controller
 from app.api.controllers.administrador.resumen_controller import resumen_controller
 from app.api.controllers.administrador.servicio_externo_controller import servicio_externo_controller
 from app.api.controllers.administrador.usuario_controller import usuario_controller
 from app.api.controllers.visor.coordenada_controller import coordenada_controller as coordenada_visor_controller
+from app.api.controllers.visor.imagen_satelital_controller import \
+    imagen_satelital_controller as imagen_satelital_visor_controller
 from app.api.controllers.visor.inicial_controller import inicial_controller as inicial_visor_controller
+from app.api.controllers.visor.servicio_local_controller import servicio_local_controller
 from app.api.controllers.visor.ubicacion_controller import ubicacion_controller as ubicacion_visor_controller
 from app.api.controllers.visor.usuario_controller import usuario_controller as usuario_visor_controller
 from app.api.controllers.visor.web_map_service_controller import \
@@ -43,6 +47,8 @@ app.include_router(resumen_controller, prefix="/api/v1/resumenes", tags=["Resúm
 app.include_router(servicio_externo_controller, prefix="/api/v1/servicios-externos", tags=["Servicios externos"])
 app.include_router(usuario_controller, prefix="/api/v1/usuarios", tags=["Usuarios"]),
 app.include_router(imagen_satelital_controller, prefix="/api/v1/imagenes-satelitales", tags=["Imagenes satelitales"])
+app.include_router(programacion_controller, prefix="/api/v1/programaciones", tags=["Programaciones"])
+app.include_router(servicio_local_controller, prefix="/api/v1/servicios-locales", tags=["Servicios locales"])
 
 app.include_router(inicial_visor_controller, prefix="/api/v1/visor/iniciales", tags=["Iniciales (Visor)"])
 app.include_router(ubicacion_visor_controller, prefix="/api/v1/visor/ubicaciones", tags=["Ubicaciones (Visor)"])
@@ -50,6 +56,8 @@ app.include_router(usuario_visor_controller, prefix="/api/v1/visor/usuarios", ta
 app.include_router(web_map_service_visor_controller, prefix="/api/v1/visor/web-map-services",
                    tags=["Web map services (Visor)"])
 app.include_router(coordenada_visor_controller, prefix="/api/v1/visor/coordenadas", tags=["Coordenadas (Visor)"])
+app.include_router(imagen_satelital_visor_controller, prefix="/api/v1/visor/imagenes-satelitales",
+                   tags=["Imagenes satelitales (Visor)"])
 
 
 class ExcepcionResponse(BaseModelo):

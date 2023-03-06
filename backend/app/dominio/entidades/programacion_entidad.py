@@ -14,7 +14,7 @@ class ProgramacionEntidad(BaseEntidad):
     id: str = None
     tipo: str
     fecha_inicio: datetime
-    fecha_fin: Optional[str]
+    fecha_fin: Optional[datetime]
     estado_ejecucion: Optional[str]
     observaciones: Optional[str]
     usuario: str

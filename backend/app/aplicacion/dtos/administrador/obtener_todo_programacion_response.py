@@ -1,0 +1,5 @@
+from app.aplicacion.dtos.administrador.obtener_actual_programacion_reponse import ObtenerActualProgramacionResponse
+
+
+class ObtenerTodoProgramacionResponse(ObtenerActualProgramacionResponse):
+    pass

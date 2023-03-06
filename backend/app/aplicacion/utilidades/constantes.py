@@ -16,3 +16,4 @@ NO_APLICA = "NO APLICA"  # No aplica.
 
 # GeoServer.
 ESPACIO_TRABAJO_IMAGENES_SATELITALES = "imagenes_satelitales"  # Espacio de trabajo de las imagenes satelitales.
+ESPACIO_TRABAJO_SERVICIOS_OGC = "servicios_ogc"  # Espacio de trabajo de los servicios OGC.

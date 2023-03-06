@@ -2,8 +2,9 @@ from typing import Optional
 
 from fastapi import Depends
 
+from app.aplicacion.dtos.visor.capa_response import CapaResponse
 from app.aplicacion.dtos.visor.obtener_inicial_response import ObtenerInicialResponse, CapaBaseResponse, \
-    EstructuraCapaResponse, ServicioExternoResponse
+    EstructuraCapaResponse
 from app.aplicacion.utilidades.wms import obtener_url_leyenda
 from app.dominio.entidades.capa_base_entidad import CapaBaseEntidad
 from app.dominio.entidades.compartido.base_entidad import ESTADO_ACTIVO
@@ -134,11 +135,11 @@ class InicialServicio:
             "estado": ESTADO_ACTIVO,
             "esta_habilitado": True
         })
-        servicios_externos_con_capas: list[ServicioExternoResponse] = []
+        servicios_externos_con_capas: list[CapaResponse] = []
         for servicio_externo in servicios_externos:
             for capa in servicio_externo.capas:
                 url_leyenda: str = obtener_url_leyenda(servicio_externo.url, capa.nombre)
-                servicios_externos_con_capas.append(ServicioExternoResponse(
+                servicios_externos_con_capas.append(CapaResponse(
                     id=f"{servicio_externo.id}__{capa.nombre}",
                     servicio_id=servicio_externo.id,
                     servicio_titulo=servicio_externo.nombre,
