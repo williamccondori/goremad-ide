@@ -118,13 +118,13 @@ export default {
     },
     obtenerTipoIcono(imagenSatelitalId) {
       return this.capasActivas.includes(imagenSatelitalId)
-        ? "eye"
-        : "eye-invisible";
+        ? "eye-invisible"
+        : "eye";
     },
     obtenerTipoBoton(imagenSatelitalId) {
       return this.capasActivas.includes(imagenSatelitalId)
-        ? "dashed"
-        : "danger";
+        ? "danger"
+        : "dashed";
     },
   },
 };

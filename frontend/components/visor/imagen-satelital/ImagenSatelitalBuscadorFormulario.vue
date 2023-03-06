@@ -38,7 +38,11 @@
         <ACollapse>
           <ACollapsePanel key="1" header="Búsqueda avanzada">
             <AFormModelItem prop="satelitle" label="Satélite">
-              <ASelect v-model="formulario.satelitle">
+              <ASelect
+                v-model="formulario.satelitle"
+                placeholder="Todos"
+                disabled
+              >
                 <ASelectOption value="S2A">S2A</ASelectOption>
                 <ASelectOption value="S2B">S2B</ASelectOption>
               </ASelect>
@@ -116,8 +120,8 @@ import {
 import { mapState, mapActions } from "vuex";
 
 const formulario = {
-  identificador: "S2A_MSIL2A_20230220T144721_N0509_R139_T19LDF_20230220T200512",
-  satelitle: "S2A",
+  identificador: "",
+  satelitle: undefined,
   fechas: [],
 };
 

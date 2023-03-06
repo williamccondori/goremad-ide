@@ -22,6 +22,11 @@ export default {
         href: "https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css",
       },
     ],
+    script: [
+      {
+        src: "https://cdn.jsdelivr.net/npm/leaflet-side-by-side@2.2.0/index.min.js",
+      },
+    ],
   },
   css: ["@/assets/less/variables.less", "@/assets/css/global.css"],
   plugins: ["@/plugins/ejecutor", "@/plugins/mapa", "@/plugins/ant-modal"],

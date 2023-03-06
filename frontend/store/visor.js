@@ -46,6 +46,7 @@ export const state = () => ({
   estaAbiertoImagenSatelitalBuscadorFormularioVentana: false,
   estaAbiertoAyudaVentana: false,
   estaAbiertoCompartirVistaModal: false,
+  estaAbiertoComparacionVentana: false,
 });
 
 export const actions = {
@@ -204,6 +205,12 @@ export const actions = {
   cerrarCompartirVistaModal({ commit }) {
     commit("establecerEstaAbiertoCompartirVistaModal", false);
   },
+  abrirComparacionVentana({ commit }) {
+    commit("establecerEstaAbiertoComparacionVentana", true);
+  },
+  cerrarComparacionVentana({ commit }) {
+    commit("establecerEstaAbiertoComparacionVentana", false);
+  },
 };
 
 export const mutations = {
@@ -323,5 +330,8 @@ export const mutations = {
   },
   establecerEstaAbiertoCompartirVistaModal(state, payload) {
     state.estaAbiertoCompartirVistaModal = payload;
+  },
+  establecerEstaAbiertoComparacionVentana(state, payload) {
+    state.estaAbiertoComparacionVentana = payload;
   },
 };

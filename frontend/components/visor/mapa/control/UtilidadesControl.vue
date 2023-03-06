@@ -32,6 +32,13 @@
       >
         <i class="bx bx-share-alt" />
       </AButton>
+      <AButton
+        type="dashed"
+        title="Comparar capas activas"
+        @click="abrirComparacionVentana()"
+      >
+        <i class="bx bx-bracket" />
+      </AButton>
     </div>
   </LControl>
 </template>
@@ -52,6 +59,7 @@ export default {
       "abrirDibujoVentana",
       "abrirMarcadorCatalogoVentana",
       "abrirCompartirVistaModal",
+      "abrirComparacionVentana",
     ]),
   },
 };

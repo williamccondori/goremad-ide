@@ -23,14 +23,13 @@
         <!--Capas.-->
         <CapaBaseCapa />
         <CapaCapa />
+        <ComparacionCapa />
         <!--Adicionales.-->
         <CapaDetallePopup />
       </LMap>
     </client-only>
-
     <CapaCatalogoVentana />
     <CapaResumenVentana />
-
     <UbicacionVentana />
     <CoordenadaVentana />
     <DibujoVentana />
@@ -38,7 +37,7 @@
     <MarcadorCatalogoVentana />
     <CapaBaseCatalogoVentana />
     <ImagenSatelitalCatalogoVentana />
-    <!-- <WebMapServiceFormularioVentana /> -->
+    <ComparacionVentana />
   </div>
 </template>
 
@@ -66,11 +65,12 @@ import DibujoControl from "@/components/visor/mapa-control/DibujoControl.vue";
 // Capas.
 import CapaBaseCapa from "@/components/visor/mapa/capa/CapaBaseCapa.vue";
 import CapaCapa from "@/components/visor/mapa/capa/CapaCapa.vue";
-import CapaResumenVentana from "@/components/visor/capa/CapaResumenVentana.vue";
+import ComparacionCapa from "@/components/visor/mapa/capa/ComparacionCapa.vue";
 // Adicionales.
 import CapaDetallePopup from "@/components/visor/capa/CapaDetallePopup.vue";
 // import CapasInteroperablesLayer from "@/components/visor/CapasInteroperablesLayer.vue";
 // Ventanas.
+import CapaResumenVentana from "@/components/visor/capa/CapaResumenVentana.vue";
 import CapaCatalogoVentana from "@/components/visor/capa/CapaCatalogoVentana.vue";
 import UbicacionVentana from "@/components/visor/ubicacion/UbicacionVentana.vue";
 import CoordenadaVentana from "@/components/visor/coordenada/CoordenadaVentana.vue";
@@ -79,6 +79,7 @@ import MarcadorCatalogoVentana from "@/components/visor/marcador/MarcadorCatalog
 import CompartirModal from "@/components/visor/compartir/CompartirModal.vue";
 import CapaBaseCatalogoVentana from "@/components/visor/capa-base/CapaBaseCatalogoVentana.vue";
 import ImagenSatelitalCatalogoVentana from "@/components/visor/imagen-satelital/ImagenSatelitalCatalogoVentana.vue";
+import ComparacionVentana from "@/components/visor/comparacion/ComparacionVentana.vue";
 
 export default {
   components: {
@@ -97,6 +98,7 @@ export default {
     // Capas.
     CapaBaseCapa,
     CapaCapa,
+    ComparacionCapa,
     // Adicionales
     CapaDetallePopup,
     // CapasInteroperablesLayer,
@@ -110,6 +112,7 @@ export default {
     CompartirModal,
     CapaBaseCatalogoVentana,
     ImagenSatelitalCatalogoVentana,
+    ComparacionVentana,
   },
 
   data() {
