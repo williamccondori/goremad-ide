@@ -24,7 +24,7 @@ jobs:
       - name: Docker build and push
         uses: docker/build-push-action@v3.2.0
         with:
-          context: frontend
+          context: principal
           build-args: BASE_URL=${{ vars.BASE_URL }}
           tags: ${{ vars.DOCKER_USERNAME }}/${{ env.PROJECT_NAME }}:${{ github.sha }},${{ vars.DOCKER_USERNAME }}/${{ env.PROJECT_NAME }}:latest
           push: true
