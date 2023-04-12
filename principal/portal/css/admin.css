@@ -1,0 +1,42 @@
+.button-heading {
+  float: right;
+  margin: -5px;
+}
+
+.img-aux {
+  background-color: #e0e0e0;
+  margin-bottom: 15px;
+}
+
+.img-aux > img {
+  width: 100%;
+}
+
+.file-aux {
+  overflow: hidden;
+}
+
+textarea {
+  max-width: 100%;
+  min-width: 100%;
+  width: 100%;
+}
+
+.mayuscula {
+  text-transform: uppercase;
+}
+
+.form-group.required > label::after {
+  content: " *";
+  color: #dd4b39;
+  font-weight: bold;
+}
+
+.form-group.has-error .help-block {
+  margin-bottom: 0;
+}
+
+td.celda {
+  padding: 3px !important;
+  text-align: center;
+}
