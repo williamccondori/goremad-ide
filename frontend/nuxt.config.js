@@ -28,7 +28,7 @@ export default {
       },
     ],
   },
-  css: ["@/assets/css/global.css"],
+  css: ["@/assets/less/variables.less", "@/assets/css/global.css"],
   plugins: ["@/plugins/ejecutor", "@/plugins/mapa", "@/plugins/ant-modal"],
   components: true,
   buildModules: [],
