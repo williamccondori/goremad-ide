@@ -46,25 +46,6 @@ export default {
     },
     // Evita la importación de estilos en componentes que no los necesitan
     extractCSS: true,
-    extend(config, { isClient }) {
-      if (isClient) {
-        config.module.rules.push({
-          test: /\.less$/,
-          use: [
-            "vue-style-loader",
-            "css-loader",
-            {
-              loader: "less-loader",
-              options: {
-                lessOptions: {
-                  javascriptEnabled: true,
-                },
-              },
-            },
-          ],
-        });
-      }
-    },
   },
   router: {
     middleware: ["auth"],
