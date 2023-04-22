@@ -28,9 +28,8 @@ export default {
       },
     ],
   },
-  css: ["@/assets/less/variables.less", "@/assets/css/global.css"],
+  css: ["@/assets/css/global.css"],
   plugins: ["@/plugins/ejecutor", "@/plugins/mapa", "@/plugins/ant-modal"],
-  loading: true,
   components: true,
   buildModules: [],
   modules: ["@nuxtjs/axios", "@nuxtjs/auth-next"],
@@ -38,17 +37,33 @@ export default {
     baseURL: process.env.BASE_URL || "http://localhost:8000/api/v1",
   },
   build: {
-    hotMiddleware: {
-      client: {
-        overlay: false,
-      },
-    },
     loaders: {
       less: {
         lessOptions: {
           javascriptEnabled: true,
         },
       },
+    },
+    // Evita la importación de estilos en componentes que no los necesitan
+    extractCSS: true,
+    extend(config, { isClient }) {
+      if (isClient) {
+        config.module.rules.push({
+          test: /\.less$/,
+          use: [
+            "vue-style-loader",
+            "css-loader",
+            {
+              loader: "less-loader",
+              options: {
+                lessOptions: {
+                  javascriptEnabled: true,
+                },
+              },
+            },
+          ],
+        });
+      }
     },
   },
   router: {
