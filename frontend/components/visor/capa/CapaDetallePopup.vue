@@ -104,7 +104,7 @@ export default {
         serviciosAConsultar.push({
           id: servicioId,
           url: capas[0].url,
-          capas: capas.map((capa) => capa.nombre).join(","),
+          capas: capas.map((capa) => capa.nombre),
         });
       });
       try {
@@ -114,23 +114,55 @@ export default {
           this.mapa,
           latitudLongitud
         );
+
+        // Get the bounding box of the current map view.
+        const boundingBox = this.mapa.getBounds();
+        const southWest = boundingBox.getSouthWest();
+        const northEast = boundingBox.getNorthEast();
+        const bbox = `${southWest.lng},${southWest.lat},${northEast.lng},${northEast.lat}`;
+        const srs = "EPSG:4326";
+
         for (const servicio of serviciosAConsultar) {
-          parametros.url = servicio.url;
-          parametros.layers = servicio.capas;
-          const { data } = await this.$axios.get(
-            "/visor/web-map-services/features/",
-            {
-              params: parametros,
+          console.log(servicio);
+          for (const capa of servicio.capas) {
+            // WMS: GetFeatureInfo
+            // https://docs.geoserver.org/stable/en/user/services/wms/reference.html#getfeatureinfo
+
+            // Call GetFeatureInfo
+            const getFeatureInfoReponse = await fetch(
+              servicio.url +
+                "&version=1.1.1&request=GetFeatureInfo&layers=" +
+                capa +
+                "&query_layers=" +
+                capa +
+                "&styles=&bbox=" +
+                bbox +
+                "&width=" +
+                parametros.width +
+                "&height=" +
+                parametros.height +
+                "&srs=" +
+                srs +
+                "&info_format=" +
+                "text/html" +
+                "&x=" +
+                parametros.x +
+                "&y=" +
+                parametros.y
+            );
+            const data = await getFeatureInfoReponse.json();
+            if (data) {
+              const tempElement = document.createElement("div");
+              tempElement.innerHTML = data;
+              // Recorrer todos los elementos descendientes y quitarles los atributos de estilo
+              const elementsWithStyles = tempElement.querySelectorAll("*");
+              for (var i = 0; i < elementsWithStyles.length; i++) {
+                elementsWithStyles[i].removeAttribute("style");
+              }
+              // Obtener el contenido del elemento temporal sin estilos
+              const contentWithoutStyles = tempElement.innerHTML;
+              console.log(contentWithoutStyles);
             }
-          );
-          if (data.length > 0) {
-            serviciosEncontrados = [
-              ...serviciosEncontrados,
-              {
-                id: servicio.id,
-                resultados: data,
-              },
-            ];
           }
         }
         if (serviciosEncontrados.length > 0) {

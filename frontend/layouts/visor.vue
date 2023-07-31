@@ -26,8 +26,13 @@ export default {
   },
   async fetch() {
     try {
-      const { data } = await this.$axios.get("/visor/iniciales/");
-      const configuracionInicial = data;
+      // const { data } = await this.$axios.get("/visor/iniciales/");
+      // Read the JSON file. /data.json with fetch.
+      const response = await fetch("/data.json");
+      const data = await response.json();
+
+      const configuracionInicial = data.configuracionInicial;
+
       if (configuracionInicial) {
         this.configuracionAplicada = true;
         // Se establece la posicion inicial de la vista del mapa.

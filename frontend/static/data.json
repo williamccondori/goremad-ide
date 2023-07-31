@@ -1,0 +1,129 @@
+{
+  "configuracionInicial": {
+    "latitudInicial": -11.6175442,
+    "longitudInicial": -70.5099259,
+    "zoomInicial": 8,
+    "capasBase": [
+      {
+        "id": "63e16a60cccffac41b8848b2",
+        "nombre": "ESRI Streets",
+        "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+        "atribucion": "ESRI"
+      }
+    ],
+    "capaBaseIncialId": "63e16a60cccffac41b8848b2",
+    "serviciosExternos": [
+      {
+        "id": "0_0",
+        "servicioId": "0",
+        "servicioTitulo": "GeoPerú",
+        "nombre": "peru_departamento_",
+        "titulo": "Límite departamental",
+        "url": "https://espacialg.geoperu.gob.pe/geoserver/geoperu/peru_departamento_/wms?CQL_FILTER=nom_dpto='MADRE DE DIOS'",
+        "urlLeyenda": "https://espacialg.geoperu.gob.pe/geoserver/geoperu/peru_departamento_/wms?service=WMS&request=GetLegendGraphic&format=image%2Fpng&width=20&height=20&layer=peru_departamento_",
+        "atribucion": "Plataforma Nacional de Datos GeoReferenciados del Perú",
+        "cuadroDelimitador": null,
+        "grupoCapaId": "cartografia",
+        "transparencia": 1
+      },
+      {
+        "id": "0_1",
+        "servicioId": "0",
+        "servicioTitulo": "GeoPerú",
+        "nombre": "peru_provincia_",
+        "titulo": "Límite provincial",
+        "url": "https://espacialg.geoperu.gob.pe/geoserver/geoperu/peru_provincia_/wms?CQL_FILTER=nom_dpto='MADRE DE DIOS'",
+        "urlLeyenda": "https://espacialg.geoperu.gob.pe/geoserver/geoperu/peru_provincia_/wms?service=WMS&request=GetLegendGraphic&format=image%2Fpng&width=20&height=20&layer=peru_provincia_",
+        "atribucion": "Plataforma Nacional de Datos GeoReferenciados del Perú",
+        "cuadroDelimitador": null,
+        "grupoCapaId": "cartografia",
+        "transparencia": 1
+      },
+      {
+        "id": "0_2",
+        "servicioId": "0",
+        "servicioTitulo": "GeoPerú",
+        "nombre": "peru_distrito_",
+        "titulo": "Límite distrital",
+        "url": "https://espacialg.geoperu.gob.pe/geoserver/geoperu/peru_distrito_/wms?CQL_FILTER=nom_dpto='MADRE DE DIOS'",
+        "urlLeyenda": "https://espacialg.geoperu.gob.pe/geoserver/geoperu/peru_distrito_/wms?service=WMS&request=GetLegendGraphic&format=image%2Fpng&width=20&height=20&layer=peru_distrito_",
+        "atribucion": "Plataforma Nacional de Datos GeoReferenciados del Perú",
+        "cuadroDelimitador": null,
+        "grupoCapaId": "cartografia",
+        "transparencia": 1
+      },
+      {
+        "id": "0_3",
+        "servicioId": "0",
+        "servicioTitulo": "GeoPerú",
+        "nombre": "peru_ccpp_mayor_",
+        "titulo": "Centros poblados",
+        "url": "https://espacialg.geoperu.gob.pe/geoserver/geoperu/peru_ccpp_mayor_/wms?CQL_FILTER=nom_dpto='MADRE DE DIOS'",
+        "urlLeyenda": "https://espacialg.geoperu.gob.pe/geoserver/geoperu/peru_ccpp_mayor_/wms?service=WMS&request=GetLegendGraphic&format=image%2Fpng&width=20&height=20&layer=peru_ccpp_mayor_",
+        "atribucion": "Plataforma Nacional de Datos GeoReferenciados del Perú",
+        "cuadroDelimitador": null,
+        "grupoCapaId": "cartografia",
+        "transparencia": 1
+      },
+      {
+        "id": "0_4",
+        "servicioId": "0",
+        "servicioTitulo": "GeoPerú",
+        "nombre": "peru_ccpp_menor_",
+        "titulo": "Población dispersa",
+        "url": "https://espacialg.geoperu.gob.pe/geoserver/geoperu/peru_ccpp_menor_/wms?CQL_FILTER=nom_dpto='MADRE DE DIOS'",
+        "urlLeyenda": "https://espacialg.geoperu.gob.pe/geoserver/geoperu/peru_ccpp_menor_/wms?service=WMS&request=GetLegendGraphic&format=image%2Fpng&width=20&height=20&layer=peru_ccpp_menor_",
+        "atribucion": "Plataforma Nacional de Datos GeoReferenciados del Perú",
+        "cuadroDelimitador": null,
+        "grupoCapaId": "cartografia",
+        "transparencia": 1
+      }
+    ],
+    "capasActivas": ["0_0"],
+    "estructura": [
+      {
+        "id": "root",
+        "label": "Todos los elementos",
+        "children": [
+          {
+            "id": "cartografia",
+            "label": "Cartografía",
+            "children": [
+              {
+                "id": "0_0",
+                "label": "Límite departamentales",
+                "children": [],
+                "esGrupo": false
+              },
+              {
+                "id": "0_1",
+                "label": "Límite provincial",
+                "children": [],
+                "esGrupo": false
+              },
+              {
+                "id": "0_2",
+                "label": "Límite distrital",
+                "children": [],
+                "esGrupo": false
+              },
+              {
+                "id": "0_3",
+                "label": "Centros poblados",
+                "children": [],
+                "esGrupo": false
+              },
+              {
+                "id": "0_4",
+                "label": "Población dispersa",
+                "children": [],
+                "esGrupo": false
+              }
+            ],
+            "esGrupo": true
+          }
+        ]
+      }
+    ]
+  }
+}
