@@ -1,40 +1,32 @@
-# Use a multi-stage build to reduce image size
-FROM node:lts-alpine AS build
+# Usar una imagen de Node más pequeña y segura como base
+FROM node:14-alpine as build-stage
 
-ENV NODE_OPTIONS=--openssl-legacy-provider
-
-# Create a dedicated build folder
-WORKDIR /build
-
-# Copy package.json and package-lock.json first for better caching
-COPY package*.json ./
-
-# Install only production dependencies
-RUN npm ci --only=production
-
-# Copy the rest of the application
-COPY . .
-
-# Build the application
-ARG BASE_URL
-ENV BASE_URL=$BASE_URL
-
-RUN npm run generate
-
-# Use a separate stage for production
-FROM node:lts-alpine AS production
-
-# Install the 'serve' package globally
-RUN npm install -g serve
-
-# Create a dedicated app folder
+# Directorio donde se almacenará la aplicación
 WORKDIR /app
 
-# Copy the build output from the previous stage
-COPY --from=build /build/dist /app/dist
+# Copiar el package.json y package-lock.json primero para aprovechar el almacenamiento en caché de Docker
+COPY package*.json ./
 
-# Expose the port for the application
-EXPOSE 5000
+# Instalar dependencias
+RUN npm install
 
-# Run 'serve' to serve the application
-CMD [ "serve", "-s", "dist", "-l", "5000" ]
+# Copiar el resto del código fuente de la aplicación
+COPY . .
+
+# Compilar la aplicación para producción
+RUN npm run build
+
+# Fase de producción
+FROM nginx:stable-alpine as production-stage
+
+# Copiar el script de configuración de nginx
+COPY nginx.conf /etc/nginx/nginx.conf
+
+# Copiar los archivos compilados desde la etapa de construcción
+COPY --from=build-stage /app/.nuxt/dist/client /usr/share/nginx/html
+
+# Exponer el puerto 80
+EXPOSE 80
+
+# Comando para iniciar nginx
+CMD ["nginx", "-g", "daemon off;"]
