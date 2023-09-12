@@ -1,13 +1,28 @@
-# editorconfig.org
+# EditorConfig is awesome: https://EditorConfig.org
+
+# Fuerza a los archivos a utilizar una nueva línea al final del archivo
 root = true
 
+# Configuración por defecto: codificación UTF-8, nueva línea al final del archivo,
+# y una sangría de 2 espacios
 [*]
+charset = utf-8
 indent_style = space
 indent_size = 2
-end_of_line = lf
-charset = utf-8
-trim_trailing_whitespace = true
 insert_final_newline = true
+trim_trailing_whitespace = true
 
+# Archivos Markdown tienden a tener dobles espacios al final de cada línea,
+# por lo que desactivamos la opción 'trim_trailing_whitespace'.
 [*.md]
 trim_trailing_whitespace = false
+
+# Archivos de configuración de YAML generalmente usan espacios en lugar de tabuladores
+[*.yml]
+indent_style = space
+indent_size = 2
+
+# Archivos de Dockerfile usan 2 espacios para la sangría
+[Dockerfile]
+indent_style = space
+indent_size = 2
