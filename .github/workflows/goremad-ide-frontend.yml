@@ -1,10 +1,11 @@
 name: goremad-ide-frontend
 
+# Este flujo de trabajo se activa solo cuando hay cambios en la carpeta "frontend"
 on:
   push:
     branches: ["main"]
     paths:
-      - frontend/**
+      - "frontend/**"
 
 env:
   PROJECT_NAME: goremad-ide-frontend
@@ -12,28 +13,51 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+    continue-on-error: false # Detiene la ejecución si hay un error
+    strategy:
+      fail-fast: false # Si un trabajo falla, no detiene otros trabajos
 
+    steps:
+      # Paso de Checkout
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Caché de Dependencias (Opcional)
+      - name: Cache npm dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      # Iniciar sesión en Docker Hub
       - name: Docker Login
         uses: docker/login-action@v2.1.0
         with:
           username: ${{ vars.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Docker build and push
+      # Construir y publicar la imagen de Docker
+      - name: Docker Build and Push
         uses: docker/build-push-action@v3.2.0
         with:
           context: frontend
-          build-args: BASE_URL=${{ vars.BASE_URL }}
+          build-args: BASE_URL=${{ secrets.BASE_URL }}
           tags: ${{ vars.DOCKER_USERNAME }}/${{ env.PROJECT_NAME }}:${{ github.sha }},${{ vars.DOCKER_USERNAME }}/${{ env.PROJECT_NAME }}:latest
           push: true
 
   deploy:
     runs-on: ubuntu-latest
-    needs: build
+    needs: build # Este trabajo depende del éxito del trabajo de construcción
     steps:
-      - uses: actions/checkout@v3
-      - name: Deploy
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Despliegue en producción mediante SSH
+      - name: Deploy to Production via SSH
         run: |
-          echo "Deploying to production"
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          echo "${{ secrets.SSH_KEY }}" > private_key
+          chmod 600 private_key
+          ssh -i private_key ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd /path/to/your/docker-compose/folder && docker-compose pull && docker-compose up -d"

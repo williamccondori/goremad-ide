@@ -1,32 +1,37 @@
-# Usar una imagen de Node más pequeña y segura como base
+# Utilizamos una versión de Node.js basada en Alpine para la etapa de construcción,
+# ya que es más ligera y segura que otras imágenes de Node.
 FROM node:14-alpine as build-stage
 
-# Directorio donde se almacenará la aplicación
+# Establecemos /app como el directorio de trabajo dentro del contenedor.
 WORKDIR /app
 
-# Copiar el package.json y package-lock.json primero para aprovechar el almacenamiento en caché de Docker
+# Copiamos solo los archivos de configuración de npm para instalar las dependencias.
+# Esto permite aprovechar la caché de Docker para no reinstalar las dependencias
+# si estos archivos no han cambiado.
 COPY package*.json ./
 
-# Instalar dependencias
+# Instalamos las dependencias del proyecto.
 RUN npm install
 
-# Copiar el resto del código fuente de la aplicación
+# Copiamos el resto de los archivos del proyecto.
+# Se hace después de instalar las dependencias para aprovechar la caché de Docker.
 COPY . .
 
-# Compilar la aplicación para producción
-RUN npm run build
+# Generamos la versión de producción de la aplicación utilizando nuxt generate.
+RUN npm run generate
 
-# Fase de producción
-FROM nginx:stable-alpine as production-stage
+# Para la etapa de producción, utilizamos otra imagen de Node.js basada en Alpine.
+FROM node:14-alpine as production-stage
 
-# Copiar el script de configuración de nginx
-COPY nginx.conf /etc/nginx/nginx.conf
+# Instalamos el paquete 'serve' para servir la aplicación en producción.
+RUN npm install -g serve
 
-# Copiar los archivos compilados desde la etapa de construcción
-COPY --from=build-stage /app/.nuxt/dist/client /usr/share/nginx/html
+# Copiamos los archivos generados en la etapa de construcción a la etapa de producción.
+# Esto minimiza el tamaño del contenedor final ya que solo incluye los archivos necesarios.
+COPY --from=build-stage /app/dist /app/dist
 
-# Exponer el puerto 80
+# Exponemos el puerto 80 para que la aplicación sea accesible.
 EXPOSE 80
 
-# Comando para iniciar nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Comando para iniciar 'serve' en el puerto 80 y servir la aplicación.
+CMD ["serve", "-s", "/app/dist", "-l", "80"]
