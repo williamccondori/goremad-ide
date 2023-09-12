@@ -60,4 +60,4 @@ jobs:
           ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
           echo "${{ secrets.SSH_KEY }}" > private_key
           chmod 600 private_key
-          ssh -i private_key ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd /path/to/your/docker-compose/folder && docker-compose pull && docker-compose up -d"
+          ssh -i private_key ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd /var/geogoremad && docker compose pull && docker compose up -d"
