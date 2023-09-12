@@ -29,7 +29,7 @@ export default {
     ],
   },
   css: ["@/assets/less/variables.less", "@/assets/css/global.css"],
-  plugins: ["@/plugins/ejecutor", "@/plugins/mapa", "@/plugins/ant-modal"],
+  plugins: ["@/plugins/ant-design", "@/plugins/ejecutor", "@/plugins/mapa"],
   components: true,
   buildModules: [],
   modules: ["@nuxtjs/axios", "@nuxtjs/auth-next"],

@@ -1,5 +1,5 @@
 <template>
-  <ADrawer
+  <a-drawer
     :width="esMovil ? '100%' : 400"
     :visible="estaAbiertoComparacionVentana"
     @close="cerrarComparacionVentana()"
@@ -7,12 +7,12 @@
     <span slot="title" style="text-transform: uppercase">
       <b>Comparar capas activas</b>
     </span>
-    <AFormModel
+    <a-form-model
       ref="referenciaFormulario"
       :model="formulario"
       @submit.prevent="comparar()"
     >
-      <AFormModelItem
+      <a-form-model-item
         label="Capa de la izquierda"
         prop="capaIzquierda"
         :rules="[
@@ -22,20 +22,20 @@
           },
         ]"
       >
-        <ASelect
+        <a-select
           v-model="formulario.capaIzquierda"
           placeholder="Seleccione  la capa de la izquierda"
         >
-          <ASelectOption
+          <a-select-option
             v-for="elemento in elementosActivos"
             :key="elemento.id"
             :value="elemento.id"
           >
             {{ elemento.titulo }}
-          </ASelectOption>
-        </ASelect>
-      </AFormModelItem>
-      <AFormModelItem
+          </a-select-option>
+        </a-select>
+      </a-form-model-item>
+      <a-form-model-item
         label="Capa de la derecha"
         prop="capaDerecha"
         :rules="[
@@ -45,30 +45,29 @@
           },
         ]"
       >
-        <ASelect
+        <a-select
           v-model="formulario.capaDerecha"
           placeholder="Seleccione  la capa de la derecha"
         >
-          <ASelectOption
+          <a-select-option
             v-for="elemento in elementosActivos"
             :key="elemento.id"
             :value="elemento.id"
           >
             {{ elemento.titulo }}
-          </ASelectOption>
-        </ASelect>
-      </AFormModelItem>
+          </a-select-option>
+        </a-select>
+      </a-form-model-item>
       <div>
-        <AButton html-type="submit" type="primary" icon="check" block>
+        <a-button html-type="submit" type="primary" icon="check" block>
           Comparar
-        </AButton>
+        </a-button>
       </div>
-    </AFormModel>
-  </ADrawer>
+    </a-form-model>
+  </a-drawer>
 </template>
 
 <script>
-import { Drawer, FormModel, Select, Button } from "ant-design-vue";
 import { mapState, mapActions } from "vuex";
 
 const formulario = {
@@ -77,14 +76,6 @@ const formulario = {
 };
 
 export default {
-  components: {
-    ADrawer: Drawer,
-    AFormModel: FormModel,
-    AFormModelItem: FormModel.Item,
-    ASelect: Select,
-    ASelectOption: Select.Option,
-    AButton: Button,
-  },
   data() {
     return {
       formulario: { ...formulario },

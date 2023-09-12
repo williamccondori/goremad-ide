@@ -1,14 +1,18 @@
 <template>
-  <AModal
+  <a-modal
     :title="null"
     :footer="null"
     :closable="false"
     :visible="estaAbiertoBienvenidaModal"
   >
-    <div class="cabecera">
-      <img src="/logo.png" alt="logo" />
-      <h1>GEOGOREMAD</h1>
-      <h2>Infraestructura de Datos Espaciales</h2>
+    <div style="text-align: center">
+      <img src="/logo.png" alt="logo" style="width: 8rem" />
+      <h1 style="font-size: 1rem; font-weight: bolder; color: orange">
+        GEOGOREMAD
+      </h1>
+      <h2 style="font-size: 1rem; font-weight: bolder; color: green">
+        Infraestructura de Datos Espaciales
+      </h2>
     </div>
     <div style="text-align: justify">
       <p>
@@ -25,11 +29,11 @@
         información errónea.
       </p>
     </div>
-    <ACheckbox v-model="terminosAceptados">
+    <a-checkbox v-model="terminosAceptados">
       Acepto los términos y condiciones de uso.
-    </ACheckbox>
-    <ADivider />
-    <AButton
+    </a-checkbox>
+    <a-divider />
+    <a-button
       html-type="button"
       type="primary"
       :disabled="!terminosAceptados"
@@ -37,19 +41,12 @@
       @click="cerrarModal()"
     >
       Ingresar
-    </AButton>
-  </AModal>
+    </a-button>
+  </a-modal>
 </template>
 
 <script>
-import { Modal, Checkbox, Divider, Button } from "ant-design-vue";
 export default {
-  components: {
-    AModal: Modal,
-    ACheckbox: Checkbox,
-    ADivider: Divider,
-    AButton: Button,
-  },
   data() {
     return {
       terminosAceptados: false,
@@ -63,23 +60,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.cabecera {
-  text-align: center;
-}
-.cabecera img {
-  width: 8rem;
-}
-.cabecera h1,
-.cabecera h2 {
-  font-size: 1rem;
-  font-weight: bolder;
-}
-.cabecera h1 {
-  color: orange;
-}
-.cabecera h2 {
-  color: green;
-}
-</style>
