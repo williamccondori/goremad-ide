@@ -38,108 +38,108 @@ export const state = () => ({
 
 export const actions = {
   async obtenerResumen({ commit }) {
-    const { data } = await this.$axios.get("/resumenes/");
-    commit("establecerResumen", data);
+    const { data } = await this.$axios.get('/resumenes/');
+    commit('establecerResumen', data);
   },
 
   /*----------  Capas base.  ----------*/
 
   async obtenerCapasBase({ commit }) {
-    const { data } = await this.$axios.get("/capas-base/");
-    commit("establecerCapasBase", data);
+    const { data } = await this.$axios.get('/capas-base/');
+    commit('establecerCapasBase', data);
   },
 
   /*----------  Servicios externos.  ----------*/
 
   async obtenerServiciosExternos({ commit }, incluirCapas = false) {
-    const { data } = await this.$axios.get("/servicios-externos/", {
+    const { data } = await this.$axios.get('/servicios-externos/', {
       params: { incluirCapas: incluirCapas },
     });
-    commit("establecerServiciosExternos", data);
+    commit('establecerServiciosExternos', data);
   },
 
   /*----------  Grupos de capas.  ----------*/
 
   async obtenerGruposCapas({ commit }) {
-    const { data } = await this.$axios.get("/grupos-capas/");
-    commit("establecerGruposCapas", data);
+    const { data } = await this.$axios.get('/grupos-capas/');
+    commit('establecerGruposCapas', data);
   },
   async obtenerGruposCapasEstructura({ commit }) {
-    const { data } = await this.$axios.get("/grupos-capas/estructuras/");
-    commit("establecerGruposCapasEstructura", data);
+    const { data } = await this.$axios.get('/grupos-capas/estructuras/');
+    commit('establecerGruposCapasEstructura', data);
   },
 
   /*----------  Imágenes satelitales.  ----------*/
 
   async obtenerImagenesSatelitales({ commit }) {
-    const { data } = await this.$axios.get("/imagenes-satelitales/");
-    commit("establecerImagenesSatelitales", data);
+    const { data } = await this.$axios.get('/imagenes-satelitales/');
+    commit('establecerImagenesSatelitales', data);
   },
 
   /*----------  Configuraciones.  ----------*/
 
   async obtenerUsuarios({ commit }) {
-    const { data } = await this.$axios.get("/usuarios/");
-    commit("establecerUsuarios", data);
+    const { data } = await this.$axios.get('/usuarios/');
+    commit('establecerUsuarios', data);
   },
   async obtenerConfiguraciones({ commit }) {
-    const { data } = await this.$axios.get("/configuraciones/");
-    commit("establecerConfiguraciones", data);
+    const { data } = await this.$axios.get('/configuraciones/');
+    commit('establecerConfiguraciones', data);
   },
 
   /*----------  Ventanas.  ----------*/
 
   abrirCapaBaseFormularioVentana({ commit }) {
-    commit("establecerCapaBase", undefined);
-    commit("establecerEstaAbiertoCapaBaseFormularioVentana", true);
+    commit('establecerCapaBase', undefined);
+    commit('establecerEstaAbiertoCapaBaseFormularioVentana', true);
   },
   abrirCapaBaseFormularioActualizacionVentana({ commit }, capaBase) {
-    commit("establecerCapaBase", capaBase);
-    commit("establecerEstaAbiertoCapaBaseFormularioVentana", true);
+    commit('establecerCapaBase', capaBase);
+    commit('establecerEstaAbiertoCapaBaseFormularioVentana', true);
   },
   cerrarCapaBaseFormularioVentana({ commit }) {
-    commit("establecerEstaAbiertoCapaBaseFormularioVentana", false);
+    commit('establecerEstaAbiertoCapaBaseFormularioVentana', false);
   },
   abrirServicioExternoFormularioVentana({ commit }) {
-    commit("establecerServicioExterno", undefined);
-    commit("establecerEstaAbiertoServicioExternoFormularioVentana", true);
+    commit('establecerServicioExterno', undefined);
+    commit('establecerEstaAbiertoServicioExternoFormularioVentana', true);
   },
   abrirServicioExternoFormularioActualizacionVentana(
     { commit },
     servicioExterno
   ) {
-    commit("establecerServicioExterno", servicioExterno);
-    commit("establecerEstaAbiertoServicioExternoFormularioVentana", true);
+    commit('establecerServicioExterno', servicioExterno);
+    commit('establecerEstaAbiertoServicioExternoFormularioVentana', true);
   },
   cerrarServicioExternoFormularioVentana({ commit }) {
-    commit("establecerEstaAbiertoServicioExternoFormularioVentana", false);
+    commit('establecerEstaAbiertoServicioExternoFormularioVentana', false);
   },
 
   abrirImagenSatelitalResumenVentana({ commit }, imagenSatelital) {
-    commit("establecerImagenSatelital", imagenSatelital);
-    commit("establecerEstaAbiertoImagenSatelitalResumenVentana", true);
+    commit('establecerImagenSatelital', imagenSatelital);
+    commit('establecerEstaAbiertoImagenSatelitalResumenVentana', true);
   },
   cerrarImagenSatelitalResumenVentana({ commit }) {
-    commit("establecerImagenSatelital", undefined);
-    commit("establecerEstaAbiertoImagenSatelitalResumenVentana", false);
+    commit('establecerImagenSatelital', undefined);
+    commit('establecerEstaAbiertoImagenSatelitalResumenVentana', false);
   },
   abrirUsuarioFormularioVentana({ commit }) {
-    commit("establecerUsuario", undefined);
-    commit("establecerEstaAbiertoUsuarioFormularioVentana", true);
+    commit('establecerUsuario', undefined);
+    commit('establecerEstaAbiertoUsuarioFormularioVentana', true);
   },
   abrirUsuarioFormularioActualizacionVentana({ commit }, usuario) {
-    commit("establecerUsuario", usuario);
-    commit("establecerEstaAbiertoUsuarioFormularioVentana", true);
+    commit('establecerUsuario', usuario);
+    commit('establecerEstaAbiertoUsuarioFormularioVentana', true);
   },
   cerrarUsuarioFormularioVentana({ commit }) {
-    commit("establecerEstaAbiertoUsuarioFormularioVentana", false);
+    commit('establecerEstaAbiertoUsuarioFormularioVentana', false);
   },
   abrirRolFormularioActualizacionVentana({ commit }, usuario) {
-    commit("establecerUsuario", usuario);
-    commit("establecerEstaAbiertoRolFormularioVentana", true);
+    commit('establecerUsuario', usuario);
+    commit('establecerEstaAbiertoRolFormularioVentana', true);
   },
   cerrarRolFormularioVentana({ commit }) {
-    commit("establecerEstaAbiertoRolFormularioVentana", false);
+    commit('establecerEstaAbiertoRolFormularioVentana', false);
   },
 };
 

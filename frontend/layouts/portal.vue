@@ -15,10 +15,10 @@
 </template>
 
 <script>
-import { Spin, Layout } from "ant-design-vue";
-import { mapState, mapActions } from "vuex";
-import AplicacionCabecera from "@/components/compartido/AplicacionCabecera.vue";
-import PortalMenu from "@/components/portal/compartido/PortalMenu.vue";
+import { Spin, Layout } from 'ant-design-vue';
+import { mapState, mapActions } from 'vuex';
+import AplicacionCabecera from '@/components/compartido/AplicacionCabecera.vue';
+import PortalMenu from '@/components/portal/compartido/PortalMenu.vue';
 export default {
   components: {
     ASpin: Spin,
@@ -28,15 +28,15 @@ export default {
     PortalMenu,
   },
   computed: {
-    ...mapState(["estaCargando"]),
+    ...mapState(['estaCargando']),
   },
   mounted() {
-    window.addEventListener("resize", () => {
+    window.addEventListener('resize', () => {
       this.establecerEsMovil(window.innerWidth < 720);
     });
   },
   methods: {
-    ...mapActions(["establecerEsMovil"]),
+    ...mapActions(['establecerEsMovil']),
   },
 };
 </script>

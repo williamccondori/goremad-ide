@@ -1,20 +1,20 @@
 <template>
   <ATable
     bordered
-    row-key="id"
     :columns="columnas"
     :data-source="imagenesSatelitales"
+    row-key="id"
     size="middle"
   >
     <template #acciones="id">
-      <AButton type="dashed" size="small" @click="ver(id)">
+      <AButton size="small" type="dashed" @click="ver(id)">
         <AIcon type="eye" />
       </AButton>
       <APopconfirm
         title="¿Está seguro que desea eliminar este registro, no se eliminará de GEOSERVER?"
         @confirm="eliminar(id)"
       >
-        <AButton type="dashed" size="small">
+        <AButton size="small" type="dashed">
           <AIcon type="delete" />
         </AButton>
       </APopconfirm>
@@ -23,8 +23,8 @@
 </template>
 
 <script>
-import { Table, Button, Popconfirm, Icon } from "ant-design-vue";
-import { mapState, mapActions } from "vuex";
+import { Table, Button, Popconfirm, Icon } from 'ant-design-vue';
+import { mapState, mapActions } from 'vuex';
 export default {
   components: {
     ATable: Table,
@@ -36,21 +36,21 @@ export default {
     return {
       columnas: [
         {
-          title: "Fecha",
-          dataIndex: "fecha",
-          key: "fecha",
+          title: 'Fecha',
+          dataIndex: 'fecha',
+          key: 'fecha',
         },
         {
-          title: "Identificador",
-          dataIndex: "identificador",
-          key: "identificador",
+          title: 'Identificador',
+          dataIndex: 'identificador',
+          key: 'identificador',
         },
         {
-          title: "Acciones",
-          dataIndex: "id",
-          key: "id",
+          title: 'Acciones',
+          dataIndex: 'id',
+          key: 'id',
           scopedSlots: {
-            customRender: "acciones",
+            customRender: 'acciones',
           },
         },
       ],
@@ -67,12 +67,12 @@ export default {
     }
   },
   computed: {
-    ...mapState("administrador", ["imagenesSatelitales"]),
+    ...mapState('administrador', ['imagenesSatelitales']),
   },
   methods: {
-    ...mapActions("administrador", [
-      "obtenerImagenesSatelitales",
-      "abrirImagenSatelitalResumenVentana",
+    ...mapActions('administrador', [
+      'obtenerImagenesSatelitales',
+      'abrirImagenSatelitalResumenVentana',
     ]),
     async ver(imagenSatelitalId) {
       try {

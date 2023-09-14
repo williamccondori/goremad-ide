@@ -17,10 +17,10 @@
             </div>
             <ATable
               bordered
-              row-key="clave"
-              :pagination="false"
               :columns="columnas"
               :data-source="caracteristica.propiedades"
+              :pagination="false"
+              row-key="clave"
               size="small"
             />
           </div>
@@ -31,10 +31,10 @@
 </template>
 
 <script>
-import { Tabs, Tag, Table } from "ant-design-vue";
-import { mapState } from "vuex";
-import { v4 as uuidv4 } from "uuid";
-import { LMarker, LPopup, findRealParent } from "vue2-leaflet";
+import { Tabs, Tag, Table } from 'ant-design-vue';
+import { mapState } from 'vuex';
+import { v4 as uuidv4 } from 'uuid';
+import { LMarker, LPopup, findRealParent } from 'vue2-leaflet';
 export default {
   components: {
     ATabs: Tabs,
@@ -50,30 +50,30 @@ export default {
       caracteristicas: [],
       columnas: [
         {
-          title: "Propiedad",
-          dataIndex: "clave",
-          key: "clave",
-          width: "50%",
+          title: 'Propiedad',
+          dataIndex: 'clave',
+          key: 'clave',
+          width: '50%',
         },
         {
-          title: "Valor",
-          dataIndex: "valor",
-          key: "valor",
-          width: "50%",
+          title: 'Valor',
+          dataIndex: 'valor',
+          key: 'valor',
+          width: '50%',
         },
       ],
     };
   },
   computed: {
-    ...mapState("visor", ["capas", "capasActivas"]),
+    ...mapState('visor', ['capas', 'capasActivas']),
   },
   mounted() {
     this.mapa = findRealParent(this.$parent).mapObject;
-    this.mapa.on("click", () => {
+    this.mapa.on('click', () => {
       this.posicion = undefined;
       this.caracteristicas = [];
     });
-    this.mapa.on("contextmenu", async (e) => {
+    this.mapa.on('contextmenu', async (e) => {
       this.posicion = undefined;
       this.caracteristicas = [];
       await this.obtenerCaracteristicas(e.latlng);
@@ -84,7 +84,7 @@ export default {
       const servicio = this.capas.find(
         (servicio) => servicio.servicioId === servicioId
       );
-      return servicio ? servicio.servicioTitulo : "";
+      return servicio ? servicio.servicioTitulo : '';
     },
     async obtenerCaracteristicas(latitudLongitud) {
       const servicios = {};
@@ -120,7 +120,7 @@ export default {
         const southWest = boundingBox.getSouthWest();
         const northEast = boundingBox.getNorthEast();
         const bbox = `${southWest.lng},${southWest.lat},${northEast.lng},${northEast.lat}`;
-        const srs = "EPSG:4326";
+        const srs = 'EPSG:4326';
 
         for (const servicio of serviciosAConsultar) {
           console.log(servicio);
@@ -131,33 +131,33 @@ export default {
             // Call GetFeatureInfo
             const getFeatureInfoReponse = await fetch(
               servicio.url +
-                "&version=1.1.1&request=GetFeatureInfo&layers=" +
+                '&version=1.1.1&request=GetFeatureInfo&layers=' +
                 capa +
-                "&query_layers=" +
+                '&query_layers=' +
                 capa +
-                "&styles=&bbox=" +
+                '&styles=&bbox=' +
                 bbox +
-                "&width=" +
+                '&width=' +
                 parametros.width +
-                "&height=" +
+                '&height=' +
                 parametros.height +
-                "&srs=" +
+                '&srs=' +
                 srs +
-                "&info_format=" +
-                "text/html" +
-                "&x=" +
+                '&info_format=' +
+                'text/html' +
+                '&x=' +
                 parametros.x +
-                "&y=" +
+                '&y=' +
                 parametros.y
             );
             const data = await getFeatureInfoReponse.json();
             if (data) {
-              const tempElement = document.createElement("div");
+              const tempElement = document.createElement('div');
               tempElement.innerHTML = data;
               // Recorrer todos los elementos descendientes y quitarles los atributos de estilo
-              const elementsWithStyles = tempElement.querySelectorAll("*");
+              const elementsWithStyles = tempElement.querySelectorAll('*');
               for (var i = 0; i < elementsWithStyles.length; i++) {
-                elementsWithStyles[i].removeAttribute("style");
+                elementsWithStyles[i].removeAttribute('style');
               }
               // Obtener el contenido del elemento temporal sin estilos
               const contentWithoutStyles = tempElement.innerHTML;

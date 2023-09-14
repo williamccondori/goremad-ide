@@ -1,4 +1,4 @@
-import { v4 as uuidv4 } from "uuid";
+import { v4 as uuidv4 } from 'uuid';
 
 export const state = () => ({
   /*----------  Mapa.  ----------*/
@@ -18,6 +18,10 @@ export const state = () => ({
   capasActivas: [],
   capasEstructura: [],
   capaSuperior: undefined,
+
+  capasGEOJSON: [],
+
+  informacionCapaOperativa: undefined,
 
   /*----------  Capas base.  ----------*/
 
@@ -47,169 +51,189 @@ export const state = () => ({
   estaAbiertoAyudaVentana: false,
   estaAbiertoCompartirVistaModal: false,
   estaAbiertoComparacionVentana: false,
+  estaAbiertoVentanaCapasOperables: false,
+  estaAbiertoVentanaCapasInteroperables: false,
+  estaAbiertoVentanaInformacionCapasOperables: false,
+  estaAbiertoVentanaResultadoInformacionCapasOperables: false,
 });
 
 export const actions = {
   /*----------  Mapa.  ----------*/
 
   establecerCentro({ commit }, payload) {
-    commit("establecerCentro", payload);
+    commit('establecerCentro', payload);
   },
   establecerZoom({ commit }, payload) {
-    commit("establecerZoom", payload);
+    commit('establecerZoom', payload);
   },
   establecerBounds({ commit }, bounds) {
-    commit("establecerBounds", bounds);
+    commit('establecerBounds', bounds);
   },
   establecerInformacionPosicion({ commit }, payload) {
     if (payload.latitud || payload.longitud) {
-      commit("establecerInformacionPosicionCentro", {
+      commit('establecerInformacionPosicionCentro', {
         latitud: payload.latitud,
         longitud: payload.longitud,
       });
     }
     if (payload.zoom) {
-      commit("establecerInformacionPosicionZoom", payload.zoom);
+      commit('establecerInformacionPosicionZoom', payload.zoom);
     }
   },
 
   /*----------  Capas.  ----------*/
 
   agregarCapas({ commit }, capas) {
-    commit("agregarCapas", capas);
+    commit('agregarCapas', capas);
   },
   establacerCapas({ commit }, capas) {
-    commit("establecerCapas", capas);
+    commit('establecerCapas', capas);
   },
   establecerCapasActivas({ commit }, capasActivas) {
-    commit("establecerCapasActivas", capasActivas);
+    commit('establecerCapasActivas', capasActivas);
   },
   establecerCapasEstructura({ commit }, capasEstructura) {
-    commit("establecerCapasEstructura", capasEstructura);
+    commit('establecerCapasEstructura', capasEstructura);
   },
   establecerCapaTransparencia({ commit }, capaTransparencia) {
-    commit("establecerCapaTransparencia", capaTransparencia);
+    commit('establecerCapaTransparencia', capaTransparencia);
   },
   establecerCapaSuperior({ commit }, capaSuperiorId) {
-    commit("establecerCapaSuperior", capaSuperiorId);
+    commit('establecerCapaSuperior', capaSuperiorId);
   },
   eliminarCapaActiva({ commit }, capaActivaId) {
-    commit("eliminarCapaActiva", capaActivaId);
+    commit('eliminarCapaActiva', capaActivaId);
+  },
+  agregarCapaOperativa({ commit }, capaOperativa) {
+    commit('agregarCapaOperativa', capaOperativa);
+  },
+  eliminarCapaOperativa({ commit }, nombreCapaOperativa) {
+    commit('eliminarCapaOperativa', nombreCapaOperativa);
+  },
+  establecerInformacionCapaOperativa({ commit }, informacionCapaOperativa) {
+    commit('establecerInformacionCapaOperativa', informacionCapaOperativa);
   },
 
   /*----------  Capas base.  ----------*/
 
   establecerCapasBase({ commit }, capasBase) {
-    commit("establecerCapasBase", capasBase);
+    commit('establecerCapasBase', capasBase);
   },
   establecerCapaBaseActiva({ commit }, capaBaseId) {
-    commit("establecerCapaBaseActiva", capaBaseId);
+    commit('establecerCapaBaseActiva', capaBaseId);
   },
 
   /*----------  Marcadores.  ----------*/
 
   agregarMarcador({ commit }, marcador) {
     marcador.id = uuidv4();
-    commit("agregarMarcador", marcador);
+    commit('agregarMarcador', marcador);
   },
   eliminarMarcador({ commit }, marcadorId) {
-    commit("eliminarMarcador", marcadorId);
+    commit('eliminarMarcador', marcadorId);
   },
 
   /*----------  Imagenes satelitales  ----------*/
 
   establecerImagenesSatelitales({ commit }, imagenesSatelitales) {
-    commit("establecerImagenesSatelitales", imagenesSatelitales);
+    commit('establecerImagenesSatelitales', imagenesSatelitales);
   },
   agregarImagenSatelital({ commit }, imagenSatelital) {
-    commit("agregarImagenSatelital", imagenSatelital);
+    commit('agregarImagenSatelital', imagenSatelital);
   },
 
   /*----------  Ventanas.  ----------*/
 
   abrirCapaCatalogoVentana({ commit }) {
-    commit("establecerEstaAbiertoCapaCatalogoVentana", true);
+    commit('establecerEstaAbiertoCapaCatalogoVentana', true);
   },
   cerrarCapaCatalogoVentana({ commit }) {
-    commit("establecerEstaAbiertoCapaCatalogoVentana", false);
+    commit('establecerEstaAbiertoCapaCatalogoVentana', false);
   },
   abrirCapaResumenVentana({ commit }) {
-    commit("establecerEstaAbiertoCapaResumenVentana", true);
+    commit('establecerEstaAbiertoCapaResumenVentana', true);
   },
   cerrarCapaResumenVentana({ commit }) {
-    commit("establecerEstaAbiertoCapaResumenVentana", false);
+    commit('establecerEstaAbiertoCapaResumenVentana', false);
   },
   abrirUbicacionVentana({ commit }) {
-    commit("establecerEstaAbiertoUbicacionVentana", true);
+    commit('establecerEstaAbiertoUbicacionVentana', true);
   },
   cerrarUbicacionVentana({ commit }) {
-    commit("establecerEstaAbiertoUbicacionVentana", false);
+    commit('establecerEstaAbiertoUbicacionVentana', false);
   },
   abrirCoordenadaVentana({ commit }) {
-    commit("establecerEstaAbiertoCoordenadaVentana", true);
+    commit('establecerEstaAbiertoCoordenadaVentana', true);
   },
   cerrarCoordenadaVentana({ commit }) {
-    commit("establecerEstaAbiertoCoordenadaVentana", false);
+    commit('establecerEstaAbiertoCoordenadaVentana', false);
   },
   abrirDibujoVentana({ commit }) {
-    commit("establecerEstaAbiertoDibujoVentana", true);
+    commit('establecerEstaAbiertoDibujoVentana', true);
   },
   cerrarDibujoVentana({ commit }) {
-    commit("establecerEstaAbiertoDibujoVentana", false);
+    commit('establecerEstaAbiertoDibujoVentana', false);
   },
   abrirCapaBaseCatalogoVentana({ commit }) {
-    commit("establecerEstaAbiertoCapaBaseCatalogoVentana", true);
+    commit('establecerEstaAbiertoCapaBaseCatalogoVentana', true);
   },
   cerrarCapaBaseCatalogoVentana({ commit }) {
-    commit("establecerEstaAbiertoCapaBaseCatalogoVentana", false);
+    commit('establecerEstaAbiertoCapaBaseCatalogoVentana', false);
   },
   abrirMarcadorCatalogoVentana({ commit }) {
-    commit("establecerEstaAbiertoMarcadorCatalogoVentana", true);
+    commit('establecerEstaAbiertoMarcadorCatalogoVentana', true);
   },
   cerrarMarcadorCatalogoVentana({ commit }) {
-    commit("establecerEstaAbiertoMarcadorCatalogoVentana", false);
+    commit('establecerEstaAbiertoMarcadorCatalogoVentana', false);
   },
   abrirMarcadorFormularioVentana({ commit }) {
-    commit("establecerEstaAbiertoMarcadorFormularioVentana", true);
+    commit('establecerEstaAbiertoMarcadorFormularioVentana', true);
   },
   cerrarMarcadorFormularioVentana({ commit }) {
-    commit("establecerEstaAbiertoMarcadorFormularioVentana", false);
+    commit('establecerEstaAbiertoMarcadorFormularioVentana', false);
   },
   abrirImagenSatelitalCatalogoVentana({ commit }) {
-    commit("establecerEstaAbiertoImagenSatelitalCatalogoVentana", true);
+    commit('establecerEstaAbiertoImagenSatelitalCatalogoVentana', true);
   },
   cerrarImagenSatelitalCatalogoVentana({ commit }) {
-    commit("establecerEstaAbiertoImagenSatelitalCatalogoVentana", false);
+    commit('establecerEstaAbiertoImagenSatelitalCatalogoVentana', false);
   },
   abrirImagenSatelitalBuscadorFormularioVentana({ commit }) {
     commit(
-      "establecerEstaAbiertoImagenSatelitalBuscadorFormularioVentana",
+      'establecerEstaAbiertoImagenSatelitalBuscadorFormularioVentana',
       true
     );
   },
   cerrarImagenSatelitalBuscadorFormularioVentana({ commit }) {
     commit(
-      "establecerEstaAbiertoImagenSatelitalBuscadorFormularioVentana",
+      'establecerEstaAbiertoImagenSatelitalBuscadorFormularioVentana',
       false
     );
   },
   abrirAyudaVentana({ commit }) {
-    commit("establecerEstaAbiertoAyudaVentana", true);
+    commit('establecerEstaAbiertoAyudaVentana', true);
   },
   cerrarAyudaVentana({ commit }) {
-    commit("establecerEstaAbiertoAyudaVentana", false);
+    commit('establecerEstaAbiertoAyudaVentana', false);
   },
   abrirCompartirVistaModal({ commit }) {
-    commit("establecerEstaAbiertoCompartirVistaModal", true);
+    commit('establecerEstaAbiertoCompartirVistaModal', true);
   },
   cerrarCompartirVistaModal({ commit }) {
-    commit("establecerEstaAbiertoCompartirVistaModal", false);
+    commit('establecerEstaAbiertoCompartirVistaModal', false);
   },
   abrirComparacionVentana({ commit }) {
-    commit("establecerEstaAbiertoComparacionVentana", true);
+    commit('establecerEstaAbiertoComparacionVentana', true);
   },
   cerrarComparacionVentana({ commit }) {
-    commit("establecerEstaAbiertoComparacionVentana", false);
+    commit('establecerEstaAbiertoComparacionVentana', false);
+  },
+
+  abrirVentana({ commit }, ventana) {
+    commit(`establecerEstaAbiertoVentana`, { ventana, estaAbierto: true });
+  },
+  cerrarVentana({ commit }, ventana) {
+    commit(`establecerEstaAbiertoVentana`, { ventana, estaAbierto: false });
   },
 };
 
@@ -259,6 +283,23 @@ export const mutations = {
     state.capasActivas = state.capasActivas.filter(
       (capaActiva) => capaActiva !== capaId
     );
+  },
+  agregarCapaOperativa(state, capaOperativa) {
+    const existe = state.capasGEOJSON.find(
+      (capa) => capa.id === capaOperativa.id
+    );
+    if (!existe) {
+      state.capasGEOJSON.push(capaOperativa);
+    }
+  },
+  eliminarCapaOperativa(state, nombreCapaOperativa) {
+    state.capasGEOJSON = state.capasGEOJSON.filter(
+      (capa) => capa.nombre !== nombreCapaOperativa
+    );
+  },
+
+  establecerInformacionCapaOperativa(state, informacionCapaOperativa) {
+    state.informacionCapaOperativa = informacionCapaOperativa;
   },
 
   /*----------  Capas base.  ----------*/
@@ -333,5 +374,10 @@ export const mutations = {
   },
   establecerEstaAbiertoComparacionVentana(state, payload) {
     state.estaAbiertoComparacionVentana = payload;
+  },
+
+  establecerEstaAbiertoVentana(state, payload) {
+    const nombreEstado = `estaAbiertoVentana${payload.ventana}`;
+    state[nombreEstado] = payload.estaAbierto;
   },
 };

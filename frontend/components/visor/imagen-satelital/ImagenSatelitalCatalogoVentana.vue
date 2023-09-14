@@ -1,25 +1,25 @@
 <template>
   <ADrawer
-    :width="esMovil ? '100%' : 400"
     :visible="estaAbiertoImagenSatelitalCatalogoVentana"
+    :width="esMovil ? '100%' : 400"
     @close="cerrarImagenSatelitalCatalogoVentana()"
   >
     <span slot="title" style="text-transform: uppercase">
       <b>Imágenes satelitales</b>
     </span>
-    <ASpace direction="vertical" class="app--w-100">
+    <ASpace class="app--w-100" direction="vertical">
       <AButton
         block
-        type="primary"
         icon="search"
+        type="primary"
         @click="abrirImagenSatelitalBuscadorFormularioVentana()"
       >
         Buscar imágenes satelitales
       </AButton>
       <AAlert
-        show-icon
-        message="Información"
         description="Para visualizar las imágenes satelitales disponibles habla clic en el botón (Buscar imágenes satelitales)."
+        message="Información"
+        show-icon
       />
       <AList :data-source="imagenesSatelitales">
         <AListItem
@@ -27,15 +27,15 @@
           slot-scope="imagenSatelital"
           class="elemento-lista"
         >
-          <ASpace direction="vertical" class="app--w-100">
+          <ASpace class="app--w-100" direction="vertical">
             <AListItemMeta
-              :title="imagenSatelital.identificador"
               :description="`Detalles: ${imagenSatelital.descripcion}`"
+              :title="imagenSatelital.identificador"
             >
               <AAvatar
                 slot="avatar"
-                shape="square"
                 icon="picture"
+                shape="square"
                 :style="{
                   backgroundColor: '#87d068',
                 }"
@@ -43,24 +43,24 @@
             </AListItemMeta>
             <ASpace class="app--w-100">
               <AButton
-                size="small"
                 :icon="obtenerTipoIcono(imagenSatelital.rgb)"
+                size="small"
                 :type="obtenerTipoBoton(imagenSatelital.rgb)"
                 @click="mostrarImagenSatelital(imagenSatelital.rgb)"
               >
                 RGB
               </AButton>
               <AButton
-                size="small"
                 :icon="obtenerTipoIcono(imagenSatelital.ndvi)"
+                size="small"
                 :type="obtenerTipoBoton(imagenSatelital.ndvi)"
                 @click="mostrarImagenSatelital(imagenSatelital.ndvi)"
               >
                 NDVI
               </AButton>
               <AButton
-                size="small"
                 :icon="obtenerTipoIcono(imagenSatelital.ndwi)"
+                size="small"
                 :type="obtenerTipoBoton(imagenSatelital.ndwi)"
                 @click="mostrarImagenSatelital(imagenSatelital.ndwi)"
               >
@@ -76,9 +76,9 @@
 </template>
 
 <script>
-import { Drawer, Button, Alert, List, Avatar, Space } from "ant-design-vue";
-import { mapState, mapActions } from "vuex";
-import ImagenSatelitalBuscadorFormulario from "@/components/visor/imagen-satelital/ImagenSatelitalBuscadorFormulario.vue";
+import { Drawer, Button, Alert, List, Avatar, Space } from 'ant-design-vue';
+import { mapState, mapActions } from 'vuex';
+import ImagenSatelitalBuscadorFormulario from '@/components/visor/imagen-satelital/ImagenSatelitalBuscadorFormulario.vue';
 export default {
   components: {
     ADrawer: Drawer,
@@ -92,19 +92,19 @@ export default {
     ImagenSatelitalBuscadorFormulario,
   },
   computed: {
-    ...mapState(["esMovil"]),
-    ...mapState("visor", [
-      "estaAbiertoImagenSatelitalCatalogoVentana",
-      "imagenesSatelitales",
-      "capas",
-      "capasActivas",
+    ...mapState(['esMovil']),
+    ...mapState('visor', [
+      'estaAbiertoImagenSatelitalCatalogoVentana',
+      'imagenesSatelitales',
+      'capas',
+      'capasActivas',
     ]),
   },
   methods: {
-    ...mapActions("visor", [
-      "cerrarImagenSatelitalCatalogoVentana",
-      "abrirImagenSatelitalBuscadorFormularioVentana",
-      "establecerCapasActivas",
+    ...mapActions('visor', [
+      'cerrarImagenSatelitalCatalogoVentana',
+      'abrirImagenSatelitalBuscadorFormularioVentana',
+      'establecerCapasActivas',
     ]),
     mostrarImagenSatelital(imagenSatelitalId) {
       const existe = this.capasActivas.includes(imagenSatelitalId);
@@ -118,13 +118,13 @@ export default {
     },
     obtenerTipoIcono(imagenSatelitalId) {
       return this.capasActivas.includes(imagenSatelitalId)
-        ? "eye-invisible"
-        : "eye";
+        ? 'eye-invisible'
+        : 'eye';
     },
     obtenerTipoBoton(imagenSatelitalId) {
       return this.capasActivas.includes(imagenSatelitalId)
-        ? "danger"
-        : "dashed";
+        ? 'danger'
+        : 'dashed';
     },
   },
 };

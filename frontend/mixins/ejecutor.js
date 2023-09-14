@@ -1,9 +1,9 @@
-import { mapActions } from "vuex";
-import { notification } from "ant-design-vue";
+import { mapActions } from 'vuex';
+import { notification } from 'ant-design-vue';
 
 export default {
   methods: {
-    ...mapActions(["establecerCargando"]),
+    ...mapActions(['establecerCargando']),
     /**
      * Muestra el indicador de carga en la interfaz.
      */
@@ -22,14 +22,14 @@ export default {
      */
     $mostrarMensajeCorrecto(mensaje) {
       notification.success({
-        message: "Correcto",
-        description: mensaje ?? "El proceso se realizó correctamente",
+        message: 'Correcto',
+        description: mensaje ?? 'El proceso se realizó correctamente',
       });
     },
     $mostrarMensajeAdvertencia(mensaje) {
       notification.warning({
-        message: "Advertencia",
-        description: mensaje ?? "El proceso se realizó con advertencias",
+        message: 'Advertencia',
+        description: mensaje ?? 'El proceso se realizó con advertencias',
       });
     },
     /**
@@ -56,12 +56,12 @@ export default {
      */
     obtenerMensajeError(mensaje, codigoError) {
       const errores = {
-        400: "Verifique los datos ingresados",
-        401: "Las credenciales proporcionadas no son válidas",
-        404: "El recurso solicitado no existe",
-        422: "Verifique los datos ingresados",
+        400: 'Verifique los datos ingresados',
+        401: 'Las credenciales proporcionadas no son válidas',
+        404: 'El recurso solicitado no existe',
+        422: 'Verifique los datos ingresados',
       };
-      return mensaje ?? errores[codigoError] ?? "Ocurrió un error inesperado";
+      return mensaje ?? errores[codigoError] ?? 'Ocurrió un error inesperado';
     },
   },
 };

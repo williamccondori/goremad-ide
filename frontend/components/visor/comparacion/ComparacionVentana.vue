@@ -1,7 +1,7 @@
 <template>
   <a-drawer
-    :width="esMovil ? '100%' : 400"
     :visible="estaAbiertoComparacionVentana"
+    :width="esMovil ? '100%' : 400"
     @close="cerrarComparacionVentana()"
   >
     <span slot="title" style="text-transform: uppercase">
@@ -59,7 +59,7 @@
         </a-select>
       </a-form-model-item>
       <div>
-        <a-button html-type="submit" type="primary" icon="check" block>
+        <a-button block html-type="submit" icon="check" type="primary">
           Comparar
         </a-button>
       </div>
@@ -68,7 +68,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from 'vuex';
 
 const formulario = {
   capaIzquierda: undefined,
@@ -82,11 +82,11 @@ export default {
     };
   },
   computed: {
-    ...mapState(["esMovil"]),
-    ...mapState("visor", [
-      "estaAbiertoComparacionVentana",
-      "capas",
-      "capasActivas",
+    ...mapState(['esMovil']),
+    ...mapState('visor', [
+      'estaAbiertoComparacionVentana',
+      'capas',
+      'capasActivas',
     ]),
     elementosActivos() {
       return this.capas.filter((capa) => this.capasActivas.includes(capa.id));
@@ -101,7 +101,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions("visor", ["cerrarComparacionVentana"]),
+    ...mapActions('visor', ['cerrarComparacionVentana']),
     comparar() {
       this.$refs.referenciaFormulario?.validate((valid) => {
         if (valid) {
@@ -109,7 +109,7 @@ export default {
             this.$iniciarCarga();
             if (this.formulario.capaIzquierda === this.formulario.capaDerecha) {
               this.$mostrarMensajeAdvertencia(
-                "No puede comparar la misma capa en ambas posiciones"
+                'No puede comparar la misma capa en ambas posiciones'
               );
               return;
             }

@@ -4,11 +4,11 @@
     :model="formulario"
     @submit.prevent="guardar"
   >
-    <ARow :gutter="16" type="flex" justify="center">
-      <ACol :xs="24" :md="12" :xxl="6">
+    <ARow :gutter="16" justify="center" type="flex">
+      <ACol :md="12" :xs="24" :xxl="6">
         <AFormModelItem
-          prop="nombreEmpresa"
           label="Nombre de la empresa:"
+          prop="nombreEmpresa"
           :rules="[
             {
               required: true,
@@ -22,8 +22,8 @@
           />
         </AFormModelItem>
         <AFormModelItem
-          prop="latitudInicial"
           label="Latitud inicial:"
+          prop="latitudInicial"
           :rules="[
             {
               required: true,
@@ -34,15 +34,15 @@
           <AInputNumber
             v-model="formulario.latitudInicial"
             class="app--w-100"
+            :max="180"
+            :min="-180"
             :precision="6"
             :step="0.000001"
-            :min="-180"
-            :max="180"
           />
         </AFormModelItem>
         <AFormModelItem
-          prop="longitudInicial"
           label="Longitud inicial:"
+          prop="longitudInicial"
           :rules="[
             {
               required: true,
@@ -53,17 +53,17 @@
           <AInputNumber
             v-model="formulario.longitudInicial"
             class="app--w-100"
+            :max="180"
+            :min="-180"
             :precision="6"
             :step="0.000001"
-            :min="-180"
-            :max="180"
           />
         </AFormModelItem>
       </ACol>
-      <ACol :xs="24" :md="12" :xxl="6">
+      <ACol :md="12" :xs="24" :xxl="6">
         <AFormModelItem
-          prop="zoomInicial"
           label="Zoom inicial:"
+          prop="zoomInicial"
           :rules="[
             {
               required: true,
@@ -74,12 +74,12 @@
           <AInputNumber
             v-model="formulario.zoomInicial"
             class="app--w-100"
-            placeholder="Zoom inicial"
-            :min="0"
             :max="18"
+            :min="0"
+            placeholder="Zoom inicial"
           />
         </AFormModelItem>
-        <AFormModelItem prop="capaBaseInicialId" label="Capa base inicial:">
+        <AFormModelItem label="Capa base inicial:" prop="capaBaseInicialId">
           <ASelect
             v-model="formulario.capaBaseInicialId"
             :allow-clear="true"
@@ -95,8 +95,8 @@
           </ASelect>
         </AFormModelItem>
         <AFormModelItem
-          prop="serviciosExternosActivosIds"
           label="Servicios externos activos:"
+          prop="serviciosExternosActivosIds"
         >
           <ASelect
             v-model="formulario.serviciosExternosActivos"
@@ -114,10 +114,10 @@
         </AFormModelItem>
       </ACol>
     </ARow>
-    <ARow type="flex" justify="center">
+    <ARow justify="center" type="flex">
       <ACol :xs="24" :xxl="12">
         <div>
-          <AButton block html-type="submit" type="primary" icon="save">
+          <AButton block html-type="submit" icon="save" type="primary">
             Actualizar variables
           </AButton>
         </div>
@@ -135,11 +135,11 @@ import {
   Button,
   Row,
   Col,
-} from "ant-design-vue";
-import { mapState, mapActions } from "vuex";
+} from 'ant-design-vue';
+import { mapState, mapActions } from 'vuex';
 
 const formulario = {
-  nombreEmpresa: "",
+  nombreEmpresa: '',
   latitudInicial: 0,
   longitudInicial: 0,
   zoomInicial: 0,
@@ -177,18 +177,18 @@ export default {
     }
   },
   computed: {
-    ...mapState(["esMovil"]),
-    ...mapState("administrador", [
-      "capasBase",
-      "configuraciones",
-      "serviciosExternos",
+    ...mapState(['esMovil']),
+    ...mapState('administrador', [
+      'capasBase',
+      'configuraciones',
+      'serviciosExternos',
     ]),
   },
   methods: {
-    ...mapActions("administrador", [
-      "obtenerCapasBase",
-      "obtenerConfiguraciones",
-      "obtenerServiciosExternos",
+    ...mapActions('administrador', [
+      'obtenerCapasBase',
+      'obtenerConfiguraciones',
+      'obtenerServiciosExternos',
     ]),
     async actualizarFormulario() {
       await this.obtenerConfiguraciones();
@@ -197,24 +197,24 @@ export default {
         ...configuracion,
       }));
       configuraciones.forEach((configuracion) => {
-        if (configuracion.valor === null || configuracion.valor === "") {
+        if (configuracion.valor === null || configuracion.valor === '') {
           configuracion.valor = undefined;
         }
       });
       const nombreEmpresa = configuraciones.find(
-        (configuracion) => configuracion.nombre === "nombre_empresa"
+        (configuracion) => configuracion.nombre === 'nombre_empresa'
       )?.valor;
       const latitudInicial = configuraciones.find(
-        (configuracion) => configuracion.nombre === "latitud_inicial"
+        (configuracion) => configuracion.nombre === 'latitud_inicial'
       )?.valor;
       const longitudInicial = configuraciones.find(
-        (configuracion) => configuracion.nombre === "longitud_inicial"
+        (configuracion) => configuracion.nombre === 'longitud_inicial'
       )?.valor;
       const zoomInicial = configuraciones.find(
-        (configuracion) => configuracion.nombre === "zoom_inicial"
+        (configuracion) => configuracion.nombre === 'zoom_inicial'
       )?.valor;
       const capaBaseInicialId = configuraciones.find(
-        (configuracion) => configuracion.nombre === "capa_base_incial_id"
+        (configuracion) => configuracion.nombre === 'capa_base_incial_id'
       )?.valor;
       this.formulario.nombreEmpresa = nombreEmpresa;
       this.formulario.latitudInicial = latitudInicial;
@@ -223,10 +223,10 @@ export default {
       this.formulario.capaBaseInicialId = capaBaseInicialId;
       // Los servicios externos manejan un tratamiento especial.
       const serviciosExternosActivos = this.configuraciones.find(
-        (configuracion) => configuracion.nombre === "servicios_externos_activos"
+        (configuracion) => configuracion.nombre === 'servicios_externos_activos'
       )?.valor;
       this.formulario.serviciosExternosActivos =
-        serviciosExternosActivos?.split(",") ?? [];
+        serviciosExternosActivos?.split(',') ?? [];
     },
     guardar() {
       this.$refs.referenciaFormulario?.validate(async (valid) => {
@@ -236,7 +236,7 @@ export default {
             // Se valida el contenido de las capas base.
             if (
               this.formulario.capaBaseInicialId === null ||
-              this.formulario.capaBaseInicialId === ""
+              this.formulario.capaBaseInicialId === ''
             ) {
               this.formulario.capaBaseInicialId = undefined;
             }
@@ -245,7 +245,7 @@ export default {
               this.formulario.serviciosExternosActivos = undefined;
             } else {
               this.formulario.serviciosExternosActivos =
-                this.formulario.serviciosExternosActivos.join(",");
+                this.formulario.serviciosExternosActivos.join(',');
             }
             await this.$axios.put(`/configuraciones/`, { ...this.formulario });
             await this.actualizarFormulario();

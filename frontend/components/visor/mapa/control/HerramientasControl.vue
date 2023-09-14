@@ -1,65 +1,67 @@
 <template>
   <LControl>
     <div class="herramientas-control">
-      <AButton type="dashed" title="Capas" @click="abrirCapaCatalogoVentana()">
+      <a-button title="Capas" type="dashed" @click="abrirCapaCatalogoVentana()">
         <i class="bx bx-layer" />
-      </AButton>
-      <AButton type="dashed" title="Leyenda" @click="abrirCapaResumenVentana()">
-        <i class="bx bx-label" />
-      </AButton>
-      <AButton
+      </a-button>
+      <a-button
+        title="Leyenda"
         type="dashed"
+        @click="abrirCapaResumenVentana()"
+      >
+        <i class="bx bx-label" />
+      </a-button>
+      <a-button
         title="Capas base"
+        type="dashed"
         @click="abrirCapaBaseCatalogoVentana()"
       >
         <i class="bx bx-map-alt" />
-      </AButton>
-      <AButton
-        type="dashed"
+      </a-button>
+      <a-button
         title="Interoperabilidad"
+        type="dashed"
         @click="abrirWebMapServiceFormularioVentana()"
       >
         <i class="bx bx-globe" />
-      </AButton>
-      <AButton type="dashed" title="Subir información">
+      </a-button>
+      <a-button title="Subir información" type="dashed">
         <i class="bx bx-upload" />
-      </AButton>
-      <AButton type="dashed" title="Descargar información">
+      </a-button>
+      <a-button title="Descargar información" type="dashed">
         <i class="bx bx-download" />
-      </AButton>
-      <AButton
-        type="dashed"
+      </a-button>
+      <a-button
         title="Imágenes satelitales"
+        type="dashed"
         @click="abrirImagenSatelitalCatalogoVentana()"
       >
         <i class="bx bx-images" />
-      </AButton>
-      <AButton type="primary" title="Portal" @click="abrirPortalInformacion()">
+      </a-button>
+      <a-button title="Portal" type="primary" @click="abrirPortalInformacion()">
         <i class="bx bx-book" />
-      </AButton>
+      </a-button>
     </div>
   </LControl>
 </template>
 
 <script>
-import { Button } from "ant-design-vue";
-import { mapActions } from "vuex";
-import { LControl } from "vue2-leaflet";
+import { mapActions } from 'vuex';
+import { LControl } from 'vue2-leaflet';
 export default {
   components: {
-    AButton: Button,
     LControl,
   },
   methods: {
-    ...mapActions("visor", [
-      "abrirCapaCatalogoVentana",
-      "abrirCapaResumenVentana",
-      "abrirCapaBaseCatalogoVentana",
-      "abrirWebMapServiceFormularioVentana",
-      "abrirImagenSatelitalCatalogoVentana",
+    ...mapActions('visor', [
+      'abrirCapaCatalogoVentana',
+      'abrirCapaResumenVentana',
+      'abrirCapaBaseCatalogoVentana',
+      'abrirWebMapServiceFormularioVentana',
+      'abrirImagenSatelitalCatalogoVentana',
     ]),
     abrirPortalInformacion() {
-      this.$router.push("/portal");
+      this.$router.push('/portal');
     },
   },
 };

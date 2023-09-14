@@ -5,27 +5,27 @@
       :key="elemento.id"
       :attribution="elemento.atribucion"
       :base-url="elemento.url"
+      format="image/png"
+      layer-type="layer"
       :layers="elemento.nombre"
       :name="elemento.titulo"
       :opacity="elemento.transparencia"
       :transparent="true"
       :visible="true"
       :z-index="1"
-      format="image/png"
-      layer-type="layer"
     />
   </div>
 </template>
 
 <script>
-import { mapState } from "vuex";
-import { LWMSTileLayer } from "vue2-leaflet";
+import { mapState } from 'vuex';
+import { LWMSTileLayer } from 'vue2-leaflet';
 export default {
   components: {
     LWMSTileLayer,
   },
   computed: {
-    ...mapState("visor", ["capas", "capasActivas", "capaSuperior"]),
+    ...mapState('visor', ['capas', 'capasActivas', 'capaSuperior']),
     elementosActivos() {
       return this.capas.filter((elemento) =>
         this.capasActivas.includes(elemento.id)

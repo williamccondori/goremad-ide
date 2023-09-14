@@ -1,35 +1,35 @@
 <template>
   <AdministracionPagina>
-    <ASpace direction="vertical" class="app--w-100">
+    <ASpace class="app--w-100" direction="vertical">
       <AAlert
-        type="success"
-        message="¡Bienvenido al módulo de administración del GEOGOREMAD!"
-        description="Módulo de administración de contenidos de la plataforma geoespacial GEOGOREMAD."
         :closable="false"
+        description="Módulo de administración de contenidos de la plataforma geoespacial GEOGOREMAD."
+        message="¡Bienvenido al módulo de administración del GEOGOREMAD!"
+        type="success"
       />
       <div v-if="resumen" class="contenedor">
         <ACard hoverable>
           <AStatistic
-            :value="resumen.totalServiciosLocales"
             title="Total de servicios locales"
+            :value="resumen.totalServiciosLocales"
           />
         </ACard>
         <ACard hoverable>
           <AStatistic
-            :value="resumen.totalCapasBase"
             title="Total de capas base"
+            :value="resumen.totalCapasBase"
           />
         </ACard>
         <ACard hoverable>
           <AStatistic
-            :value="resumen.totalServiciosExternos"
             title="Total de servicios externos"
+            :value="resumen.totalServiciosExternos"
           />
         </ACard>
         <ACard hoverable>
           <AStatistic
-            :value="resumen.totalUsuarios"
             title="Total de usuarios"
+            :value="resumen.totalUsuarios"
           />
         </ACard>
       </div>
@@ -38,9 +38,9 @@
 </template>
 
 <script>
-import { Card, Statistic, Space, Alert } from "ant-design-vue";
-import { mapState, mapActions } from "vuex";
-import AdministracionPagina from "@/components/administrador/compartido/AdministracionPagina.vue";
+import { Card, Statistic, Space, Alert } from 'ant-design-vue';
+import { mapState, mapActions } from 'vuex';
+import AdministracionPagina from '@/components/administrador/compartido/AdministracionPagina.vue';
 export default {
   components: {
     ACard: Card,
@@ -49,7 +49,7 @@ export default {
     AAlert: Alert,
     AdministracionPagina,
   },
-  layout: "administrador",
+  layout: 'administrador',
   async fetch() {
     try {
       this.$iniciarCarga();
@@ -61,10 +61,10 @@ export default {
     }
   },
   computed: {
-    ...mapState("administrador", ["resumen"]),
+    ...mapState('administrador', ['resumen']),
   },
   methods: {
-    ...mapActions("administrador", ["obtenerResumen"]),
+    ...mapActions('administrador', ['obtenerResumen']),
   },
 };
 </script>

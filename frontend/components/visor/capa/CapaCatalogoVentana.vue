@@ -1,7 +1,7 @@
 <template>
   <ADrawer
-    :width="esMovil ? '100%' : 400"
     :visible="estaAbiertoCapaCatalogoVentana"
+    :width="esMovil ? '100%' : 400"
     @close="cerrarCapaCatalogoVentana()"
   >
     <span slot="title" style="text-transform: uppercase">
@@ -10,25 +10,25 @@
     <ATabs type="card">
       <ATabPane key="operables" tab="Capas">
         <ATree
+          :check-strictly="false"
           checkable
-          style="overflow-x: auto"
+          :default-checked-keys="capasActivas"
+          :default-expanded-keys="capasActivas"
           :replace-fields="{
             key: 'id',
             title: 'label',
           }"
-          :tree-data="capasEstructura"
-          :default-checked-keys="capasActivas"
-          :default-expanded-keys="capasActivas"
-          :show-line="true"
           :selectable="false"
-          :check-strictly="false"
+          :show-line="true"
+          style="overflow-x: auto"
+          :tree-data="capasEstructura"
           @check="seleccionarCapa"
         />
       </ATabPane>
       <ATabPane key="interoperables" tab="Capas interoperables">
         <AAlert
-          message="Característica en construcción"
           description="Esta característica está en construcción. Pronto estará disponible."
+          message="Característica en construcción"
           type="warning"
         />
         <!-- <a-tree
@@ -52,8 +52,8 @@
 </template>
 
 <script>
-import { Drawer, Tabs, Alert, Tree } from "ant-design-vue";
-import { mapState, mapActions } from "vuex";
+import { Drawer, Tabs, Alert, Tree } from 'ant-design-vue';
+import { mapState, mapActions } from 'vuex';
 export default {
   components: {
     ADrawer: Drawer,
@@ -63,22 +63,22 @@ export default {
     ATree: Tree,
   },
   computed: {
-    ...mapState(["esMovil"]),
-    ...mapState("visor", [
-      "estaAbiertoCapaCatalogoVentana",
-      "capasEstructura",
-      "capas",
-      "capasActivas",
-      "capasInteroperablesEstructura",
-      "capasInteroperablesActivas",
-      "capasInteroperables",
+    ...mapState(['esMovil']),
+    ...mapState('visor', [
+      'estaAbiertoCapaCatalogoVentana',
+      'capasEstructura',
+      'capas',
+      'capasActivas',
+      'capasInteroperablesEstructura',
+      'capasInteroperablesActivas',
+      'capasInteroperables',
     ]),
   },
   methods: {
-    ...mapActions("visor", [
-      "cerrarCapaCatalogoVentana",
-      "establecerCapasInteroperablesActivas",
-      "establecerCapasActivas",
+    ...mapActions('visor', [
+      'cerrarCapaCatalogoVentana',
+      'establecerCapasInteroperablesActivas',
+      'establecerCapasActivas',
     ]),
     onCheck({ checked }) {
       const capasInteroperablesSeleccinadas = checked.filter((elemento) => {

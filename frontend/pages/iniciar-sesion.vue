@@ -2,7 +2,7 @@
   <div class="pagina-principal">
     <ACard shadow="never" :style="{ width: esMovil ? '100%' : '400px' }">
       <div style="text-align: center">
-        <img src="/logo.png" alt="logo" width="150" />
+        <img alt="logo" src="/logo.png" width="150" />
       </div>
       <ADivider />
       <InicioSesionFormulario />
@@ -11,14 +11,14 @@
 </template>
 
 <script>
-import { Card, Divider } from "ant-design-vue";
-import { mapState } from "vuex";
-import InicioSesionFormulario from "@/components/administrador/inicio-sesion/InicioSesionFormulario.vue";
+import { Card, Divider } from 'ant-design-vue';
+import { mapState } from 'vuex';
+import InicioSesionFormulario from '@/components/administrador/inicio-sesion/InicioSesionFormulario.vue';
 export default {
   components: { ACard: Card, ADivider: Divider, InicioSesionFormulario },
-  layout: "administrador",
+  layout: 'administrador',
   computed: {
-    ...mapState(["esMovil"]),
+    ...mapState(['esMovil']),
   },
 };
 </script>

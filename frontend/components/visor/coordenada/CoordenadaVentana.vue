@@ -1,8 +1,8 @@
 <template>
   <ADrawer
     placement="left"
-    :width="esMovil ? '100%' : 400"
     :visible="estaAbiertoCoordenadaVentana"
+    :width="esMovil ? '100%' : 400"
     @close="cerrarCoordenadaVentana()"
   >
     <span slot="title" style="text-transform: uppercase">
@@ -104,7 +104,7 @@
           placeholder="Ingrese el término de búsqueda"
         />
       </AFormModelItem>
-      <AButton html-type="submit" type="primary" icon="search" block>
+      <AButton block html-type="submit" icon="search" type="primary">
         Buscar
       </AButton>
     </AFormModel>
@@ -112,19 +112,19 @@
 </template>
 
 <script>
-import { Drawer, FormModel, Input, Button, Select } from "ant-design-vue";
-import { mapState, mapActions } from "vuex";
+import { Drawer, FormModel, Input, Button, Select } from 'ant-design-vue';
+import { mapState, mapActions } from 'vuex';
 
 const formulario = {
-  proyeccion: "latlong",
-  datum: "WGS84",
+  proyeccion: 'latlong',
+  datum: 'WGS84',
   zona: 17,
   x: 0,
   y: 0,
 };
 
-const datumsLatLong = [{ codigo: "WGS84", etiqueta: "WGS84" }];
-const datumsUtm = [{ codigo: "PSAD56", etiqueta: "PSAD56" }];
+const datumsLatLong = [{ codigo: 'WGS84', etiqueta: 'WGS84' }];
+const datumsUtm = [{ codigo: 'PSAD56', etiqueta: 'PSAD56' }];
 
 export default {
   components: {
@@ -143,8 +143,8 @@ export default {
     };
   },
   computed: {
-    ...mapState(["esMovil"]),
-    ...mapState("visor", ["estaAbiertoCoordenadaVentana"]),
+    ...mapState(['esMovil']),
+    ...mapState('visor', ['estaAbiertoCoordenadaVentana']),
   },
   watch: {
     estaAbiertoCoordenadaVentana(valor) {
@@ -154,17 +154,17 @@ export default {
     },
   },
   methods: {
-    ...mapActions("visor", [
-      "cerrarCoordenadaVentana",
-      "establecerCentro",
-      "establecerZoom",
+    ...mapActions('visor', [
+      'cerrarCoordenadaVentana',
+      'establecerCentro',
+      'establecerZoom',
     ]),
     buscar() {
       this.$refs.referenciaFormulario?.validate(async (valid) => {
         if (valid) {
           try {
             this.$iniciarCarga();
-            const { data } = await this.$axios.get("/visor/coordenadas/", {
+            const { data } = await this.$axios.get('/visor/coordenadas/', {
               params: this.formulario,
             });
             this.establecerCentro([data.latitud, data.longitud]);
@@ -184,12 +184,12 @@ export default {
     },
     cambiarProyeccion() {
       const { proyeccion } = this.formulario;
-      if (proyeccion === "utm") {
+      if (proyeccion === 'utm') {
         this.datums = datumsUtm;
-        this.formulario.datum = "PSAD56";
+        this.formulario.datum = 'PSAD56';
       } else {
         this.datums = datumsLatLong;
-        this.formulario.datum = "WGS84";
+        this.formulario.datum = 'WGS84';
       }
     },
   },

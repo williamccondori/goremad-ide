@@ -6,6 +6,7 @@ root = true
 # Configuración por defecto: codificación UTF-8, nueva línea al final del archivo,
 # y una sangría de 2 espacios
 [*]
+end_of_line = lf
 charset = utf-8
 indent_style = space
 indent_size = 2

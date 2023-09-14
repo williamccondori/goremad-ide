@@ -18,7 +18,7 @@
         placeholder="Ingrese el nombre de usuario"
       >
         <template #prefix>
-          <AIcon type="user" style="color: gray" />
+          <AIcon style="color: gray" type="user" />
         </template>
       </AInput>
     </AFormModelItem>
@@ -36,12 +36,12 @@
         placeholder="Ingrese la contraseña de usuario"
       >
         <template #prefix>
-          <AIcon type="key" style="color: gray" />
+          <AIcon style="color: gray" type="key" />
         </template>
       </AInputPassword>
     </AFormModelItem>
     <div>
-      <AButton html-type="submit" type="primary" block>
+      <AButton block html-type="submit" type="primary">
         Iniciar sesión
       </AButton>
       <ADivider />
@@ -53,11 +53,11 @@
 </template>
 
 <script>
-import { FormModel, Input, Icon, Button, Divider } from "ant-design-vue";
+import { FormModel, Input, Icon, Button, Divider } from 'ant-design-vue';
 
 const formulario = {
-  username: "",
-  password: "",
+  username: '',
+  password: '',
 };
 
 export default {
@@ -82,9 +82,9 @@ export default {
           try {
             this.$iniciarCarga();
             const formulario = new FormData();
-            formulario.append("username", this.formulario.username);
-            formulario.append("password", this.formulario.password);
-            await this.$auth.loginWith("local", {
+            formulario.append('username', this.formulario.username);
+            formulario.append('password', this.formulario.password);
+            await this.$auth.loginWith('local', {
               data: formulario,
             });
           } catch (error) {

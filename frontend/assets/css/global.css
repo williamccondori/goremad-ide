@@ -1,7 +1,7 @@
 /*=============================================
 =            Configuracion principal.            =
 =============================================*/
-@import url("https://fonts.googleapis.com/css2?family=Quattrocento+Sans:wght@400;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Quattrocento+Sans:wght@400;700&display=swap');
 
 :root {
   --color-primario: green;
@@ -9,7 +9,7 @@
 }
 
 * {
-  font-family: "Quattrocento Sans", sans-serif;
+  font-family: 'Quattrocento Sans', sans-serif;
 }
 
 body {
@@ -481,4 +481,20 @@ h2 {
 
 .app--borde-glass {
   box-shadow: rgb(1 41 112 / 10%) 0px 2px 20px;
+}
+
+.leaflet-top {
+  top: 4rem;
+}
+.ant-table-body {
+  overflow-x: scroll;
+}
+.ant-table-column-title {
+  font-weight: bolder;
+}
+.ant-table-small > .ant-table-content > .ant-table-body {
+  margin: 0;
+}
+.collapsePanelSinBordes > .ant-collapse-content > .ant-collapse-content-box {
+  padding: 0;
 }

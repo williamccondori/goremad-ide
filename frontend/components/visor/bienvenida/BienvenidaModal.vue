@@ -1,12 +1,12 @@
 <template>
   <a-modal
-    :title="null"
-    :footer="null"
     :closable="false"
+    :footer="null"
+    :title="null"
     :visible="estaAbiertoBienvenidaModal"
   >
     <div style="text-align: center">
-      <img src="/logo.png" alt="logo" style="width: 8rem" />
+      <img alt="logo" src="/logo.png" style="width: 8rem" />
       <h1 style="font-size: 1rem; font-weight: bolder; color: orange">
         GEOGOREMAD
       </h1>
@@ -34,10 +34,10 @@
     </a-checkbox>
     <a-divider />
     <a-button
+      block
+      :disabled="!terminosAceptados"
       html-type="button"
       type="primary"
-      :disabled="!terminosAceptados"
-      block
       @click="cerrarModal()"
     >
       Ingresar

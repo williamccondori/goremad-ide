@@ -1,8 +1,8 @@
 <script>
-import L from "leaflet";
-import { findRealParent } from "vue2-leaflet";
-import "leaflet.locatecontrol";
-import "leaflet.locatecontrol/dist/L.Control.Locate.min.css";
+import L from 'leaflet';
+import { findRealParent } from 'vue2-leaflet';
+import 'leaflet.locatecontrol';
+import 'leaflet.locatecontrol/dist/L.Control.Locate.min.css';
 export default {
   mounted() {
     this.$nextTick(() => {
@@ -11,10 +11,10 @@ export default {
       mapa.addControl(
         L.control.locate({
           strings: {
-            title: "Ir a mi ubicación",
-            metersUnit: "metros",
-            popup: "Estás en {distance} {unit} de este punto",
-            locateIcon: "fa fa-map-marker",
+            title: 'Ir a mi ubicación',
+            metersUnit: 'metros',
+            popup: 'Estás en {distance} {unit} de este punto',
+            locateIcon: 'fa fa-map-marker',
           },
         })
       );

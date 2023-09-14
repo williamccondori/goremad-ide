@@ -1,8 +1,8 @@
 <template>
   <ADrawer
     placement="left"
-    :width="esMovil ? '100%' : 400"
     :visible="estaAbiertoMarcadorFormularioVentana"
+    :width="esMovil ? '100%' : 400"
     @close="cerrarMarcadorFormularioVentana()"
   >
     <span slot="title" style="text-transform: uppercase">
@@ -14,8 +14,8 @@
       @submit.prevent="guardar()"
     >
       <AFormModelItem
-        prop="nombre"
         label="Nombre:"
+        prop="nombre"
         :rules="[
           {
             required: true,
@@ -29,8 +29,8 @@
         />
       </AFormModelItem>
       <AFormModelItem
-        prop="zoom"
         label="Zoom:"
+        prop="zoom"
         :rules="[
           {
             required: true,
@@ -40,15 +40,15 @@
       >
         <AInput
           v-model="formulario.zoom"
-          placeholder="Ingrese el zoom del mapa"
           disabled
+          placeholder="Ingrese el zoom del mapa"
         />
       </AFormModelItem>
       <ARow :gutter="16">
         <ACol :span="12">
           <AFormModelItem
-            prop="latitud"
             label="Latitud:"
+            prop="latitud"
             :rules="[
               {
                 required: true,
@@ -61,8 +61,8 @@
         </ACol>
         <ACol :span="12">
           <AFormModelItem
-            prop="longitud"
             label="Longitud:"
+            prop="longitud"
             :rules="[
               {
                 required: true,
@@ -74,7 +74,7 @@
           </AFormModelItem>
         </ACol>
       </ARow>
-      <AButton html-type="submit" type="primary" icon="save" block>
+      <AButton block html-type="submit" icon="save" type="primary">
         Guardar
       </AButton>
     </AFormModel>
@@ -82,11 +82,11 @@
 </template>
 
 <script>
-import { Drawer, FormModel, Input, Button, Row, Col } from "ant-design-vue";
-import { mapState, mapActions } from "vuex";
+import { Drawer, FormModel, Input, Button, Row, Col } from 'ant-design-vue';
+import { mapState, mapActions } from 'vuex';
 
 const formulario = {
-  nombre: "",
+  nombre: '',
   zoom: 0,
   latitud: 0,
   longitud: 0,
@@ -108,10 +108,10 @@ export default {
     };
   },
   computed: {
-    ...mapState(["esMovil"]),
-    ...mapState("visor", [
-      "estaAbiertoMarcadorFormularioVentana",
-      "informacionPosicion",
+    ...mapState(['esMovil']),
+    ...mapState('visor', [
+      'estaAbiertoMarcadorFormularioVentana',
+      'informacionPosicion',
     ]),
   },
   watch: {
@@ -128,9 +128,9 @@ export default {
     },
   },
   methods: {
-    ...mapActions("visor", [
-      "cerrarMarcadorFormularioVentana",
-      "agregarMarcador",
+    ...mapActions('visor', [
+      'cerrarMarcadorFormularioVentana',
+      'agregarMarcador',
     ]),
     guardar() {
       this.$refs.referenciaFormulario?.validate((valid) => {

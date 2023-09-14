@@ -1,8 +1,8 @@
 <script>
-import L from "leaflet";
-import { findRealParent } from "vue2-leaflet";
-import "leaflet.fullscreen";
-import "leaflet.fullscreen/Control.FullScreen.css";
+import L from 'leaflet';
+import { findRealParent } from 'vue2-leaflet';
+import 'leaflet.fullscreen';
+import 'leaflet.fullscreen/Control.FullScreen.css';
 export default {
   props: {
     capasComparables: {

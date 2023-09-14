@@ -2,10 +2,10 @@
   <AdministracionPagina titulo="Configuraciones">
     <ATabs type="card">
       <ATabPane key="1" tab="Usuarios">
-        <ASpace direction="vertical" class="app--w-100">
+        <ASpace class="app--w-100" direction="vertical">
           <AButton
-            type="primary"
             icon="plus"
+            type="primary"
             @click="abrirUsuarioFormularioVentana()"
           >
             Crear usuario
@@ -26,14 +26,14 @@
 </template>
 
 <script>
-import { Button, Space, Tabs } from "ant-design-vue";
-import { mapActions } from "vuex";
-import AdministracionPagina from "@/components/administrador/compartido/AdministracionPagina.vue";
-import UsuarioCatalogo from "@/components/administrador/usuario/UsuarioCatalogo.vue";
-import UsuarioFormularioVentana from "@/components/administrador/usuario/UsuarioFormularioVentana.vue";
-import RolCatalogo from "@/components/administrador/rol/RolCatalogo.vue";
-import RolFormularioVentana from "@/components/administrador/rol/RolFormularioVentana.vue";
-import VariableFormulario from "~/components/administrador/variable/VariableFormulario.vue";
+import { Button, Space, Tabs } from 'ant-design-vue';
+import { mapActions } from 'vuex';
+import AdministracionPagina from '@/components/administrador/compartido/AdministracionPagina.vue';
+import UsuarioCatalogo from '@/components/administrador/usuario/UsuarioCatalogo.vue';
+import UsuarioFormularioVentana from '@/components/administrador/usuario/UsuarioFormularioVentana.vue';
+import RolCatalogo from '@/components/administrador/rol/RolCatalogo.vue';
+import RolFormularioVentana from '@/components/administrador/rol/RolFormularioVentana.vue';
+import VariableFormulario from '~/components/administrador/variable/VariableFormulario.vue';
 export default {
   components: {
     AButton: Button,
@@ -47,9 +47,9 @@ export default {
     RolFormularioVentana,
     VariableFormulario,
   },
-  layout: "administrador",
+  layout: 'administrador',
   methods: {
-    ...mapActions("administrador", ["abrirUsuarioFormularioVentana"]),
+    ...mapActions('administrador', ['abrirUsuarioFormularioVentana']),
   },
 };
 </script>

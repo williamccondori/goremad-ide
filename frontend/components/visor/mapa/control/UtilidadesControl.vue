@@ -2,39 +2,39 @@
   <LControl>
     <div class="utilidades-control">
       <AButton
-        type="dashed"
         title="Búsqueda de ubicaciones"
+        type="dashed"
         @click="abrirUbicacionVentana()"
       >
         <i class="bx bx-search" />
       </AButton>
       <AButton
-        type="dashed"
         title="Búsqueda de coordenadas"
+        type="dashed"
         @click="abrirCoordenadaVentana()"
       >
         <i class="bx bx-map-pin" />
       </AButton>
-      <AButton type="dashed" title="Dibujos" @click="abrirDibujoVentana()">
+      <AButton title="Dibujos" type="dashed" @click="abrirDibujoVentana()">
         <i class="bx bx-palette" />
       </AButton>
       <AButton
-        type="dashed"
         title="Marcadores"
+        type="dashed"
         @click="abrirMarcadorCatalogoVentana()"
       >
         <i class="bx bx-pin" />
       </AButton>
       <AButton
-        type="dashed"
         title="Compartir"
+        type="dashed"
         @click="abrirCompartirVistaModal()"
       >
         <i class="bx bx-share-alt" />
       </AButton>
       <AButton
-        type="dashed"
         title="Comparar capas activas"
+        type="dashed"
         @click="abrirComparacionVentana()"
       >
         <i class="bx bx-bracket" />
@@ -44,22 +44,22 @@
 </template>
 
 <script>
-import { Button } from "ant-design-vue";
-import { mapActions } from "vuex";
-import { LControl } from "vue2-leaflet";
+import { Button } from 'ant-design-vue';
+import { mapActions } from 'vuex';
+import { LControl } from 'vue2-leaflet';
 export default {
   components: {
     AButton: Button,
     LControl,
   },
   methods: {
-    ...mapActions("visor", [
-      "abrirUbicacionVentana",
-      "abrirCoordenadaVentana",
-      "abrirDibujoVentana",
-      "abrirMarcadorCatalogoVentana",
-      "abrirCompartirVistaModal",
-      "abrirComparacionVentana",
+    ...mapActions('visor', [
+      'abrirUbicacionVentana',
+      'abrirCoordenadaVentana',
+      'abrirDibujoVentana',
+      'abrirMarcadorCatalogoVentana',
+      'abrirCompartirVistaModal',
+      'abrirComparacionVentana',
     ]),
   },
 };

@@ -1,8 +1,8 @@
 <template>
   <ADrawer
-    :width="esMovil ? '100%' : 400"
     :mask-closable="false"
     :visible="estaAbiertoRolFormularioVentana"
+    :width="esMovil ? '100%' : 400"
     @close="cerrarRolFormularioVentana"
   >
     <span slot="title">
@@ -13,14 +13,14 @@
       :model="formulario"
       @submit.prevent="guardar()"
     >
-      <AFormModelItem prop="esUsuario" label="Usuario:">
+      <AFormModelItem label="Usuario:" prop="esUsuario">
         <ACheckbox v-model="formulario.esUsuario" disabled />
       </AFormModelItem>
-      <AFormModelItem prop="esAdministrador" label="Administrador:">
+      <AFormModelItem label="Administrador:" prop="esAdministrador">
         <ACheckbox v-model="formulario.esAdministrador" />
       </AFormModelItem>
       <div>
-        <AButton block html-type="submit" type="primary" icon="save">
+        <AButton block html-type="submit" icon="save" type="primary">
           Actualizar roles
         </AButton>
       </div>
@@ -29,8 +29,8 @@
 </template>
 
 <script>
-import { Drawer, FormModel, Checkbox, Button } from "ant-design-vue";
-import { mapState, mapActions } from "vuex";
+import { Drawer, FormModel, Checkbox, Button } from 'ant-design-vue';
+import { mapState, mapActions } from 'vuex';
 
 const formulario = {
   esUsuario: false,
@@ -51,10 +51,10 @@ export default {
     };
   },
   computed: {
-    ...mapState(["esMovil"]),
-    ...mapState("administrador", [
-      "estaAbiertoRolFormularioVentana",
-      "usuario",
+    ...mapState(['esMovil']),
+    ...mapState('administrador', [
+      'estaAbiertoRolFormularioVentana',
+      'usuario',
     ]),
   },
   watch: {
@@ -65,16 +65,16 @@ export default {
       } else {
         const roles = this.usuario?.roles;
         if (roles) {
-          this.formulario.esUsuario = roles.includes("usuario");
-          this.formulario.esAdministrador = roles.includes("administrador");
+          this.formulario.esUsuario = roles.includes('usuario');
+          this.formulario.esAdministrador = roles.includes('administrador');
         }
       }
     },
   },
   methods: {
-    ...mapActions("administrador", [
-      "cerrarRolFormularioVentana",
-      "obtenerUsuarios",
+    ...mapActions('administrador', [
+      'cerrarRolFormularioVentana',
+      'obtenerUsuarios',
     ]),
     guardar() {
       this.$refs.referenciaFormulario?.validate(async (valid) => {

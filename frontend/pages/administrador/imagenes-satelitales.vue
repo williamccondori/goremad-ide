@@ -1,11 +1,11 @@
 <template>
   <AdministracionPagina titulo="Imágenes satelitales">
-    <ASpace direction="vertical" class="app--w-100">
+    <ASpace class="app--w-100" direction="vertical">
       <APopconfirm
         title="Este proceso puede tardar varios minutos y ralentizar el sistema, ¿Está de ejecutarlo ahora?"
         @confirm="programarDescarga()"
       >
-        <AButton type="primary" icon="plus"> Programar descarga </AButton>
+        <AButton icon="plus" type="primary"> Programar descarga </AButton>
       </APopconfirm>
       <ImagenSatelitalCatalogo />
       <ImagenSatelitalResumenVentana />
@@ -14,10 +14,10 @@
 </template>
 
 <script>
-import { Button, Space, Popconfirm } from "ant-design-vue";
-import AdministracionPagina from "@/components/administrador/compartido/AdministracionPagina.vue";
-import ImagenSatelitalCatalogo from "@/components/administrador/imagen-satelital/ImagenSatelitalCatalogo.vue";
-import ImagenSatelitalResumenVentana from "@/components/administrador/imagen-satelital/ImagenSatelitalResumenVentana.vue";
+import { Button, Space, Popconfirm } from 'ant-design-vue';
+import AdministracionPagina from '@/components/administrador/compartido/AdministracionPagina.vue';
+import ImagenSatelitalCatalogo from '@/components/administrador/imagen-satelital/ImagenSatelitalCatalogo.vue';
+import ImagenSatelitalResumenVentana from '@/components/administrador/imagen-satelital/ImagenSatelitalResumenVentana.vue';
 export default {
   components: {
     AButton: Button,
@@ -27,15 +27,15 @@ export default {
     ImagenSatelitalCatalogo,
     ImagenSatelitalResumenVentana,
   },
-  layout: "administrador",
+  layout: 'administrador',
   methods: {
     async programarDescarga() {
       try {
         this.$iniciarCarga();
-        await this.$axios.$post("/imagenes-satelitales/descargas/");
+        await this.$axios.$post('/imagenes-satelitales/descargas/');
         this.$notification.success({
-          message: "Correcto",
-          description: "Se ha programado la descarga de imágenes satelitales",
+          message: 'Correcto',
+          description: 'Se ha programado la descarga de imágenes satelitales',
         });
       } catch (error) {
         this.$manejarError(error);

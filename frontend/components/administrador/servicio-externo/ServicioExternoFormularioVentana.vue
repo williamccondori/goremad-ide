@@ -1,8 +1,8 @@
 <template>
   <ADrawer
-    :width="esMovil ? '100%' : 400"
     :mask-closable="false"
     :visible="estaAbiertoServicioExternoFormularioVentana"
+    :width="esMovil ? '100%' : 400"
     @close="cerrarServicioExternoFormularioVentana()"
   >
     <span slot="title" style="text-transform: uppercase">
@@ -14,8 +14,8 @@
       @submit.prevent="guardar()"
     >
       <AFormModelItem
-        prop="url"
         label="URL:"
+        prop="url"
         :rules="[
           {
             required: true,
@@ -29,8 +29,8 @@
         />
       </AFormModelItem>
       <AFormModelItem
-        prop="nombre"
         label="Nombre:"
+        prop="nombre"
         :rules="[
           {
             required: true,
@@ -44,8 +44,8 @@
         />
       </AFormModelItem>
       <AFormModelItem
-        prop="atribucion"
         label="Atribución:"
+        prop="atribucion"
         :rules="[
           {
             required: true,
@@ -58,7 +58,7 @@
           placeholder="Ingrese la atribución del servicio externo"
         />
       </AFormModelItem>
-      <AFormModelItem prop="grupoCapaId" label="Grupo de capas:">
+      <AFormModelItem label="Grupo de capas:" prop="grupoCapaId">
         <ASelect
           v-model="formulario.grupoCapaId"
           :allow-clear="true"
@@ -73,11 +73,11 @@
           </ASelectOption>
         </ASelect>
       </AFormModelItem>
-      <AFormModelItem prop="estaHabilitado" label="¿Está habilitado?:">
+      <AFormModelItem label="¿Está habilitado?:" prop="estaHabilitado">
         <ACheckbox v-model="formulario.estaHabilitado" />
       </AFormModelItem>
       <div>
-        <AButton block html-type="submit" type="primary" icon="save">
+        <AButton block html-type="submit" icon="save" type="primary">
           {{ titulo }}
         </AButton>
       </div>
@@ -93,13 +93,13 @@ import {
   Select,
   Checkbox,
   Button,
-} from "ant-design-vue";
-import { mapState, mapActions } from "vuex";
+} from 'ant-design-vue';
+import { mapState, mapActions } from 'vuex';
 
 const formulario = {
-  url: "",
-  nombre: "",
-  atribucion: "",
+  url: '',
+  nombre: '',
+  atribucion: '',
   grupoCapaId: undefined,
   estaHabilitado: true,
 };
@@ -131,19 +131,19 @@ export default {
     }
   },
   computed: {
-    ...mapState(["esMovil"]),
-    ...mapState("administrador", [
-      "estaAbiertoServicioExternoFormularioVentana",
-      "gruposCapas",
-      "servicioExterno",
+    ...mapState(['esMovil']),
+    ...mapState('administrador', [
+      'estaAbiertoServicioExternoFormularioVentana',
+      'gruposCapas',
+      'servicioExterno',
     ]),
     esEdicion() {
       return this.servicioExterno !== undefined;
     },
     titulo() {
       return this.esEdicion
-        ? "Actualizar servicio externo"
-        : "Crear servicio externo";
+        ? 'Actualizar servicio externo'
+        : 'Crear servicio externo';
     },
   },
   watch: {
@@ -156,7 +156,7 @@ export default {
           // Si el valor es null o vacio se convierte a undefined para que el formulario no lo tome como un valor.
           const servicioExterno = { ...this.servicioExterno };
           Object.keys(servicioExterno).forEach((key) => {
-            if (servicioExterno[key] === null || servicioExterno[key] === "") {
+            if (servicioExterno[key] === null || servicioExterno[key] === '') {
               servicioExterno[key] = undefined;
             }
           });
@@ -170,10 +170,10 @@ export default {
     },
   },
   methods: {
-    ...mapActions("administrador", [
-      "cerrarServicioExternoFormularioVentana",
-      "obtenerGruposCapas",
-      "obtenerServiciosExternos",
+    ...mapActions('administrador', [
+      'cerrarServicioExternoFormularioVentana',
+      'obtenerGruposCapas',
+      'obtenerServiciosExternos',
     ]),
     guardar() {
       this.$refs.referenciaFormulario?.validate(async (valid) => {
@@ -183,7 +183,7 @@ export default {
             // Se valida el contenido del grupo de capas.
             if (
               this.formulario.grupoCapaId === null ||
-              this.formulario.grupoCapaId === ""
+              this.formulario.grupoCapaId === ''
             ) {
               this.formulario.grupoCapaId = undefined;
             }
@@ -195,7 +195,7 @@ export default {
                 }
               );
             } else {
-              await this.$axios.post("/servicios-externos/", {
+              await this.$axios.post('/servicios-externos/', {
                 ...this.formulario,
               });
             }

@@ -2,9 +2,9 @@
   <ALayoutSider v-model="esMovil" :width="esMovil ? 'auto' : '15rem'">
     <AMenu
       class="menu"
-      theme="dark"
-      :router="true"
       :default-selected-keys="[$route.path]"
+      :router="true"
+      theme="dark"
       @click="seleccionarOpcion"
     >
       <AMenuItem key="/portal">
@@ -28,8 +28,8 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import { Menu, Icon, Layout } from "ant-design-vue";
+import { mapState } from 'vuex';
+import { Menu, Icon, Layout } from 'ant-design-vue';
 export default {
   components: {
     AMenu: Menu,
@@ -38,7 +38,7 @@ export default {
     ALayoutSider: Layout.Sider,
   },
   computed: {
-    ...mapState(["esMovil"]),
+    ...mapState(['esMovil']),
   },
   methods: {
     seleccionarOpcion({ key }) {

@@ -1,11 +1,11 @@
 <template>
   <div v-if="configuracionAplicada" class="app--pagina">
-    <ASpin :spinning="estaCargando">
+    <a-spin :spinning="estaCargando">
       <div class="contenedor-principal">
         <AplicacionCabecera />
         <nuxt />
       </div>
-    </ASpin>
+    </a-spin>
   </div>
   <div v-else class="app--pagina">
     <PaginaCarga />
@@ -13,12 +13,11 @@
 </template>
 
 <script>
-import { Spin } from "ant-design-vue";
-import { mapState, mapActions } from "vuex";
-import AplicacionCabecera from "@/components/compartido/AplicacionCabecera.vue";
-import PaginaCarga from "@/components/visor/compartido/PaginaCarga.vue";
+import { mapState, mapActions } from 'vuex';
+import AplicacionCabecera from '@/components/compartido/AplicacionCabecera.vue';
+import PaginaCarga from '@/components/visor/compartido/PaginaCarga.vue';
 export default {
-  components: { ASpin: Spin, AplicacionCabecera, PaginaCarga },
+  components: { AplicacionCabecera, PaginaCarga },
   data() {
     return {
       configuracionAplicada: false,
@@ -28,7 +27,7 @@ export default {
     try {
       // const { data } = await this.$axios.get("/visor/iniciales/");
       // Read the JSON file. /data.json with fetch.
-      const response = await fetch("/data.json");
+      const response = await fetch('/data.json');
       const data = await response.json();
 
       const configuracionInicial = data.configuracionInicial;
@@ -56,24 +55,25 @@ export default {
     }
   },
   computed: {
-    ...mapState(["estaCargando"]),
+    ...mapState(['estaCargando']),
   },
   mounted() {
-    window.addEventListener("resize", () => {
+    window.addEventListener('resize', () => {
       this.establecerEsMovil(window.innerWidth < 720);
+      this.actualizarTamanioVentana(window.innerWidth);
     });
   },
   methods: {
-    ...mapActions(["establecerEsMovil"]),
-    ...mapActions("visor", [
-      "establecerCentro",
-      "establecerZoom",
-      "establecerCapasBase",
-      "establecerCapaBaseActiva",
-      "establacerCapas",
-      "establecerCapasActivas",
-      "establecerCapasEstructura",
-      "establecerImagenesSatelitales",
+    ...mapActions(['establecerEsMovil', 'actualizarTamanioVentana']),
+    ...mapActions('visor', [
+      'establecerCentro',
+      'establecerZoom',
+      'establecerCapasBase',
+      'establecerCapaBaseActiva',
+      'establacerCapas',
+      'establecerCapasActivas',
+      'establecerCapasEstructura',
+      'establecerImagenesSatelitales',
     ]),
   },
 };

@@ -1,9 +1,9 @@
 <script>
-import { mapState } from "vuex";
-import L from "leaflet";
-import { findRealParent } from "vue2-leaflet";
-import MiniMap from "leaflet-minimap";
-import "leaflet-minimap/dist/Control.MiniMap.min.css";
+import { mapState } from 'vuex';
+import L from 'leaflet';
+import { findRealParent } from 'vue2-leaflet';
+import MiniMap from 'leaflet-minimap';
+import 'leaflet-minimap/dist/Control.MiniMap.min.css';
 export default {
   data() {
     return {
@@ -11,8 +11,8 @@ export default {
     };
   },
   computed: {
-    ...mapState(["esMovil"]),
-    ...mapState("visor", ["capasBase", "capaBaseActiva"]),
+    ...mapState(['esMovil']),
+    ...mapState('visor', ['capasBase', 'capaBaseActiva']),
     capaBaseActivaUrl() {
       const elementosActivos = this.capasBase.filter(
         (elemento) => elemento.id === this.capaBaseActiva
@@ -39,8 +39,8 @@ export default {
           toggleDisplay: true,
           minimized: this.esMovil,
           strings: {
-            hideText: "Ocultar Mini Mapa",
-            showText: "Mostrar Mini Mapa",
+            hideText: 'Ocultar Mini Mapa',
+            showText: 'Mostrar Mini Mapa',
           },
         })
       );

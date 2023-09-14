@@ -1,8 +1,8 @@
 <template>
   <ADrawer
     placement="left"
-    :width="esMovil ? '100%' : 400"
     :visible="estaAbiertoUbicacionVentana"
+    :width="esMovil ? '100%' : 400"
     @close="cerrarUbicacionVentana()"
   >
     <span slot="title" style="text-transform: uppercase">
@@ -29,7 +29,7 @@
             placeholder="Ingrese el término de búsqueda"
           />
         </AFormModelItem>
-        <AButton html-type="submit" type="primary" icon="search" block>
+        <AButton block html-type="submit" icon="search" type="primary">
           Buscar
         </AButton>
       </AFormModel>
@@ -44,8 +44,8 @@
         <AButton
           v-for="resultado in resultados"
           :key="resultado.id"
-          type="dashed"
           html-button="button"
+          type="dashed"
           @click="ver(resultado)"
         >
           {{ resultado.nombre }}
@@ -54,10 +54,10 @@
       <div>
         <AButton
           block
-          type="danger"
-          icon="delete"
-          html-type="button"
           :disabled="resultados.length === 0"
+          html-type="button"
+          icon="delete"
+          type="danger"
           @click="limpiar()"
         >
           Limpiar
@@ -69,11 +69,11 @@
 </template>
 
 <script>
-import { Drawer, FormModel, Input, Button, Divider, Tag } from "ant-design-vue";
-import { mapState, mapActions } from "vuex";
+import { Drawer, FormModel, Input, Button, Divider, Tag } from 'ant-design-vue';
+import { mapState, mapActions } from 'vuex';
 
 const formulario = {
-  query: "",
+  query: '',
 };
 
 export default {
@@ -93,8 +93,8 @@ export default {
     };
   },
   computed: {
-    ...mapState(["esMovil"]),
-    ...mapState("visor", ["estaAbiertoUbicacionVentana"]),
+    ...mapState(['esMovil']),
+    ...mapState('visor', ['estaAbiertoUbicacionVentana']),
   },
   watch: {
     estaAbiertoUbicacionVentana(valor) {
@@ -104,17 +104,17 @@ export default {
     },
   },
   methods: {
-    ...mapActions("visor", [
-      "cerrarUbicacionVentana",
-      "establecerCentro",
-      "establecerZoom",
+    ...mapActions('visor', [
+      'cerrarUbicacionVentana',
+      'establecerCentro',
+      'establecerZoom',
     ]),
     buscar() {
       this.$refs.referenciaFormulario?.validate(async (valid) => {
         if (valid) {
           try {
             this.$iniciarCarga();
-            const { data } = await this.$axios.get("/visor/ubicaciones/", {
+            const { data } = await this.$axios.get('/visor/ubicaciones/', {
               params: {
                 query: this.formulario.query,
               },

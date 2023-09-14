@@ -3,22 +3,22 @@
     <template #cover>
       <client-only>
         <LMap
-          style="height: 5rem"
           :center="center"
-          :zoom="1"
           :options="opciones"
+          style="height: 5rem"
+          :zoom="1"
         >
           <LTileLayer :url="capaBase.url" />
         </LMap>
       </client-only>
     </template>
-    <a-card-meta :title="capaBase.nombre" :description="capaBase.atribucion" />
+    <a-card-meta :description="capaBase.atribucion" :title="capaBase.nombre" />
   </a-card>
 </template>
 
 <script>
-import { mapActions } from "vuex";
-import { LMap, LTileLayer } from "vue2-leaflet";
+import { mapActions } from 'vuex';
+import { LMap, LTileLayer } from 'vue2-leaflet';
 export default {
   components: {
     LMap,
@@ -41,7 +41,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions("visor", ["establecerCapaBaseActiva"]),
+    ...mapActions('visor', ['establecerCapaBaseActiva']),
   },
 };
 </script>

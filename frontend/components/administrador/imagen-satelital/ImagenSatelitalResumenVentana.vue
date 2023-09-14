@@ -1,14 +1,14 @@
 <template>
   <ADrawer
-    :width="esMovil ? '100%' : 400"
     :mask-closable="false"
     :visible="estaAbiertoImagenSatelitalResumenVentana"
+    :width="esMovil ? '100%' : 400"
     @close="cerrarImagenSatelitalResumenVentana()"
   >
     <span slot="title" style="text-transform: uppercase">
       <b> Detalles de la imagen satelital</b>
     </span>
-    <ASpace v-if="imagenSatelital" direction="vertical" class="app--w-100">
+    <ASpace v-if="imagenSatelital" class="app--w-100" direction="vertical">
       <ACard hoverable>
         <img
           slot="cover"
@@ -24,9 +24,9 @@
       <ADivider />
       <ADescriptions
         bordered
-        size="small"
-        layout="vertical"
         :column="1"
+        layout="vertical"
+        size="small"
         title="Información general:"
       >
         <ADescriptionsItem label="Identificador:" style="word-wrap: break-word">
@@ -63,8 +63,8 @@
       <ADescriptions
         bordered
         :column="1"
-        size="small"
         layout="vertical"
+        size="small"
         title="Metadatos:"
       >
         <ADescriptionsItem
@@ -80,7 +80,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions } from 'vuex';
 import {
   Drawer,
   Card,
@@ -88,7 +88,7 @@ import {
   Descriptions,
   Tag,
   Divider,
-} from "ant-design-vue";
+} from 'ant-design-vue';
 export default {
   components: {
     ADrawer: Drawer,
@@ -101,14 +101,14 @@ export default {
     ADivider: Divider,
   },
   computed: {
-    ...mapState(["esMovil"]),
-    ...mapState("administrador", [
-      "estaAbiertoImagenSatelitalResumenVentana",
-      "imagenSatelital",
+    ...mapState(['esMovil']),
+    ...mapState('administrador', [
+      'estaAbiertoImagenSatelitalResumenVentana',
+      'imagenSatelital',
     ]),
   },
   methods: {
-    ...mapActions("administrador", ["cerrarImagenSatelitalResumenVentana"]),
+    ...mapActions('administrador', ['cerrarImagenSatelitalResumenVentana']),
   },
 };
 </script>

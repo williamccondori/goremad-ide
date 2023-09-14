@@ -1,9 +1,9 @@
 <template>
   <ATable
     bordered
-    row-key="id"
     :columns="columnas"
     :data-source="usuarios"
+    row-key="id"
     size="middle"
   >
     <template #roles="roles">
@@ -16,8 +16,8 @@
     <template slot="acciones" slot-scope="id, row">
       <AButton
         v-if="!row.roles.includes('superusuario')"
-        type="dashed"
         size="small"
+        type="dashed"
         @click="editar(id)"
       >
         <AIcon type="edit" />
@@ -27,8 +27,8 @@
 </template>
 
 <script>
-import { Table, Button, Icon, Tag, Space } from "ant-design-vue";
-import { mapState, mapActions } from "vuex";
+import { Table, Button, Icon, Tag, Space } from 'ant-design-vue';
+import { mapState, mapActions } from 'vuex';
 export default {
   components: {
     ATable: Table,
@@ -41,24 +41,24 @@ export default {
     return {
       columnas: [
         {
-          title: "Usuario",
-          dataIndex: "username",
-          key: "username",
+          title: 'Usuario',
+          dataIndex: 'username',
+          key: 'username',
         },
         {
-          title: "Roles",
-          dataIndex: "roles",
-          key: "roles",
+          title: 'Roles',
+          dataIndex: 'roles',
+          key: 'roles',
           scopedSlots: {
-            customRender: "roles",
+            customRender: 'roles',
           },
         },
         {
-          title: "Acciones",
-          dataIndex: "id",
-          key: "id",
+          title: 'Acciones',
+          dataIndex: 'id',
+          key: 'id',
           scopedSlots: {
-            customRender: "acciones",
+            customRender: 'acciones',
           },
         },
       ],
@@ -75,21 +75,21 @@ export default {
     }
   },
   computed: {
-    ...mapState("administrador", ["usuarios"]),
+    ...mapState('administrador', ['usuarios']),
   },
   methods: {
-    ...mapActions("administrador", [
-      "obtenerUsuarios",
-      "abrirRolFormularioActualizacionVentana",
+    ...mapActions('administrador', [
+      'obtenerUsuarios',
+      'abrirRolFormularioActualizacionVentana',
     ]),
     obtenerColor(rol) {
       switch (rol) {
-        case "superusuario":
-          return "red";
-        case "administrador":
-          return "orange";
+        case 'superusuario':
+          return 'red';
+        case 'administrador':
+          return 'orange';
         default:
-          return "green";
+          return 'green';
       }
     },
     async editar(capaBaseId) {

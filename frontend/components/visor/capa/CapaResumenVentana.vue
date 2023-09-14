@@ -1,8 +1,8 @@
 <template>
   <ADrawer
     :mask="false"
-    :width="esMovil ? '100%' : 400"
     :visible="estaAbiertoCapaResumenVentana"
+    :width="esMovil ? '100%' : 400"
     @close="cerrarCapaResumenVentana()"
   >
     <span slot="title" style="text-transform: uppercase">
@@ -12,8 +12,8 @@
       <AFormModelItem label="Capa activa">
         <ASelect
           v-model="formulario.elementoActivoId"
-          placeholder="Seleccione"
           :allow-clear="true"
+          placeholder="Seleccione"
           @change="cambiarElementoActivoId"
         >
           <ASelectOption
@@ -29,8 +29,8 @@
     <div v-if="elementoActivo" class="app--contenedor-vertical-pequenio">
       <ADescriptions
         bordered
-        size="small"
         :column="1"
+        size="small"
         :title="elementoActivo.titulo"
       >
         <ADescriptionsItem label="Servicio:">
@@ -46,12 +46,12 @@
           <ATag size="small"> {{ elementoActivo.nombre }}</ATag>
         </ADescriptionsItem>
         <ADescriptionsItem label="Leyenda:">
-          <img :src="elementoActivo.urlLeyenda" alt="Leyenda" />
+          <img alt="Leyenda" :src="elementoActivo.urlLeyenda" />
         </ADescriptionsItem>
       </ADescriptions>
       <ACard size="small">
         <span>Transparencia:</span>
-        <ASlider v-model="transparencia" :step="0.1" :min="0" :max="1" />
+        <ASlider v-model="transparencia" :max="1" :min="0" :step="0.1" />
       </ACard>
       <ACard size="small">
         <AButton block icon="upload" @click="traerAlFrente(elementoActivo.id)">
@@ -68,8 +68,8 @@
         <ADivider />
         <AButton
           block
-          type="danger"
           icon="delete"
+          type="danger"
           @click="eliminarCapaActivaYCerrar(elementoActivo.id)"
         >
           Remover capa del mapa
@@ -90,8 +90,8 @@ import {
   Divider,
   Descriptions,
   Tag,
-} from "ant-design-vue";
-import { mapState, mapActions } from "vuex";
+} from 'ant-design-vue';
+import { mapState, mapActions } from 'vuex';
 
 const formulario = {
   elementoActivoId: undefined,
@@ -119,11 +119,11 @@ export default {
     };
   },
   computed: {
-    ...mapState(["esMovil"]),
-    ...mapState("visor", [
-      "estaAbiertoCapaResumenVentana",
-      "capasActivas",
-      "capas",
+    ...mapState(['esMovil']),
+    ...mapState('visor', [
+      'estaAbiertoCapaResumenVentana',
+      'capasActivas',
+      'capas',
     ]),
     elementosActivos() {
       const elementosActivos = this.capas.filter((capa) => {
@@ -152,12 +152,12 @@ export default {
     },
   },
   methods: {
-    ...mapActions("visor", [
-      "cerrarCapaResumenVentana",
-      "establecerCapaTransparencia",
-      "establecerCapaSuperior",
-      "establecerBounds",
-      "eliminarCapaActiva",
+    ...mapActions('visor', [
+      'cerrarCapaResumenVentana',
+      'establecerCapaTransparencia',
+      'establecerCapaSuperior',
+      'establecerBounds',
+      'eliminarCapaActiva',
     ]),
     cambiarElementoActivoId(capaActivaId) {
       this.elementoActivo = this.elementosActivos.find(

@@ -1,11 +1,11 @@
 <template>
   <div class="app--contenedor-horizontal-espaciado cabecera">
     <NuxtLink
-      to="/"
       class="app--contenedor"
       style="align-items: center; gap: 1rem"
+      to="/"
     >
-      <img src="/logo.png" alt="logo" width="60" />
+      <img alt="logo" src="/logo.png" width="60" />
       <div v-if="!esMovil" class="titulo">
         <h1>
           <span>Infraestructura de Datos Espaciales</span>
@@ -29,8 +29,8 @@
             Cerrar sesión
           </AMenuItem>
         </AMenu>
-        <AButton type="dashed" class="avatar">
-          <AAvatar shape="circle" icon="user" />
+        <AButton class="avatar" type="dashed">
+          <AAvatar icon="user" shape="circle" />
           <span>
             {{ $auth.user?.username }}
           </span>
@@ -42,8 +42,8 @@
 </template>
 
 <script>
-import { Avatar, Button, Dropdown, Icon, Menu } from "ant-design-vue";
-import { mapState } from "vuex";
+import { Avatar, Button, Dropdown, Icon, Menu } from 'ant-design-vue';
+import { mapState } from 'vuex';
 export default {
   components: {
     AAvatar: Avatar,
@@ -54,16 +54,16 @@ export default {
     AMenuItem: Menu.Item,
   },
   computed: {
-    ...mapState(["esMovil"]),
+    ...mapState(['esMovil']),
   },
   methods: {
     seleccionarOpcion({ key }) {
-      if (key === "cerrarSesion") {
+      if (key === 'cerrarSesion') {
         this.$auth.logout();
-      } else if (key === "irAdministrador") {
-        this.$router.push("/administrador");
-      } else if (key === "irVisor") {
-        this.$router.push("/");
+      } else if (key === 'irAdministrador') {
+        this.$router.push('/administrador');
+      } else if (key === 'irVisor') {
+        this.$router.push('/');
       }
     },
   },
@@ -74,9 +74,10 @@ export default {
 .cabecera {
   z-index: 999;
   padding: 0 2rem;
-  background-color: white;
+  background-color: rgb(255 255 255 / 32%);
   box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%),
     0 1px 5px 0 rgb(0 0 0 / 20%);
+  position: fixed;
 }
 .avatar {
   display: flex;

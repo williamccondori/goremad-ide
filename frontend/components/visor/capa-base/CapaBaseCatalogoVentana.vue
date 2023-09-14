@@ -1,14 +1,14 @@
 <template>
   <a-drawer
-    :width="esMovil ? '100%' : 400"
     :visible="estaAbiertoCapaBaseCatalogoVentana"
+    :width="esMovil ? '100%' : 400"
     @close="cerrarCapaBaseCatalogoVentana()"
   >
     <span slot="title" style="text-transform: uppercase">
       <b>Capas base</b>
     </span>
     <div class="app--contenedor-vertical">
-      <a-row type="flex" justify="space-between" align="middle">
+      <a-row align="middle" justify="space-between" type="flex">
         <span>Todos los elementos:</span>
         <a-tag color="green">
           {{ capasBase.length }}
@@ -24,18 +24,18 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
-import CapaBasePrevisualizacion from "~/components/visor/capa-base/CapaBasePrevisualizacion.vue";
+import { mapState, mapActions } from 'vuex';
+import CapaBasePrevisualizacion from '~/components/visor/capa-base/CapaBasePrevisualizacion.vue';
 export default {
   components: {
     CapaBasePrevisualizacion,
   },
   computed: {
-    ...mapState(["esMovil"]),
-    ...mapState("visor", ["estaAbiertoCapaBaseCatalogoVentana", "capasBase"]),
+    ...mapState(['esMovil']),
+    ...mapState('visor', ['estaAbiertoCapaBaseCatalogoVentana', 'capasBase']),
   },
   methods: {
-    ...mapActions("visor", ["cerrarCapaBaseCatalogoVentana"]),
+    ...mapActions('visor', ['cerrarCapaBaseCatalogoVentana']),
   },
 };
 </script>

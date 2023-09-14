@@ -1,8 +1,8 @@
 <template>
   <ADrawer
-    :width="esMovil ? '100%' : 400"
     :mask-closable="false"
     :visible="estaAbiertoCapaBaseFormularioVentana"
+    :width="esMovil ? '100%' : 400"
     @close="cerrarCapaBaseFormularioVentana()"
   >
     <span slot="title" style="text-transform: uppercase">
@@ -14,8 +14,8 @@
       @submit.prevent="guardar()"
     >
       <AFormModelItem
-        prop="nombre"
         label="Nombre:"
+        prop="nombre"
         :rules="[
           {
             required: true,
@@ -29,8 +29,8 @@
         />
       </AFormModelItem>
       <AFormModelItem
-        prop="url"
         label="URL:"
+        prop="url"
         :rules="[
           {
             required: true,
@@ -44,8 +44,8 @@
         />
       </AFormModelItem>
       <AFormModelItem
-        prop="atribucion"
         label="Atribución:"
+        prop="atribucion"
         :rules="[
           {
             required: true,
@@ -58,11 +58,11 @@
           placeholder="Ingrese la atribución de la capa base"
         />
       </AFormModelItem>
-      <AFormModelItem prop="estaHabilitado" label="¿Está habilitado?:">
+      <AFormModelItem label="¿Está habilitado?:" prop="estaHabilitado">
         <ACheckbox v-model="formulario.estaHabilitado" />
       </AFormModelItem>
       <div>
-        <AButton block html-type="submit" type="primary" icon="save">
+        <AButton block html-type="submit" icon="save" type="primary">
           {{ titulo }}
         </AButton>
       </div>
@@ -71,13 +71,13 @@
 </template>
 
 <script>
-import { Drawer, FormModel, Input, Checkbox, Button } from "ant-design-vue";
-import { mapState, mapActions } from "vuex";
+import { Drawer, FormModel, Input, Checkbox, Button } from 'ant-design-vue';
+import { mapState, mapActions } from 'vuex';
 
 const formulario = {
-  nombre: "",
-  url: "",
-  atribucion: "",
+  nombre: '',
+  url: '',
+  atribucion: '',
   estaHabilitado: true,
 };
 
@@ -96,16 +96,16 @@ export default {
     };
   },
   computed: {
-    ...mapState(["esMovil"]),
-    ...mapState("administrador", [
-      "estaAbiertoCapaBaseFormularioVentana",
-      "capaBase",
+    ...mapState(['esMovil']),
+    ...mapState('administrador', [
+      'estaAbiertoCapaBaseFormularioVentana',
+      'capaBase',
     ]),
     esEdicion() {
       return this.capaBase !== undefined;
     },
     titulo() {
-      return this.esEdicion ? "Actualizar capa base" : "Crear capa base";
+      return this.esEdicion ? 'Actualizar capa base' : 'Crear capa base';
     },
   },
   watch: {
@@ -124,9 +124,9 @@ export default {
     },
   },
   methods: {
-    ...mapActions("administrador", [
-      "cerrarCapaBaseFormularioVentana",
-      "obtenerCapasBase",
+    ...mapActions('administrador', [
+      'cerrarCapaBaseFormularioVentana',
+      'obtenerCapasBase',
     ]),
     guardar() {
       this.$refs.referenciaFormulario?.validate(async (valid) => {
@@ -138,7 +138,7 @@ export default {
                 ...this.formulario,
               });
             } else {
-              await this.$axios.post("/capas-base/", { ...this.formulario });
+              await this.$axios.post('/capas-base/', { ...this.formulario });
             }
             await this.obtenerCapasBase();
             this.cerrarCapaBaseFormularioVentana();

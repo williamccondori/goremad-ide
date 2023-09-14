@@ -1,20 +1,20 @@
 <template>
   <ATable
     bordered
-    row-key="id"
     :columns="columnas"
     :data-source="serviciosExternos"
+    row-key="id"
     size="middle"
   >
     <template #acciones="id">
-      <AButton type="dashed" size="small" @click="editar(id)">
+      <AButton size="small" type="dashed" @click="editar(id)">
         <AIcon type="edit" />
       </AButton>
       <APopconfirm
         title="¿Está seguro que desea eliminar este registro?"
         @confirm="eliminar(id)"
       >
-        <AButton type="dashed" size="small">
+        <AButton size="small" type="dashed">
           <AIcon type="delete" />
         </AButton>
       </APopconfirm>
@@ -23,8 +23,8 @@
 </template>
 
 <script>
-import { Table, Button, Popconfirm, Icon } from "ant-design-vue";
-import { mapState, mapActions } from "vuex";
+import { Table, Button, Popconfirm, Icon } from 'ant-design-vue';
+import { mapState, mapActions } from 'vuex';
 export default {
   components: {
     ATable: Table,
@@ -36,21 +36,21 @@ export default {
     return {
       columnas: [
         {
-          title: "Atribucion",
-          dataIndex: "atribucion",
-          key: "atribucion",
+          title: 'Atribucion',
+          dataIndex: 'atribucion',
+          key: 'atribucion',
         },
         {
-          title: "Nombre",
-          dataIndex: "nombre",
-          key: "nombre",
+          title: 'Nombre',
+          dataIndex: 'nombre',
+          key: 'nombre',
         },
         {
-          title: "Acciones",
-          dataIndex: "id",
-          key: "id",
+          title: 'Acciones',
+          dataIndex: 'id',
+          key: 'id',
           scopedSlots: {
-            customRender: "acciones",
+            customRender: 'acciones',
           },
         },
       ],
@@ -67,12 +67,12 @@ export default {
     }
   },
   computed: {
-    ...mapState("administrador", ["serviciosExternos"]),
+    ...mapState('administrador', ['serviciosExternos']),
   },
   methods: {
-    ...mapActions("administrador", [
-      "obtenerServiciosExternos",
-      "abrirServicioExternoFormularioActualizacionVentana",
+    ...mapActions('administrador', [
+      'obtenerServiciosExternos',
+      'abrirServicioExternoFormularioActualizacionVentana',
     ]),
     async editar(servicioExternoId) {
       try {

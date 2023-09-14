@@ -1,14 +1,14 @@
 <template>
   <ADrawer
-    :width="esMovil ? '100%' : 400"
     :visible="estaAbiertoImagenSatelitalBuscadorFormularioVentana"
+    :width="esMovil ? '100%' : 400"
     @close="cerrarImagenSatelitalBuscadorFormularioVentana()"
   >
     <span slot="title" style="text-transform: uppercase">
       <b>Buscar imágenes satelitales</b>
     </span>
     <div class="app--contenedor-vertical">
-      <AAlert show-icon message="Información">
+      <AAlert message="Información" show-icon>
         <span slot="description">
           Disponibles imágenes SENTINEL-2 MSI - Level-1A (10m) en sus
           composiciones: <ATag color="blue">RGB</ATag>
@@ -21,8 +21,8 @@
         @submit.prevent="buscar()"
       >
         <AFormModelItem
-          prop="identificador"
           label="Identificador de la imágen satelital"
+          prop="identificador"
         >
           <AInput
             v-model="formulario.identificador"
@@ -30,34 +30,34 @@
           />
         </AFormModelItem>
         <div>
-          <AButton html-type="submit" type="primary" icon="search" block>
+          <AButton block html-type="submit" icon="search" type="primary">
             Buscar
           </AButton>
         </div>
         <ADivider />
         <ACollapse>
           <ACollapsePanel key="1" header="Búsqueda avanzada">
-            <AFormModelItem prop="satelitle" label="Satélite">
+            <AFormModelItem label="Satélite" prop="satelitle">
               <ASelect
                 v-model="formulario.satelitle"
-                placeholder="Todos"
                 disabled
+                placeholder="Todos"
               >
                 <ASelectOption value="S2A">S2A</ASelectOption>
                 <ASelectOption value="S2B">S2B</ASelectOption>
               </ASelect>
             </AFormModelItem>
-            <AFormModelItem prop="fechas" label="Intérvalo de fechas">
+            <AFormModelItem label="Intérvalo de fechas" prop="fechas">
               <ARangePicker
                 v-model="formulario.fechas"
-                format="DD/MM/YYYY"
                 class="app--w-100"
+                format="DD/MM/YYYY"
               />
             </AFormModelItem>
           </ACollapsePanel>
         </ACollapse>
       </AFormModel>
-      <ARow type="flex" justify="space-between" align="middle">
+      <ARow align="middle" justify="space-between" type="flex">
         <span>Todos los elementos:</span>
         <ATag color="green">
           {{ resultados.length }}
@@ -69,15 +69,15 @@
           slot-scope="imagenSatelital"
           class="elemento-lista"
         >
-          <ASpace direction="vertical" class="app--w-100">
+          <ASpace class="app--w-100" direction="vertical">
             <AListItemMeta
-              :title="imagenSatelital.identificador"
               :description="`Detalles: ${imagenSatelital.descripcion}`"
+              :title="imagenSatelital.identificador"
             >
               <AAvatar
                 slot="avatar"
-                shape="square"
                 icon="picture"
+                shape="square"
                 :style="{
                   backgroundColor: '#87d068',
                 }"
@@ -85,9 +85,9 @@
             </AListItemMeta>
             <ASpace class="app--w-100">
               <AButton
-                type="dashed"
                 icon="plus"
                 size="small"
+                type="dashed"
                 @click="agregarAlCatalogo(imagenSatelital)"
               >
                 Agregar al catálogo
@@ -116,11 +116,11 @@ import {
   List,
   Space,
   Avatar,
-} from "ant-design-vue";
-import { mapState, mapActions } from "vuex";
+} from 'ant-design-vue';
+import { mapState, mapActions } from 'vuex';
 
 const formulario = {
-  identificador: "",
+  identificador: '',
   satelitle: undefined,
   fechas: [],
 };
@@ -154,10 +154,10 @@ export default {
     };
   },
   computed: {
-    ...mapState(["esMovil"]),
-    ...mapState("visor", [
-      "estaAbiertoImagenSatelitalBuscadorFormularioVentana",
-      "imagenesSatelitales",
+    ...mapState(['esMovil']),
+    ...mapState('visor', [
+      'estaAbiertoImagenSatelitalBuscadorFormularioVentana',
+      'imagenesSatelitales',
     ]),
   },
   watch: {
@@ -170,10 +170,10 @@ export default {
     },
   },
   methods: {
-    ...mapActions("visor", [
-      "cerrarImagenSatelitalBuscadorFormularioVentana",
-      "agregarImagenSatelital",
-      "agregarCapas",
+    ...mapActions('visor', [
+      'cerrarImagenSatelitalBuscadorFormularioVentana',
+      'agregarImagenSatelital',
+      'agregarCapas',
     ]),
     buscar() {
       this.$refs.referenciaFormulario?.validate(async (valid) => {
@@ -181,11 +181,11 @@ export default {
           try {
             this.$iniciarCarga();
             const fInicio =
-              this.formulario.fechas[0] === ""
+              this.formulario.fechas[0] === ''
                 ? undefined
                 : this.formulario.fechas[0];
             const fFin =
-              this.formulario.fechas[1] === ""
+              this.formulario.fechas[1] === ''
                 ? undefined
                 : this.formulario.fechas[1];
             const fechaInicio = fInicio ? new Date(fInicio) : undefined;
@@ -195,7 +195,7 @@ export default {
               {
                 params: {
                   identificador:
-                    this.formulario.identificador === ""
+                    this.formulario.identificador === ''
                       ? undefined
                       : this.formulario.identificador,
                   satelitle: this.formulario.satelitle,

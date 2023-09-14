@@ -1,5 +1,5 @@
-import Vue from "vue";
-import Antd from "ant-design-vue";
+import Vue from 'vue';
+import Antd from 'ant-design-vue';
 
 Vue.config.productionTip = false;
 

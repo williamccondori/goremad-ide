@@ -17,7 +17,7 @@
           <AIcon slot="addonBefore" type="global" />
         </AInput>
       </AFormModelItem>
-      <AButton html-type="submit" type="primary" block icon="copy">
+      <AButton block html-type="submit" icon="copy" type="primary">
         Copiar y cerrar ventana
       </AButton>
     </AFormModel>
@@ -25,11 +25,11 @@
 </template>
 
 <script>
-import { Modal, FormModel, Input, Icon, Button } from "ant-design-vue";
-import { mapState, mapActions } from "vuex";
+import { Modal, FormModel, Input, Icon, Button } from 'ant-design-vue';
+import { mapState, mapActions } from 'vuex';
 
 const formulario = {
-  url: "",
+  url: '',
 };
 
 export default {
@@ -47,22 +47,22 @@ export default {
     };
   },
   computed: {
-    ...mapState("visor", [
-      "estaAbiertoCompartirVistaModal",
-      "informacionPosicion",
+    ...mapState('visor', [
+      'estaAbiertoCompartirVistaModal',
+      'informacionPosicion',
     ]),
   },
   watch: {
     estaAbiertoCompartirVistaModal(valor) {
       if (valor) {
-        const urlBase = window.location.href.split("?")[0];
+        const urlBase = window.location.href.split('?')[0];
         const { latitud, longitud, zoom } = this.informacionPosicion;
         this.formulario.url = `${urlBase}?latitud=${latitud}&longitud=${longitud}&zoom=${zoom}`;
       }
     },
   },
   methods: {
-    ...mapActions("visor", ["cerrarCompartirVistaModal"]),
+    ...mapActions('visor', ['cerrarCompartirVistaModal']),
     compartir() {
       navigator.clipboard.writeText(this.formulario.url);
       this.cerrarCompartirVistaModal();

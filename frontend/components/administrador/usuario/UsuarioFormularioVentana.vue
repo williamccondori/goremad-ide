@@ -1,8 +1,8 @@
 <template>
   <ADrawer
-    :width="esMovil ? '100%' : 400"
     :mask-closable="false"
     :visible="estaAbiertoUsuarioFormularioVentana"
+    :width="esMovil ? '100%' : 400"
     @close="cerrarUsuarioFormularioVentana"
   >
     <span slot="title" style="text-transform: uppercase">
@@ -14,8 +14,8 @@
       @submit.prevent="guardar()"
     >
       <AFormModelItem
-        prop="email"
         label="Correo electrónico:"
+        prop="email"
         :rules="[
           {
             required: true,
@@ -34,8 +34,8 @@
         />
       </AFormModelItem>
       <AFormModelItem
-        prop="username"
         label="Usuario:"
+        prop="username"
         :rules="
           !esEdicion
             ? [
@@ -58,8 +58,8 @@
         />
       </AFormModelItem>
       <AFormModelItem
-        prop="password"
         label="Contraseña:"
+        prop="password"
         :rules="
           !esEdicion
             ? [
@@ -77,23 +77,23 @@
           placeholder="Ingrese la contraseña del usuario"
         />
       </AFormModelItem>
-      <AFormModelItem prop="nombres" label="Nombres:">
+      <AFormModelItem label="Nombres:" prop="nombres">
         <AInput
           v-model="formulario.nombres"
           placeholder="Ingrese los nombres del usuario"
         />
       </AFormModelItem>
-      <AFormModelItem prop="apellidos" label="Apellidos:">
+      <AFormModelItem label="Apellidos:" prop="apellidos">
         <AInput
           v-model="formulario.apellidos"
           placeholder="Ingrese los apellidos del usuario"
         />
       </AFormModelItem>
-      <AFormModelItem prop="estaHabilitado" label="¿Está habilitado?:">
+      <AFormModelItem label="¿Está habilitado?:" prop="estaHabilitado">
         <ACheckbox v-model="formulario.estaHabilitado" />
       </AFormModelItem>
       <div>
-        <AButton block html-type="submit" type="primary" icon="save">
+        <AButton block html-type="submit" icon="save" type="primary">
           {{ titulo }}
         </AButton>
       </div>
@@ -102,13 +102,13 @@
 </template>
 
 <script>
-import { Drawer, FormModel, Input, Button, Checkbox } from "ant-design-vue";
-import { mapState, mapActions } from "vuex";
+import { Drawer, FormModel, Input, Button, Checkbox } from 'ant-design-vue';
+import { mapState, mapActions } from 'vuex';
 
 const formulario = {
-  email: "",
-  username: "",
-  password: "",
+  email: '',
+  username: '',
+  password: '',
   nombres: undefined,
   apellidos: undefined,
   estaHabilitado: true,
@@ -130,16 +130,16 @@ export default {
     };
   },
   computed: {
-    ...mapState(["esMovil"]),
-    ...mapState("administrador", [
-      "estaAbiertoUsuarioFormularioVentana",
-      "usuario",
+    ...mapState(['esMovil']),
+    ...mapState('administrador', [
+      'estaAbiertoUsuarioFormularioVentana',
+      'usuario',
     ]),
     esEdicion() {
       return this.usuario !== undefined;
     },
     titulo() {
-      return this.esEdicion ? "Actualizar usuario" : "Crear usuario";
+      return this.esEdicion ? 'Actualizar usuario' : 'Crear usuario';
     },
   },
   watch: {
@@ -159,9 +159,9 @@ export default {
     },
   },
   methods: {
-    ...mapActions("administrador", [
-      "cerrarUsuarioFormularioVentana",
-      "obtenerUsuarios",
+    ...mapActions('administrador', [
+      'cerrarUsuarioFormularioVentana',
+      'obtenerUsuarios',
     ]),
     guardar() {
       this.$refs.referenciaFormulario?.validate(async (valid) => {
@@ -173,7 +173,7 @@ export default {
                 ...this.formulario,
               });
             } else {
-              await this.$axios.post("/usuarios/", { ...this.formulario });
+              await this.$axios.post('/usuarios/', { ...this.formulario });
             }
             await this.obtenerUsuarios();
             this.cerrarUsuarioFormularioVentana();

@@ -1,17 +1,17 @@
 <template>
   <ADrawer
     placement="left"
-    :width="esMovil ? '100%' : 400"
     :visible="estaAbiertoMarcadorCatalogoVentana"
+    :width="esMovil ? '100%' : 400"
     @close="cerrarMarcadorCatalogoVentana()"
   >
     <span slot="title" style="text-transform: uppercase">
       <b>Marcadores</b>
     </span>
     <AButton
-      type="primary"
-      icon="plus"
       block
+      icon="plus"
+      type="primary"
       @click="abrirMarcadorFormularioVentana()"
     >
       Agregar marcador
@@ -19,20 +19,20 @@
     <ADivider />
     <ATable
       bordered
-      row-key="id"
       :columns="columnas"
       :data-source="marcadores"
+      row-key="id"
       size="middle"
     >
       <template #acciones="id">
-        <AButton type="dashed" size="small" @click="ver(id)">
+        <AButton size="small" type="dashed" @click="ver(id)">
           <AIcon type="eye" />
         </AButton>
         <APopconfirm
           title="¿Está seguro que desea eliminar este registro?"
           @confirm="eliminar(id)"
         >
-          <AButton type="dashed" size="small">
+          <AButton size="small" type="dashed">
             <AIcon type="delete" />
           </AButton>
         </APopconfirm>
@@ -50,9 +50,9 @@ import {
   Divider,
   Table,
   Popconfirm,
-} from "ant-design-vue";
-import { mapState, mapActions } from "vuex";
-import MarcadorFormularioVentana from "@/components/visor/marcador/MarcadorFormularioVentana.vue";
+} from 'ant-design-vue';
+import { mapState, mapActions } from 'vuex';
+import MarcadorFormularioVentana from '@/components/visor/marcador/MarcadorFormularioVentana.vue';
 export default {
   components: {
     ADrawer: Drawer,
@@ -67,32 +67,32 @@ export default {
     return {
       columnas: [
         {
-          title: "Nombre",
-          dataIndex: "nombre",
-          key: "nombre",
+          title: 'Nombre',
+          dataIndex: 'nombre',
+          key: 'nombre',
         },
         {
-          title: "Acciones",
-          dataIndex: "id",
-          key: "id",
+          title: 'Acciones',
+          dataIndex: 'id',
+          key: 'id',
           scopedSlots: {
-            customRender: "acciones",
+            customRender: 'acciones',
           },
         },
       ],
     };
   },
   computed: {
-    ...mapState(["esMovil"]),
-    ...mapState("visor", ["estaAbiertoMarcadorCatalogoVentana", "marcadores"]),
+    ...mapState(['esMovil']),
+    ...mapState('visor', ['estaAbiertoMarcadorCatalogoVentana', 'marcadores']),
   },
   methods: {
-    ...mapActions("visor", [
-      "cerrarMarcadorCatalogoVentana",
-      "eliminarMarcador",
-      "establecerCentro",
-      "establecerZoom",
-      "abrirMarcadorFormularioVentana",
+    ...mapActions('visor', [
+      'cerrarMarcadorCatalogoVentana',
+      'eliminarMarcador',
+      'establecerCentro',
+      'establecerZoom',
+      'abrirMarcadorFormularioVentana',
     ]),
     eliminar(marcadorId) {
       this.eliminarMarcador(marcadorId);

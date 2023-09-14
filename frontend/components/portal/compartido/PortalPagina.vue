@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { Card, Divider, PageHeader } from "ant-design-vue";
+import { Card, Divider, PageHeader } from 'ant-design-vue';
 export default {
   components: {
     ACard: Card,

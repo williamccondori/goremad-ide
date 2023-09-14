@@ -1,13 +1,13 @@
 <template>
   <div>
     <ATree
-      :tree-data="estructuraGruposCapas"
+      :default-expand-all="true"
       :replace-fields="{
         key: 'id',
         title: 'label',
       }"
       :selectable="false"
-      :default-expand-all="true"
+      :tree-data="estructuraGruposCapas"
     >
       <template #title="{ id, label }">
         <ADropdown :trigger="['contextmenu']">
@@ -27,9 +27,9 @@
       </template>
     </ATree>
     <ADrawer
-      :width="esMovil ? '100%' : 400"
       :mask-closable="false"
       :visible="estaAbiertoGrupoCapaFormularioVentana"
+      :width="esMovil ? '100%' : 400"
       @close="cerrarServicioExternoFormularioVentana()"
     >
       <span slot="title" style="text-transform: uppercase">
@@ -40,7 +40,7 @@
         :model="formulario"
         @submit.prevent="guardar()"
       >
-        <AFormModelItem prop="grupoCapaId" label="Grupo de capas:">
+        <AFormModelItem label="Grupo de capas:" prop="grupoCapaId">
           <ASelect
             v-model="formulario.grupoCapaId"
             :allow-clear="true"
@@ -57,8 +57,8 @@
           </ASelect>
         </AFormModelItem>
         <AFormModelItem
-          prop="nombre"
           label="Nombre:"
+          prop="nombre"
           :rules="[
             {
               required: true,
@@ -71,11 +71,11 @@
             placeholder="Ingrese el nombre de la capa base"
           />
         </AFormModelItem>
-        <AFormModelItem prop="estaHabilitado" label="¿Está habilitado?:">
+        <AFormModelItem label="¿Está habilitado?:" prop="estaHabilitado">
           <ACheckbox v-model="formulario.estaHabilitado" />
         </AFormModelItem>
         <div>
-          <AButton block html-type="submit" type="primary" icon="save">
+          <AButton block html-type="submit" icon="save" type="primary">
             {{ titulo }}
           </AButton>
         </div>
@@ -95,11 +95,11 @@ import {
   Input,
   Checkbox,
   Button,
-} from "ant-design-vue";
-import { mapState, mapActions } from "vuex";
+} from 'ant-design-vue';
+import { mapState, mapActions } from 'vuex';
 
 const formulario = {
-  nombre: "",
+  nombre: '',
   grupoCapaId: undefined,
   estaHabilitado: true,
 };
@@ -139,28 +139,28 @@ export default {
     }
   },
   computed: {
-    ...mapState(["esMovil"]),
-    ...mapState("administrador", ["gruposCapas", "estructuraGruposCapas"]),
+    ...mapState(['esMovil']),
+    ...mapState('administrador', ['gruposCapas', 'estructuraGruposCapas']),
     titulo() {
       return this.esEdicion
-        ? "Actualizar servicio externo"
-        : "Crear grupo de capas";
+        ? 'Actualizar servicio externo'
+        : 'Crear grupo de capas';
     },
   },
   methods: {
-    ...mapActions("administrador", [
-      "obtenerGruposCapas",
-      "obtenerGruposCapasEstructura",
+    ...mapActions('administrador', [
+      'obtenerGruposCapas',
+      'obtenerGruposCapasEstructura',
     ]),
     async seleccionar(grupoCapaId, menuId) {
       switch (menuId) {
-        case "crear":
+        case 'crear':
           this.crear(grupoCapaId);
           break;
-        case "actualizar":
+        case 'actualizar':
           await this.actualizar(grupoCapaId);
           break;
-        case "eliminar":
+        case 'eliminar':
           await this.eliminar(grupoCapaId);
           break;
         default:
@@ -169,7 +169,7 @@ export default {
     },
     crear(grupoCapaId) {
       this.formulario.grupoCapaId =
-        grupoCapaId === "root" ? undefined : grupoCapaId;
+        grupoCapaId === 'root' ? undefined : grupoCapaId;
       this.esEdicion = false;
       this.grupoCapaId = undefined;
       this.estaAbiertoGrupoCapaFormularioVentana = true;
@@ -210,7 +210,7 @@ export default {
           try {
             this.$iniciarCarga();
             this.formulario.grupoCapaId =
-              this.formulario.grupoCapaId === "root"
+              this.formulario.grupoCapaId === 'root'
                 ? undefined
                 : this.formulario.grupoCapaId;
 
@@ -219,7 +219,7 @@ export default {
                 ...this.formulario,
               });
             } else {
-              await this.$axios.post("/grupos-capas/", { ...this.formulario });
+              await this.$axios.post('/grupos-capas/', { ...this.formulario });
             }
             await this.obtenerGruposCapasEstructura();
             await this.obtenerGruposCapas();
