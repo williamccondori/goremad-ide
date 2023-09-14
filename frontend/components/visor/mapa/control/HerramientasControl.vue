@@ -1,45 +1,35 @@
 <template>
   <LControl>
-    <div class="herramientas-control">
-      <a-button title="Capas" type="dashed" @click="abrirCapaCatalogoVentana()">
-        <i class="bx bx-layer" />
-      </a-button>
+    <div
+      style="
+        background-color: rgba(255, 255, 255, 0.55);
+        border-radius: 1rem;
+        padding: 0.25rem;
+      "
+    >
       <a-button
-        title="Leyenda"
-        type="dashed"
-        @click="abrirCapaResumenVentana()"
-      >
-        <i class="bx bx-label" />
-      </a-button>
-      <a-button
-        title="Capas base"
-        type="dashed"
+        shape="circle"
+        title="Mapas base"
+        type="primary"
         @click="abrirCapaBaseCatalogoVentana()"
       >
         <i class="bx bx-map-alt" />
       </a-button>
       <a-button
-        title="Interoperabilidad"
-        type="dashed"
-        @click="abrirWebMapServiceFormularioVentana()"
+        shape="circle"
+        title="Leyenda"
+        type="primary"
+        @click="abrirCapaResumenVentana()"
       >
-        <i class="bx bx-globe" />
-      </a-button>
-      <a-button title="Subir información" type="dashed">
-        <i class="bx bx-upload" />
-      </a-button>
-      <a-button title="Descargar información" type="dashed">
-        <i class="bx bx-download" />
+        <i class="bx bx-label" />
       </a-button>
       <a-button
+        shape="circle"
         title="Imágenes satelitales"
-        type="dashed"
+        type="primary"
         @click="abrirImagenSatelitalCatalogoVentana()"
       >
         <i class="bx bx-images" />
-      </a-button>
-      <a-button title="Portal" type="primary" @click="abrirPortalInformacion()">
-        <i class="bx bx-book" />
       </a-button>
     </div>
   </LControl>
@@ -66,10 +56,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.herramientas-control {
-  padding: 0.25rem;
-  background-color: rgba(255, 255, 255, 0.55);
-}
-</style>

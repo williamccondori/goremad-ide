@@ -1,22 +1,32 @@
 <template>
-  <LControl position="topleft">
+  <LControl
+    position="topleft"
+    style="
+      background-color: rgba(255, 255, 255, 0.55);
+      border-radius: 1rem;
+      padding: 0.25rem;
+    "
+  >
     <a-button
+      shape="circle"
       title="Capas"
-      type="dashed"
+      type="primary"
       @click="abrirVentana('CapasOperables')"
     >
       <i class="bx bx-layer" />
     </a-button>
     <a-button
+      shape="circle"
       title="Capas interoperables"
-      type="dashed"
+      type="primary"
       @click="abrirVentana('CapasInteroperables')"
     >
       <i class="bx bx-globe" />
     </a-button>
     <a-button
+      shape="circle"
       title="Información de las capas"
-      type="dashed"
+      type="primary"
       @click="abrirVentana('InformacionCapasOperables')"
     >
       <i class="bx bx-table" />

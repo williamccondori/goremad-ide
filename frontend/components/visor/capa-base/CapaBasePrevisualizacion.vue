@@ -37,6 +37,7 @@ export default {
         dragging: false,
         zoomControl: false,
         attributionControl: false,
+        scrollWheelZoom: false,
       },
     };
   },

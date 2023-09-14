@@ -5,25 +5,91 @@
     "zoomInicial": 8,
     "capasBase": [
       {
-        "id": "63e16a60cccffac41b8848b2",
-        "nombre": "ESRI Streets",
-        "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
-        "atribucion": "ESRI"
+        "id": "0",
+        "nombre": "Mapa topográfico",
+        "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
+        "atribucion": "Esri"
       },
       {
-        "id": "google-streets",
-        "nombre": "Google Streets",
+        "id": "1",
+        "nombre": "Mapa satelital",
+        "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        "atribucion": "Esri"
+      },
+      {
+        "id": "2",
+        "nombre": "Mapa de calles",
+        "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+        "atribucion": "Esri"
+      },
+      {
+        "id": "3",
+        "nombre": "Mapa en relieve",
+        "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Shaded_Relief/MapServer/tile/{z}/{y}/{x}",
+        "atribucion": "Esri"
+      },
+      {
+        "id": "3.1",
+        "nombre": "Mapa oscuro",
+        "url": "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",
+        "atribucion": "Esri"
+      },
+      {
+        "id": "4",
+        "nombre": "Mapa base",
         "url": "https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",
         "atribucion": "Google"
       },
       {
-        "id": "osm",
-        "nombre": "OpenStreetMap",
-        "url": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        "id": "5",
+        "nombre": "Mapa satelital",
+        "url": "https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
+        "atribucion": "Google"
+      },
+      {
+        "id": "6",
+        "nombre": "Mapa híbrido",
+        "url": "https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}",
+        "atribucion": "Google"
+      },
+      {
+        "id": "7",
+        "nombre": "Mapa de terreno",
+        "url": "https://mt1.google.com/vt/lyrs=p&x={x}&y={y}&z={z}",
+        "atribucion": "Google"
+      },
+      {
+        "id": "7.1",
+        "nombre": "Mapa claro",
+        "url": "https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png",
+        "atribucion": "CartoDB"
+      },
+      {
+        "id": "8",
+        "nombre": "Mapa oscuro",
+        "url": "https://basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
+        "atribucion": "CartoDB"
+      },
+      {
+        "id": "9",
+        "nombre": "Mapa base",
+        "url": "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
         "atribucion": "OpenStreetMap"
+      },
+      {
+        "id": "10",
+        "nombre": "Mapa de terreno",
+        "url": "https://stamen-tiles.a.ssl.fastly.net/terrain/{z}/{x}/{y}.jpg",
+        "atribucion": "Stamen"
+      },
+      {
+        "id": "11",
+        "nombre": "Mapa de toner",
+        "url": "https://stamen-tiles.a.ssl.fastly.net/toner/{z}/{x}/{y}.png",
+        "atribucion": "Stamen"
       }
     ],
-    "capaBaseIncialId": "google-streets",
+    "capaBaseIncialId": "8",
     "serviciosExternos": [
       {
         "id": "0_0",
@@ -91,43 +157,43 @@
         "transparencia": 1
       }
     ],
-    "capasActivas": ["0_0"],
+    "capasActivas": ["0_0", "0_1", "0_2"],
     "estructura": [
       {
         "id": "root",
-        "label": "Todos los elementos",
+        "label": "📁 Todos los elementos",
         "children": [
           {
             "id": "cartografia",
-            "label": "Cartografía",
+            "label": "📁 Cartografía",
             "children": [
               {
                 "id": "0_0",
-                "label": "Límite departamentales",
+                "label": "📄 Límite departamentales",
                 "children": [],
                 "esGrupo": false
               },
               {
                 "id": "0_1",
-                "label": "Límite provincial",
+                "label": "📄 Límite provincial",
                 "children": [],
                 "esGrupo": false
               },
               {
                 "id": "0_2",
-                "label": "Límite distrital",
+                "label": "📄 Límite distrital",
                 "children": [],
                 "esGrupo": false
               },
               {
                 "id": "0_3",
-                "label": "Centros poblados",
+                "label": "📄 Centros poblados",
                 "children": [],
                 "esGrupo": false
               },
               {
                 "id": "0_4",
-                "label": "Población dispersa",
+                "label": "📄 Población dispersa",
                 "children": [],
                 "esGrupo": false
               }

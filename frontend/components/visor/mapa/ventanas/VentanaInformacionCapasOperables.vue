@@ -5,23 +5,10 @@
     @close="cerrarVentana('InformacionCapasOperables')"
   >
     <span slot="title">
-      <b>INFORMACIÓN DE LAS CAPAS</b>
+      <b>Información de las capas</b>
     </span>
     <a-space direction="vertical" style="width: 100%">
-      <a-alert type="error">
-        <span slot="message">
-          <b>Funcionalidad en desarrollo</b>
-        </span>
-        <span slot="description">
-          El comportamiento y la información mostrada por esta funcionalidad se
-          encuentran en proceso de desarrollo/pruebas, por lo que pueden
-          presentarse errores.
-        </span>
-      </a-alert>
       <div>
-        <h1>
-          <b>Formulario:</b>
-        </h1>
         <a-form-model
           ref="formModel"
           :model="form"
@@ -79,7 +66,9 @@
               {{ capaGeograficaResultado.titulo }}
             </a-descriptions-item>
             <a-descriptions-item label="Nombre de la capa">
-              {{ capaGeograficaResultado.nombre }}
+              <a-tag color="purple" style="font-size: x-small">
+                {{ capaGeograficaResultado.nombre }}
+              </a-tag>
             </a-descriptions-item>
             <a-descriptions-item label="Descripción">
               {{ capaGeograficaResultado.descripcion }}

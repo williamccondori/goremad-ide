@@ -30,7 +30,6 @@
       </LMap>
     </client-only>
     <Ventanas />
-    <CapaCatalogoVentana />
     <CapaResumenVentana />
     <UbicacionVentana />
     <CoordenadaVentana />
@@ -74,7 +73,6 @@ import CapaDetallePopup from '@/components/visor/capa/CapaDetallePopup.vue';
 // Ventanas.
 import Ventanas from './Ventanas.vue';
 import CapaResumenVentana from '@/components/visor/capa/CapaResumenVentana.vue';
-import CapaCatalogoVentana from '@/components/visor/capa/CapaCatalogoVentana.vue';
 import UbicacionVentana from '@/components/visor/ubicacion/UbicacionVentana.vue';
 import CoordenadaVentana from '@/components/visor/coordenada/CoordenadaVentana.vue';
 import DibujoVentana from '@/components/visor/dibujo/DibujoVentana.vue';
@@ -110,7 +108,6 @@ export default {
     // Ventanas.
     Ventanas,
     CapaResumenVentana,
-    CapaCatalogoVentana,
     UbicacionVentana,
     CoordenadaVentana,
     DibujoVentana,

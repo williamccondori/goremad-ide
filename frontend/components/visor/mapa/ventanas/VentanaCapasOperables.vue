@@ -5,19 +5,9 @@
     @close="cerrarVentana('CapasOperables')"
   >
     <span slot="title">
-      <b>CAPAS</b>
+      <b>Capas</b>
     </span>
     <a-space direction="vertical" style="width: 100%">
-      <a-alert type="error">
-        <span slot="message">
-          <b>Funcionalidad en desarrollo</b>
-        </span>
-        <span slot="description">
-          El comportamiento y la información mostrada por esta funcionalidad se
-          encuentran en proceso de desarrollo/pruebas, por lo que pueden
-          presentarse errores.
-        </span>
-      </a-alert>
       <a-collapse expand-icon-position="right">
         <a-collapse-panel key="1">
           <span slot="header"> <b>🌍 Fundamentales</b> </span>

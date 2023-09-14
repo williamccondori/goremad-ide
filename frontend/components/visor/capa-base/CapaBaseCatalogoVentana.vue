@@ -4,8 +4,8 @@
     :width="esMovil ? '100%' : 400"
     @close="cerrarCapaBaseCatalogoVentana()"
   >
-    <span slot="title" style="text-transform: uppercase">
-      <b>Capas base</b>
+    <span slot="title">
+      <b>Mapas base</b>
     </span>
     <div class="app--contenedor-vertical">
       <a-row align="middle" justify="space-between" type="flex">
