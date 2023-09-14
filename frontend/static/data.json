@@ -9,9 +9,21 @@
         "nombre": "ESRI Streets",
         "url": "https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
         "atribucion": "ESRI"
+      },
+      {
+        "id": "google-streets",
+        "nombre": "Google Streets",
+        "url": "https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",
+        "atribucion": "Google"
+      },
+      {
+        "id": "osm",
+        "nombre": "OpenStreetMap",
+        "url": "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        "atribucion": "OpenStreetMap"
       }
     ],
-    "capaBaseIncialId": "63e16a60cccffac41b8848b2",
+    "capaBaseIncialId": "google-streets",
     "serviciosExternos": [
       {
         "id": "0_0",

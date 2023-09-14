@@ -69,6 +69,11 @@
           <b>Resultados de la búsqueda:</b>
         </h1>
         <a-space direction="vertical" style="width: 100%">
+          <a-button block type="primary" @click="verInformacion()">
+            <a-icon type="eye" />
+            Ver la información de los
+            {{ capaGeograficaResultado.total }} registros
+          </a-button>
           <a-descriptions :bordered="true" :column="1" size="small">
             <a-descriptions-item label="Título">
               {{ capaGeograficaResultado.titulo }}
@@ -92,11 +97,6 @@
               />
             </a-descriptions-item>
           </a-descriptions>
-          <a-button block type="dashed" @click="verInformacion()">
-            <a-icon type="eye" />
-            Ver la información de los
-            {{ capaGeograficaResultado.total }} registros
-          </a-button>
         </a-space>
       </div>
     </a-space>
@@ -131,26 +131,36 @@ export default {
           nombre: 'Gestión forestal',
           grupos: [
             {
-              id: 'Zonificación forestal',
+              id: 'autorizaciones',
+              nombre: 'Modalidad de acceso / Autorizaciones',
+              capasGeograficas: [
+                {
+                  id: 'Act_AutorizacionDes',
+                  nombre: 'Autorización de desbosque',
+                },
+                {
+                  id: 'Act_AutorizacionCamUsoActTieFinAgrPrePri',
+                  nombre:
+                    'Autorización de cambio de uso actual de las tierras a fines agropecuarios en predios privados',
+                },
+              ],
+            },
+            {
+              id: 'concesion',
               nombre: 'Modalidad de acceso / Concesiones',
               capasGeograficas: [
-                // {
-                //   id: 'Act_AutorizacionCamUsoActTieFinAgrPrePri',
-                //   nombre:
-                //     'Autorización de cambio de uso actual de las tierras a fines agropecuarios en predios privados',
-                // },
-                // {
-                //   id: 'Act_AutorizacionDes',
-                //   nombre: 'Autorización de desbosque',
-                // },
-                // {
-                //   id: 'Con_ConcesionForFinMad',
-                //   nombre: 'Concesiones forestales con fines maderables',
-                // },
                 {
                   id: 'Con_ConcesionProForDifMad',
                   nombre:
                     'Concesión para productos forestales diferentes a la madera',
+                },
+                {
+                  id: 'Con_ConcesionForFinMad',
+                  nombre: 'Concesión forestal con fines maderables',
+                },
+                {
+                  id: 'Con_ConcesionForRef',
+                  nombre: 'Concesión para forestación y/o reforestación',
                 },
               ],
             },

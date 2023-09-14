@@ -72,12 +72,11 @@ export default {
 
 <style scoped>
 .cabecera {
-  z-index: 999;
   padding: 0 2rem;
-  background-color: rgb(255 255 255 / 32%);
+  background-color: #212121;
   box-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%),
     0 1px 5px 0 rgb(0 0 0 / 20%);
-  position: fixed;
+  z-index: 1000;
 }
 .avatar {
   display: flex;

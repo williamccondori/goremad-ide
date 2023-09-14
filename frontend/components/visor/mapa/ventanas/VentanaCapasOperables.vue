@@ -40,6 +40,25 @@
                 />
                 Concesión para productos forestales diferentes a la madera
               </div>
+              <div>
+                <a-switch
+                  size="small"
+                  @change="
+                    (e) =>
+                      cambiarEstadoVisualizacion('Con_ConcesionForFinMad', e)
+                  "
+                />
+                Concesión forestal con fines maderables
+              </div>
+              <div>
+                <a-switch
+                  size="small"
+                  @change="
+                    (e) => cambiarEstadoVisualizacion('Con_ConcesionForRef', e)
+                  "
+                />
+                Concesión para forestación y/o reforestación
+              </div>
             </a-collapse-panel>
           </a-collapse>
         </a-collapse-panel>

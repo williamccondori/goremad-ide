@@ -286,7 +286,7 @@ export const mutations = {
   },
   agregarCapaOperativa(state, capaOperativa) {
     const existe = state.capasGEOJSON.find(
-      (capa) => capa.id === capaOperativa.id
+      (capa) => capa.nombre === capaOperativa.nombre
     );
     if (!existe) {
       state.capasGEOJSON.push(capaOperativa);
