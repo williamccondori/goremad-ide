@@ -9,8 +9,9 @@
         @ready="inicializarMapa"
       >
         <!--Controles.-->
-        <HerramientasControl />
         <InformacionControl />
+        <HerramientasControl />
+
         <UtilidadesControl />
         <InformacionPosicionControl />
         <LControlScale :max-width="200" position="bottomleft" />
@@ -54,7 +55,6 @@ L.Icon.Default.mergeOptions({
 });
 import { mapState, mapActions } from 'vuex';
 // Controles.
-import HerramientasControl from '@/components/visor/mapa/control/HerramientasControl.vue';
 import InformacionPosicionControl from '@/components/visor/mapa/control/InformacionPosicionControl.vue';
 import MiniMapaControl from '@/components/visor/mapa/control/MiniMapaControl.vue';
 import LogoControl from '@/components/visor/mapa/control/LogoControl.vue';
@@ -82,6 +82,7 @@ import CapaBaseCatalogoVentana from '@/components/visor/capa-base/CapaBaseCatalo
 import ImagenSatelitalCatalogoVentana from '@/components/visor/imagen-satelital/ImagenSatelitalCatalogoVentana.vue';
 import ComparacionVentana from '@/components/visor/comparacion/ComparacionVentana.vue';
 import CapaGEOJSON from './capa/CapaGEOJSON.vue';
+import HerramientasControl from './control/HerramientasControl.vue';
 import InformacionControl from './control/InformacionControl.vue';
 
 export default {
@@ -89,7 +90,6 @@ export default {
     LMap,
     LControlScale,
     // Controles.
-    HerramientasControl,
     InformacionPosicionControl,
     MiniMapaControl,
     LogoControl,
@@ -117,6 +117,7 @@ export default {
     ImagenSatelitalCatalogoVentana,
     ComparacionVentana,
     CapaGEOJSON,
+    HerramientasControl,
     InformacionControl,
   },
 

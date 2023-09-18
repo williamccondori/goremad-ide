@@ -24,11 +24,11 @@
     "leaflet-navbar": "^1.0.0",
     "leaflet.fullscreen": "^2.4.0",
     "leaflet.locatecontrol": "^0.79.0",
+    "less": "^3.9.0",
+    "less-loader": "^7.3",
     "nuxt": "^2.15.7",
     "uuid": "^9.0.0",
-    "vue2-leaflet": "^2.7.1",
-    "less": "^3.9.0",
-    "less-loader": "^7.3"
+    "vue2-leaflet": "^2.7.1"
   },
   "devDependencies": {
     "eslint": "^7.32.0",
@@ -36,6 +36,7 @@
     "eslint-plugin-import": "^2.25.2",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-vue": "^8.0.3",
-    "prettier": "^2.4.1"
+    "prettier": "^2.4.1",
+    "vue-fragment": "^1.6.0"
   }
 }

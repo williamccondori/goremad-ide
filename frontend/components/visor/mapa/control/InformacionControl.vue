@@ -1,6 +1,5 @@
 <template>
   <LControl
-    position="topleft"
     style="
       background-color: rgba(255, 255, 255, 0.55);
       border-radius: 1rem;

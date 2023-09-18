@@ -115,7 +115,6 @@ export default {
           latitudLongitud
         );
 
-        // Get the bounding box of the current map view.
         const boundingBox = this.mapa.getBounds();
         const southWest = boundingBox.getSouthWest();
         const northEast = boundingBox.getNorthEast();
@@ -123,12 +122,7 @@ export default {
         const srs = 'EPSG:4326';
 
         for (const servicio of serviciosAConsultar) {
-          console.log(servicio);
           for (const capa of servicio.capas) {
-            // WMS: GetFeatureInfo
-            // https://docs.geoserver.org/stable/en/user/services/wms/reference.html#getfeatureinfo
-
-            // Call GetFeatureInfo
             const getFeatureInfoReponse = await fetch(
               servicio.url +
                 '&version=1.1.1&request=GetFeatureInfo&layers=' +

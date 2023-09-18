@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <fragment>
     <VentanaCapasOperables />
     <VentanaCapasInteroperables />
     <VentanaInformacionCapasOperables />
     <VentanaResultadoInformacionCapasOperables />
-  </div>
+  </fragment>
 </template>
 <script>
 import VentanaCapasOperables from './ventanas/VentanaCapasOperables.vue';

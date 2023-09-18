@@ -1,7 +1,13 @@
 <template>
   <div v-if="configuracionAplicada" class="app--pagina">
     <a-spin :spinning="estaCargando">
-      <div class="contenedor-principal">
+      <div
+        style="
+          height: 100%;
+          display: grid;
+          grid-template-rows: var(--altura-cabecera) 1fr;
+        "
+      >
         <AplicacionCabecera />
         <nuxt />
       </div>
@@ -25,12 +31,9 @@ export default {
   },
   async fetch() {
     try {
-      // const { data } = await this.$axios.get("/visor/iniciales/");
-      // Read the JSON file. /data.json with fetch.
-      const response = await fetch('/data.json');
-      const data = await response.json();
-
-      const configuracionInicial = data.configuracionInicial;
+      const { data: configuracionInicial } = await this.$axios.get(
+        '/visor/iniciales/'
+      );
 
       if (configuracionInicial) {
         this.configuracionAplicada = true;
@@ -78,11 +81,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.contenedor-principal {
-  height: 100%;
-  display: grid;
-  grid-template-rows: var(--altura-cabecera) 1fr;
-}
-</style>

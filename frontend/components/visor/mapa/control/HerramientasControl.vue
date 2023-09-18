@@ -1,37 +1,35 @@
 <template>
-  <LControl>
-    <div
-      style="
-        background-color: rgba(255, 255, 255, 0.55);
-        border-radius: 1rem;
-        padding: 0.25rem;
-      "
+  <LControl
+    style="
+      background-color: rgba(255, 255, 255, 0.55);
+      border-radius: 1rem;
+      padding: 0.25rem;
+    "
+  >
+    <a-button
+      shape="circle"
+      title="Mapas base"
+      type="primary"
+      @click="abrirCapaBaseCatalogoVentana()"
     >
-      <a-button
-        shape="circle"
-        title="Mapas base"
-        type="primary"
-        @click="abrirCapaBaseCatalogoVentana()"
-      >
-        <i class="bx bx-map-alt" />
-      </a-button>
-      <a-button
-        shape="circle"
-        title="Leyenda"
-        type="primary"
-        @click="abrirCapaResumenVentana()"
-      >
-        <i class="bx bx-label" />
-      </a-button>
-      <a-button
-        shape="circle"
-        title="Imágenes satelitales"
-        type="primary"
-        @click="abrirImagenSatelitalCatalogoVentana()"
-      >
-        <i class="bx bx-images" />
-      </a-button>
-    </div>
+      <i class="bx bx-map-alt" />
+    </a-button>
+    <a-button
+      shape="circle"
+      title="Leyenda"
+      type="primary"
+      @click="abrirCapaResumenVentana()"
+    >
+      <i class="bx bx-label" />
+    </a-button>
+    <a-button
+      shape="circle"
+      title="Imágenes satelitales"
+      type="primary"
+      @click="abrirImagenSatelitalCatalogoVentana()"
+    >
+      <i class="bx bx-images" />
+    </a-button>
   </LControl>
 </template>
 
@@ -50,9 +48,6 @@ export default {
       'abrirWebMapServiceFormularioVentana',
       'abrirImagenSatelitalCatalogoVentana',
     ]),
-    abrirPortalInformacion() {
-      this.$router.push('/portal');
-    },
   },
 };
 </script>

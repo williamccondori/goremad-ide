@@ -29,7 +29,12 @@ export default {
     ],
   },
   css: ['@/assets/less/variables.less', '@/assets/css/global.css'],
-  plugins: ['@/plugins/ant-design', '@/plugins/ejecutor', '@/plugins/mapa'],
+  plugins: [
+    '@/plugins/ant-design',
+    '@/plugins/vue-fragment',
+    '@/plugins/ejecutor',
+    '@/plugins/mapa',
+  ],
   components: true,
   buildModules: [],
   modules: ['@nuxtjs/axios', '@nuxtjs/auth-next'],
