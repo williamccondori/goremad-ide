@@ -30,6 +30,22 @@
     >
       <i class="bx bx-table" />
     </a-button>
+    <a-button
+      shape="circle"
+      title="Buscar"
+      type="primary"
+      @click="abrirVentana('Buscar')"
+    >
+      <i class="bx bx-map" />
+    </a-button>
+    <a-button
+      shape="circle"
+      title="Descargar información"
+      type="primary"
+      @click="abrirVentana('DescargarInformacion')"
+    >
+      <i class="bx bx-download" />
+    </a-button>
   </LControl>
 </template>
 

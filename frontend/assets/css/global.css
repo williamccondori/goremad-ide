@@ -1,15 +1,10 @@
 /*=============================================
 =            Configuracion principal.            =
 =============================================*/
-@import url('https://fonts.googleapis.com/css2?family=Quattrocento+Sans:wght@400;700&display=swap');
 
 :root {
   --color-primario: green;
   --altura-cabecera: 4rem;
-}
-
-* {
-  font-family: 'Quattrocento Sans', sans-serif;
 }
 
 body {

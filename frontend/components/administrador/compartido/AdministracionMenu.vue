@@ -1,50 +1,46 @@
 <template>
-  <ALayoutSider v-model="esMovil" :width="esMovil ? 'auto' : '15rem'">
-    <AMenu
-      class="menu"
+  <a-layout-sider v-model="esMovil" :width="esMovil ? 'auto' : '15rem'">
+    <a-menu
       :default-selected-keys="[$route.path]"
       :router="true"
-      theme="dark"
-      @click="seleccionarOpcion"
+      style="height: 100%"
+      @click="(opcion) => seleccionarOpcion(opcion)"
     >
-      <AMenuItem key="/administrador">
-        <AIcon type="home" />
+      <a-menu-item key="/administrador">
+        <a-icon type="home" />
         <span>Inicio</span>
-      </AMenuItem>
-      <AMenuItem key="/administrador/capas-base">
-        <AIcon type="camera" />
+      </a-menu-item>
+      <a-menu-item key="/administrador/objetos-geograficos">
+        <a-icon type="cluster" />
+        <span>Objetos geográficos</span>
+      </a-menu-item>
+      <a-menu-item key="/administrador/capas-base">
+        <a-icon type="camera" />
         <span>Capas base</span>
-      </AMenuItem>
-      <AMenuItem key="/administrador/servicios-externos">
-        <AIcon type="global" />
+      </a-menu-item>
+      <a-menu-item key="/administrador/servicios-externos">
+        <a-icon type="global" />
         <span>Servicios externos</span>
-      </AMenuItem>
-      <AMenuItem key="/administrador/grupos-capas">
-        <AIcon type="cluster" />
+      </a-menu-item>
+      <a-menu-item key="/administrador/grupos-capas">
+        <a-icon type="cluster" />
         <span>Grupos de capas</span>
-      </AMenuItem>
-      <AMenuItem key="/administrador/imagenes-satelitales">
-        <AIcon type="picture" />
+      </a-menu-item>
+      <a-menu-item key="/administrador/imagenes-satelitales">
+        <a-icon type="picture" />
         <span>Imágenes satelitales</span>
-      </AMenuItem>
-      <AMenuItem key="/administrador/configuraciones">
-        <AIcon type="setting" />
+      </a-menu-item>
+      <a-menu-item key="/administrador/configuraciones">
+        <a-icon type="setting" />
         <span>Configuraciones</span>
-      </AMenuItem>
-    </AMenu>
-  </ALayoutSider>
+      </a-menu-item>
+    </a-menu>
+  </a-layout-sider>
 </template>
 
 <script>
-import { Menu, Icon, Layout } from 'ant-design-vue';
 import { mapState } from 'vuex';
 export default {
-  components: {
-    AMenu: Menu,
-    AMenuItem: Menu.Item,
-    AIcon: Icon,
-    ALayoutSider: Layout.Sider,
-  },
   computed: {
     ...mapState(['esMovil']),
   },
@@ -55,9 +51,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.menu {
-  height: 100%;
-}
-</style>
