@@ -8,40 +8,30 @@ from app.aplicacion.dtos.administrador.obtener_todos_configuracion_response impo
     ObtenerTodosConfiguracionResponse,
 )
 from app.aplicacion.utilidades import constantes
+from app.dependencies import registrar_repo_capa_base
 from app.dominio.entidades.compartido import base_entidad
 from app.dominio.entidades.configuracion_entidad import ConfiguracionEntidad
 from app.dominio.excepciones.aplicacion_exception import AplicacionException
-from app.dominio.repositorios.capa_base_repositorio import ICapaBaseRepositorio
+from app.dominio.repositorios.base_repositorio import IBaseRepositorio
 from app.dominio.repositorios.configuracion_repositorio import IConfiguracionRepositorio
-from app.infraestructura.mongo_db.repositorios.capa_base_repositorio import (
-    CapaBaseRepositorio,
-)
+
 from app.infraestructura.mongo_db.repositorios.configuracion_repositorio import (
     ConfiguracionRepositorio,
 )
 
 
 class ConfiguracionServicio:
-    """
-    Clase que contiene la logica de negocio para la administracion de configuraciones.
-    """
-
     def __init__(
         self,
         configuracion_repositorio: IConfiguracionRepositorio = Depends(
             ConfiguracionRepositorio
         ),
-        capa_base_repositorio: ICapaBaseRepositorio = Depends(CapaBaseRepositorio),
+        capa_base_repositorio: IBaseRepositorio = Depends(registrar_repo_capa_base),
     ):
         self._configuracion_repositorio = configuracion_repositorio
         self._capa_base_repositorio = capa_base_repositorio
 
     async def obtener_todos(self) -> list[ObtenerTodosConfiguracionResponse]:
-        """
-        Obtiene todas las configuraciones activas.
-        Returns:
-            list[ObtenerTodosConfiguracionResponse]: Lista de configuraciones activas.
-        """
         configuraciones: list[
             ConfiguracionEntidad
         ] = await self._configuracion_repositorio.obtener_todos(
@@ -55,15 +45,6 @@ class ConfiguracionServicio:
     async def actualizar(
         self, configuracion_id: str, valor: str, usuario_auditoria_id: str
     ) -> str:
-        """
-        Actualiza el valor de una configuracion.
-        Args:
-            configuracion_id (str): Identificador de la configuracion.
-            valor (str): Valor de la configuracion.
-            usuario_auditoria_id (str): Identificador del usuario que realiza la actualizacion.
-        Returns:
-            str: Identificador de la configuracion actualizada.
-        """
         configuracion = await self._configuracion_repositorio.obtener_por_id(
             configuracion_id
         )
@@ -76,14 +57,6 @@ class ConfiguracionServicio:
     async def actualizar_todos(
         self, request: ActualizarTodosConfiguracionRequest, usuario_auditoria_id: str
     ) -> str:
-        """
-        Actualiza todas las configuraciones.
-        Args:
-            request (ActualizarTodosConfiguracionRequest): Informacion de las configuraciones a actualizar.
-            usuario_auditoria_id (str): Identificador del usuario que realiza la actualizacion.
-        Returns:
-            str: Identificadores de las configuraciones actualizadas separados por coma.
-        """
         configuraciones: list[
             ConfiguracionEntidad
         ] = await self._configuracion_repositorio.obtener_todos(

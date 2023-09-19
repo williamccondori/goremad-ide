@@ -53,11 +53,6 @@ class PublicacionServicio:
                 )
 
     async def obtener_todos(self) -> list[ObtenerTodosPublicacionResponse]:
-        """
-        Obtiene todas las publicaciones activas.
-        Returns:
-            list[ObtenerTodosCapaBaseResponse]: Lista de publicaciones activas.
-        """
         publicaciones: list[
             PublicacionEntidad
         ] = await self._publicacion_repositorio.obtener_todos(
@@ -71,14 +66,6 @@ class PublicacionServicio:
     async def crear(
         self, request: CrearPublicacionRequest, usuario_auditoria_id: str
     ) -> str:
-        """
-        Crea una publicacion a partir de una capa de GeoServer.
-        Args:
-            request (CrearPublicacionRequest): Informacion de la publicacion.
-            usuario_auditoria_id (str): Identificador del usuario que realiza la accion.
-        Returns:
-            str: Identificador de la publicacion creada.
-        """
         # Se estandariza el nombre de la capa.
         nombre_capa = request.capa.strip()
         # nombre_capa = nombre_capa.lower()

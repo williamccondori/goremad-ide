@@ -43,10 +43,6 @@ from app.infraestructura.mongo_db.repositorios.servicio_externo_repositorio impo
 
 
 class ServicioExternoServicio:
-    """
-    Clase que contiene la logica de negocio para los servicios externos.
-    """
-
     def __init__(
         self,
         servicio_externo_repositorio: IServicioExternoRepositorio = Depends(
@@ -60,13 +56,6 @@ class ServicioExternoServicio:
     async def __validar_existencia_grupo_capa(
         self, grupo_capa_id: Optional[str]
     ) -> None:
-        """
-        Valida que el grupo de capa exista.
-        Args:
-            grupo_capa_id (Optional[str]): Identificador del grupo de capa.
-        Raises:
-            AplicacionException: Si el grupo de capa no existe.
-        """
         if grupo_capa_id:
             existe_grupo_capa: bool = (
                 await self._grupo_capa_repositorio.verificar_existencia(grupo_capa_id)
@@ -84,13 +73,6 @@ class ServicioExternoServicio:
     async def __obtener_grupo_capa_descripcion(
         self, grupo_capa_id: Optional[str]
     ) -> Optional[str]:
-        """
-        Obtiene la descripcion de un grupo de capa.
-        Args:
-            grupo_capa_id (Optional[str]): Identificador del grupo de capa.
-        Returns:
-            Optional[str]: Descripcion del grupo de capa.
-        """
         if not grupo_capa_id:
             return None
         grupo_capa: GrupoCapaEntidad = (
@@ -105,13 +87,6 @@ class ServicioExternoServicio:
     async def obtener_todos(
         self, request: ObtenerTodosServicioExternoRequest
     ) -> list[ObtenerTodosServicioExternoResponse]:
-        """
-        Obtiene todos los servicios externos.
-        Args:
-            request (ObtenerTodosServicioExternoRequest): Parametros de consulta.
-        Returns:
-            list[ObtenerTodosServicioExternoResponse]: Lista de servicios externos.
-        """
         servicios_externos: list[
             ServicioExternoEntidad
         ] = await self._servicio_externo_repositorio.obtener_todos(
@@ -158,13 +133,6 @@ class ServicioExternoServicio:
     async def obtener_por_id(
         self, servicio_externo_id: str
     ) -> ObtenerPorIdServicioExternoResponse:
-        """
-        Obtiene un servicio externo por su identificador.
-        Args:
-            servicio_externo_id (str): Identificador del servicio externo.
-        Returns:
-            ObtenerPorIdServicioExternoResponse: Servicio externo.
-        """
         servicio_externo: ServicioExternoEntidad = (
             await self._servicio_externo_repositorio.obtener_por_id(servicio_externo_id)
         )
@@ -184,14 +152,6 @@ class ServicioExternoServicio:
     async def crear(
         self, request: CrearServicioExternoRequest, usuario_auditoria_id: str
     ) -> str:
-        """
-        Crea un nuevo servicio externo.
-        Args:
-            request (CrearServicioExternoRequest): Informacion del servicio externo a crear.
-            usuario_auditoria_id (str): Identificador del usuario que crea el servicio externo.
-        Returns:
-            str: Identificador del servicio externo creado.
-        """
         # Se hace la validacion de que el grupo ingresado exista.
         await self.__validar_existencia_grupo_capa(request.grupo_capa_id)
         # Se obtiene la informacion del servicio externo.
@@ -223,15 +183,6 @@ class ServicioExternoServicio:
         request: ActualizarServicioExternoRequest,
         usuario_auditoria_id: str,
     ) -> str:
-        """
-        Actualiza la informacion de un servicio externo existente.
-        Args:
-            servicio_externo_id (str): Identificador del servicio externo.
-            request (ActualizarServicioExternoRequest): Informacion del servicio externo a actualizar.
-            usuario_auditoria_id (str): Identificador del usuario que actualiza el servicio externo.
-        Returns:
-            str: Identificador del servicio externo actualizado.
-        """
         # Se hace la validacion de que el grupo ingresado exista.
         await self.__validar_existencia_grupo_capa(request.grupo_capa_id)
         # Se obtiene la informacion del servicio externo.
@@ -263,14 +214,6 @@ class ServicioExternoServicio:
     async def eliminar(
         self, servicio_externo_id: str, usuario_auditoria_id: str
     ) -> str:
-        """
-        Elimina un servicio externo existente.
-        Args:
-            servicio_externo_id (str): Identificador del servicio externo.
-            usuario_auditoria_id (str): Identificador del usuario que elimina el servicio externo.
-        Returns:
-            str: Identificador del servicio externo eliminado.
-        """
         existe_servicio_externo: bool = (
             await self._servicio_externo_repositorio.verificar_existencia(
                 servicio_externo_id
