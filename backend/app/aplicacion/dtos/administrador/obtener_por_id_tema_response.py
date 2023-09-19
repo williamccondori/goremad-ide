@@ -8,3 +8,4 @@ class ObtenerPorIdTemaResponse(BaseModelo):
     codigo: str
     nombre: str
     descripcion: Optional[str]
+    catalogo_id: str

@@ -29,7 +29,14 @@ class GrupoServicio:
 
     async def obtener_todos(self) -> list[ObtenerTodosGrupoResponse]:
         grupos: list[GrupoEntidad] = await self._grupo_repositorio.obtener_todos()
-        return [ObtenerTodosGrupoResponse(**grupo.dict()) for grupo in grupos]
+        registros = []
+        for grupo in grupos:
+            tema = await self._tema_repositorio.obtener_por_id(grupo.tema_id)
+            registros.append({
+                **grupo.dict(),
+                "tema_nombre": tema.nombre if tema else ""
+            })
+        return [ObtenerTodosGrupoResponse(**registro) for registro in registros]
 
     async def obtener_por_id(self, grupo_id: str) -> ObtenerPorIdGrupoResponse:
         grupo: GrupoEntidad = await self._grupo_repositorio.obtener_por_id(grupo_id)

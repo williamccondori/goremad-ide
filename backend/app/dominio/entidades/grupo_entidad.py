@@ -9,4 +9,4 @@ class GrupoEntidad(BaseEntidad):
     nombre: str
     descripcion: Optional[str]
     tema_id: str
-    esta_habilitado: bool
+    esta_habilitado: bool = True

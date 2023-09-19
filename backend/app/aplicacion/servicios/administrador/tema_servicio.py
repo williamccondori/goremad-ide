@@ -6,7 +6,6 @@ from app.aplicacion.dtos.administrador.crear_tema_request import CrearTemaReques
 from app.aplicacion.dtos.administrador.obtener_por_id_tema_response import ObtenerPorIdTemaResponse
 from app.aplicacion.dtos.administrador.obtener_todos_tema_response import ObtenerTodosTemaResponse
 from app.dependencies import registrar_repo_tema, registrar_repo_catalogo
-from app.dominio.entidades.compartido import base_entidad
 from app.dominio.entidades.tema_entidad import TemaEntidad
 from app.dominio.excepciones.aplicacion_exception import AplicacionException
 from app.dominio.repositorios.base_repositorio import IBaseRepositorio
@@ -31,7 +30,14 @@ class TemaServicio:
 
     async def obtener_todos(self) -> list[ObtenerTodosTemaResponse]:
         temas: list[TemaEntidad] = await self._tema_repositorio.obtener_todos()
-        return [ObtenerTodosTemaResponse(**tema.dict()) for tema in temas]
+        registros = []
+        for tema in temas:
+            catalogo = await self._catalogo_repositorio.obtener_por_id(tema.catalogo_id)
+            registros.append({
+                **tema.dict(),
+                "catalogo_nombre": catalogo.nombre if catalogo else ""
+            })
+        return [ObtenerTodosTemaResponse(**registro) for registro in registros]
 
     async def obtener_por_id(self, tema_id: str) -> ObtenerPorIdTemaResponse:
         tema: TemaEntidad = await self._tema_repositorio.obtener_por_id(tema_id)

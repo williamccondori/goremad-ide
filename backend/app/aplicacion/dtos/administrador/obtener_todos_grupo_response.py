@@ -3,4 +3,4 @@ from app.aplicacion.dtos.administrador.obtener_por_id_grupo_response import \
 
 
 class ObtenerTodosGrupoResponse(ObtenerPorIdGrupoResponse):
-    pass
+    tema_nombre: str

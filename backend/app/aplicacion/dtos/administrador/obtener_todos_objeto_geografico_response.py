@@ -3,4 +3,4 @@ from app.aplicacion.dtos.administrador.obtener_por_id_objeto_geografico_response
 
 
 class ObtenerTodosObjetoGeograficoResponse(ObtenerPorIdObjetoGeograficoResponse):
-    pass
+    grupo_nombre: str

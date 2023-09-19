@@ -33,7 +33,14 @@ class ObjetoGeograficoServicio:
 
     async def obtener_todos(self) -> list[ObtenerTodosObjetoGeograficoResponse]:
         objetos_geograficos: list[ObjetoGeograficoEntidad] = await self._objeto_geografico_repositorio.obtener_todos()
-        return [ObtenerTodosObjetoGeograficoResponse(**objeto.dict()) for objeto in objetos_geograficos]
+        registros = []
+        for objeto_geografico in objetos_geograficos:
+            grupo = await self._grupo_repositorio.obtener_por_id(objeto_geografico.grupo_id)
+            registros.append({
+                **objeto_geografico.dict(),
+                "grupo_nombre": grupo.nombre if grupo else ""
+            })
+        return [ObtenerTodosObjetoGeograficoResponse(**registro) for registro in registros]
 
     async def obtener_por_id(self, objeto_id: str) -> ObtenerPorIdObjetoGeograficoResponse:
         objeto_geografico: ObjetoGeograficoEntidad = await self._objeto_geografico_repositorio.obtener_por_id(objeto_id)
@@ -46,7 +53,10 @@ class ObjetoGeograficoServicio:
         objeto_geografico = ObjetoGeograficoEntidad(
             codigo=request.codigo,
             nombre=request.nombre,
+            nombre_geoserver=request.nombre_geoserver,
             descripcion=request.descripcion,
+            estilo=request.estilo,
+            esta_habilitado=request.esta_habilitado,
             grupo_id=request.grupo_id
         )
         objeto_geografico.registrar_creacion(usuario_auditoria_id)
@@ -58,7 +68,10 @@ class ObjetoGeograficoServicio:
         objeto_geografico = await self._objeto_geografico_repositorio.obtener_por_id(objeto_geografico_id)
         objeto_geografico.codigo = request.codigo
         objeto_geografico.nombre = request.nombre
+        objeto_geografico.nombre_geoserver=request.nombre_geoserver
         objeto_geografico.descripcion = request.descripcion
+        objeto_geografico.estilo = request.estilo
+        objeto_geografico.esta_habilitado = request.esta_habilitado
         objeto_geografico.grupo_id = request.grupo_id
         objeto_geografico.registrar_actualizacion(usuario_auditoria_id)
         return await self._objeto_geografico_repositorio.actualizar(objeto_geografico_id, objeto_geografico)

@@ -111,7 +111,7 @@ app.include_router(
 app.include_router(catalogo_controller, prefix="/api/v1/catalogos", tags=["Catálogos"])
 app.include_router(tema_controller, prefix="/api/v1/temas", tags=["Temas"])
 app.include_router(grupo_controller, prefix="/api/v1/grupos", tags=["Grupos"])
-app.include_router(objeto_geografico_controller, prefix="/api/v1/objetos_geograficos", tags=["Objetos geográficos"])
+app.include_router(objeto_geografico_controller, prefix="/api/v1/objetos-geograficos", tags=["Objetos geográficos"])
 
 # --------------------------------
 # URL para el visor geográfico.
