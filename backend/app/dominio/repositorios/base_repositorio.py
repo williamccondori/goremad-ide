@@ -1,112 +1,106 @@
-from typing import TypeVar, Generic, Optional, List
 from abc import ABC, abstractmethod
+from typing import List, TypeVar, Optional, Union, Generic
 
 T = TypeVar("T")
 
 
 class IBaseRepositorio(ABC, Generic[T]):
     """
-    Interfaz base para repositorios.
-    Define métodos CRUD básicos para interactuar con cualquier entidad de tipo T.
+    Interfaz para definir un repositorio base que maneja operaciones comunes
+    en una base de datos.
+
+    Los métodos descritos en esta interfaz son necesarios para realizar
+    operaciones CRUD básicas.
     """
 
     @abstractmethod
     async def contar(self, filtros: Optional[dict] = None) -> int:
         """
-        Cuenta el número de documentos que coinciden con los filtros dados.
+        Contar el número de documentos que cumplen con ciertos filtros.
 
-        Parámetros:
-            filtros (dict, opcional): Un diccionario que contiene los criterios de búsqueda.
-
-        Devuelve:
-            int: El número de documentos que coinciden con los filtros.
+        :param filtros: Diccionario de condiciones para filtrar los documentos.
+        :return: Número de documentos que cumplen con los filtros.
         """
         pass
 
     @abstractmethod
     async def obtener_todos(self, filtros: Optional[dict] = None) -> List[T]:
         """
-        Obtiene todos los documentos que coinciden con los filtros dados.
+        Obtener todos los documentos que cumplen con ciertos filtros.
 
-        Parámetros:
-            filtros (dict, opcional): Un diccionario que contiene los criterios de búsqueda.
-
-        Devuelve:
-            List[T]: Una lista de objetos de tipo T que coinciden con los filtros.
+        :param filtros: Diccionario de condiciones para filtrar los documentos.
+        :return: Lista de entidades que cumplen con los filtros.
         """
         pass
 
     @abstractmethod
     async def obtener_por_id(self, id_entidad: str) -> T:
         """
-        Obtiene un documento por su identificador único.
+        Obtener una entidad específica por su Identificador.
 
-        Parámetros:
-            id_entidad (str): El identificador único del documento.
-
-        Devuelve:
-            T: Un objeto de tipo T que tiene el identificador dado.
-
-        Lanza:
-            ApplicationException: Si el documento con el identificador dado no se encuentra.
+        :param id_entidad: Identificador del documento a recuperar.
+        :return: Entidad correspondiente al Identificador dado.
         """
         pass
 
     @abstractmethod
     async def verificar_existencia(self, id_entidad: str) -> bool:
         """
-        Verifica si existe un documento con el identificador único dado.
+        Verificar si existe un documento con el Identificador especificado.
 
-        Parámetros:
-            id_entidad (str): El identificador único del documento.
-
-        Devuelve:
-            bool: Verdadero si el documento existe, falso de lo contrario.
+        :param id_entidad: Identificador del documento a verificar.
+        :return: Verdadero si el documento existe, falso en caso contrario.
         """
         pass
 
     @abstractmethod
     async def crear(self, entidad: T) -> str:
         """
-        Crea un nuevo documento basado en la entidad dada.
+        Crear una nueva entidad en la base de datos.
 
-        Parámetros:
-            entidad (T): El objeto que se va a crear.
-
-        Devuelve:
-            str: El identificador único del documento creado.
+        :param entidad: Objeto de la entidad a crear.
+        :return: Identificador del nuevo documento creado.
         """
         pass
 
     @abstractmethod
-    async def actualizar(self, id_entidad: str, entidad: T) -> str:
+    async def actualizar(self, id_entidad: str, entidad: T) -> Union[str, None]:
         """
-        Actualiza un documento existente con los nuevos datos de la entidad dada.
+        Actualizar un documento existente en la base de datos.
 
-        Parámetros:
-            id_entidad (str): El identificador único del documento a actualizar.
-            entidad (T): El nuevo objeto con los datos actualizados.
-
-        Devuelve:
-            str: El identificador único del documento actualizado.
-
-        Lanza:
-            ApplicationException: Si el documento con el identificador dado no se encuentra.
+        :param id_entidad: Identificador del documento a actualizar.
+        :param entidad: Objeto de la entidad con los nuevos datos.
+        :return: Identificador del documento actualizado o None si la actualización falla.
         """
         pass
 
     @abstractmethod
-    async def eliminar(self, id_entidad: str) -> str:
+    async def eliminar(self, id_entidad: str, usuario_auditoria_id: str) -> str:
         """
-        Elimina un documento por su identificador único. La eliminación podría ser lógica o física dependiendo de la implementación.
+        Eliminar (o marcar como inactivo) un documento específico por su Identificador.
 
-        Parámetros:
-            id_entidad (str): El identificador único del documento a eliminar.
+        :param id_entidad: Identificador del documento a eliminar.
+        :param usuario_auditoria_id: Identificador del usuario que está realizando la acción de eliminación.
+        :return: Identificador del documento eliminado.
+        """
+        pass
 
-        Devuelve:
-            str: El identificador único del documento eliminado.
+    @abstractmethod
+    async def obtener_por_filtros(self, filtros: Optional[dict] = None) -> Optional[T]:
+        """
+        Obtener un documento que cumple con ciertos filtros.
 
-        Lanza:
-            ApplicationException: Si el documento con el identificador dado no se encuentra.
+        :param filtros: Diccionario de condiciones para filtrar los documentos.
+        :return: Entidad que cumple con los filtros o None si no se encuentra.
+        """
+        pass
+
+    @abstractmethod
+    async def verificar_existencia_por_filtros(self, filtros: Optional[dict] = None) -> bool:
+        """
+        Verificar si existe un documento que cumple con ciertos filtros.
+
+        :param filtros: Diccionario de condiciones para filtrar los documentos.
+        :return: Verdadero si el documento existe, falso en caso contrario.
         """
         pass

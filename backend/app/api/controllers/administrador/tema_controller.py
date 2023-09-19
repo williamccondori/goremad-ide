@@ -1,59 +1,51 @@
-from fastapi import APIRouter, HTTPException
-from pymongo import MongoClient
-from bson import ObjectId
-from typing import List
-from .models import Tema, TemaCreate, TemaUpdate
+from app.aplicacion.dtos.administrador.actualizar_tema_request import ActualizarTemaRequest
+from app.aplicacion.dtos.administrador.crear_tema_request import CrearTemaRequest
+from app.aplicacion.dtos.administrador.obtener_por_id_tema_response import ObtenerPorIdTemaResponse
+from app.aplicacion.dtos.administrador.obtener_todos_tema_response import ObtenerTodosTemaResponse
+from fastapi import APIRouter, Depends
 
-
-client = MongoClient("mongodb://localhost:27017/")
-db = client["mydatabase"]
-temas_collection = db["temas"]
-
+from app.aplicacion.servicios.administrador.tema_servicio import TemaServicio
+from app.infraestructura.oauth_2.autorizador import obtener_usuario_registrado
+from app.infraestructura.oauth_2.modelos.usuario_registrado_modelo import UsuarioRegistradoModelo
 
 tema_controller = APIRouter()
 
 
-# Create
-@tema_controller.post("/", response_model=Tema)
-async def create_tema(tema: TemaCreate):
-    tema_dict = tema.dict()
-    tema_dict["_id"] = ObjectId()
-    temas_collection.insert_one(tema_dict)
-    return tema
+@tema_controller.get("/", response_model=list[ObtenerTodosTemaResponse])
+async def obtener_todos(
+        tema_servicio: TemaServicio = Depends(TemaServicio),
+        _: UsuarioRegistradoModelo = Depends(obtener_usuario_registrado)) -> list[ObtenerTodosTemaResponse]:
+    return await tema_servicio.obtener_todos()
 
 
-# Read all
-@tema_controller.get("/", response_model=List[Tema])
-async def read_temas():
-    temas = []
-    for tema in temas_collection.find():
-        temas.append(Tema(**tema))
-    return temas
+@tema_controller.get("/{tema_id}/", response_model=ObtenerPorIdTemaResponse)
+async def obtener_por_id(
+        tema_id: str,
+        tema_servicio: TemaServicio = Depends(TemaServicio),
+        _: UsuarioRegistradoModelo = Depends(obtener_usuario_registrado)) -> ObtenerPorIdTemaResponse:
+    return await tema_servicio.obtener_por_id(tema_id)
 
 
-# Read one
-@tema_controller.get("/{tema_id}", response_model=Tema)
-async def read_tema(tema_id: str):
-    tema = temas_collection.find_one({"_id": ObjectId(tema_id)})
-    if not tema:
-        raise HTTPException(status_code=404, detail="Tema not found")
-    return Tema(**tema)
+@tema_controller.post("/", response_model=str)
+async def crear(
+        request: CrearTemaRequest,
+        tema_servicio: TemaServicio = Depends(TemaServicio),
+        usuario_registrado: UsuarioRegistradoModelo = Depends(obtener_usuario_registrado)) -> str:
+    return await tema_servicio.crear(request, usuario_registrado.id)
 
 
-# Update
-@tema_controller.put("/{tema_id}", response_model=Tema)
-async def update_tema(tema_id: str, tema: TemaUpdate):
-    temas_collection.update_one({"_id": ObjectId(tema_id)}, {"$set": tema.dict()})
-    updated_tema = temas_collection.find_one({"_id": ObjectId(tema_id)})
-    if not updated_tema:
-        raise HTTPException(status_code=404, detail="Tema not found")
-    return Tema(**updated_tema)
+@tema_controller.put("/{tema_id}/", response_model=str)
+async def actualizar(
+        tema_id: str,
+        request: ActualizarTemaRequest,
+        tema_servicio: TemaServicio = Depends(TemaServicio),
+        usuario_registrado: UsuarioRegistradoModelo = Depends(obtener_usuario_registrado)) -> str:
+    return await tema_servicio.actualizar(tema_id, request, usuario_registrado.id)
 
 
-# Delete
-@tema_controller.delete("/{tema_id}")
-async def delete_tema(tema_id: str):
-    result = temas_collection.delete_one({"_id": ObjectId(tema_id)})
-    if result.deleted_count == 0:
-        raise HTTPException(status_code=404, detail="Tema not found")
-    return {"message": "Tema deleted successfully"}
+@tema_controller.delete("/{tema_id}/", response_model=str)
+async def eliminar(
+        tema_id: str,
+        tema_servicio: TemaServicio = Depends(TemaServicio),
+        usuario_registrado: UsuarioRegistradoModelo = Depends(obtener_usuario_registrado)) -> str:
+    return await tema_servicio.eliminar(tema_id, usuario_registrado.id)

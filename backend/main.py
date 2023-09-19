@@ -9,15 +9,18 @@ from app.api.controllers.administrador.autenticacion_controller import (
     autenticacion_controller,
 )
 from app.api.controllers.administrador.capa_base_controller import capa_base_controller
+from app.api.controllers.administrador.catalogo_controller import catalogo_controller
 from app.api.controllers.administrador.configuracion_controller import (
     configuracion_controller,
 )
 from app.api.controllers.administrador.grupo_capa_controller import (
     grupo_capa_controller,
 )
+from app.api.controllers.administrador.grupo_controller import grupo_controller
 from app.api.controllers.administrador.imagen_satelital_controller import (
     imagen_satelital_controller,
 )
+from app.api.controllers.administrador.objeto_geografico_controller import objeto_geografico_controller
 from app.api.controllers.administrador.programacion_controller import (
     programacion_controller,
 )
@@ -25,6 +28,7 @@ from app.api.controllers.administrador.resumen_controller import resumen_control
 from app.api.controllers.administrador.servicio_externo_controller import (
     servicio_externo_controller,
 )
+from app.api.controllers.administrador.tema_controller import tema_controller
 from app.api.controllers.administrador.usuario_controller import usuario_controller
 from app.api.controllers.visor.coordenada_controller import (
     coordenada_controller as coordenada_visor_controller,
@@ -63,8 +67,13 @@ app.add_middleware(
     allow_methods=ALLOW_METHODS_AND_HEADERS,
     allow_headers=ALLOW_METHODS_AND_HEADERS,
 )
+
+# --------------------------------
+# URL para el administrador.
+# --------------------------------
+
 app.include_router(
-    autenticacion_controller, prefix="/api/v1/auth", tags=["Autenticacion"]
+    autenticacion_controller, prefix="/api/v1/auth", tags=["Autenticación"]
 )
 app.include_router(
     capa_base_controller, prefix="/api/v1/capas-base", tags=["Capas base"]
@@ -95,6 +104,18 @@ app.include_router(
     prefix="/api/v1/servicios-locales",
     tags=["Servicios locales"],
 )
+
+# Objetos geográficos, capas que ya existen en la base de datos de distribución.
+# TODO Agregar validación de datos a través del análisis de las tablas existentes.
+
+app.include_router(catalogo_controller, prefix="/api/v1/catalogos", tags=["Catálogos"])
+app.include_router(tema_controller, prefix="/api/v1/temas", tags=["Temas"])
+app.include_router(grupo_controller, prefix="/api/v1/grupos", tags=["Grupos"])
+app.include_router(objeto_geografico_controller, prefix="/api/v1/objetos_geograficos", tags=["Objetos geográficos"])
+
+# --------------------------------
+# URL para el visor geográfico.
+# --------------------------------
 
 app.include_router(
     inicial_visor_controller,
