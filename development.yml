@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+  goremad-mongodb:
+    image: mongo:4.4.6
+    container_name: goremad-mongodb
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=fictional
+    ports:
+      - 27017:27017
+    volumes:
+      - ./data/db:/data/db
