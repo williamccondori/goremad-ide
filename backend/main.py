@@ -30,6 +30,7 @@ from app.api.controllers.administrador.servicio_externo_controller import (
 )
 from app.api.controllers.administrador.tema_controller import tema_controller
 from app.api.controllers.administrador.usuario_controller import usuario_controller
+from app.api.controllers.visor.carga_controller import carga_controller as carga_visor_controller
 from app.api.controllers.visor.coordenada_controller import (
     coordenada_controller as coordenada_visor_controller,
 )
@@ -145,6 +146,7 @@ app.include_router(
     prefix="/api/v1/visor/imagenes-satelitales",
     tags=["Imagenes satelitales (Visor)"],
 )
+app.include_router(carga_visor_controller, prefix="/api/v1/visor/cargas", tags=["Carga (Visor)"])
 
 
 class ExcepcionResponse(BaseModelo):
