@@ -5,6 +5,10 @@ FROM node:14-alpine as build-stage
 # Establecemos /app como el directorio de trabajo dentro del contenedor.
 WORKDIR /app
 
+ARG BASE_URL
+ENV BASE_URL=$BASE_URL
+
+
 # Copiamos solo los archivos de configuración de npm para instalar las dependencias.
 # Esto permite aprovechar la caché de Docker para no reinstalar las dependencias
 # si estos archivos no han cambiado.
