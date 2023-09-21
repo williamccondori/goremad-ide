@@ -40,7 +40,11 @@ export default {
       const contenido = error.response?.data;
       const codigoError = parseInt(error.response?.status ?? 500);
       if (codigoError === 500) {
-        throw contenido?.mensaje ?? error.message;
+        notification.error({
+          message: 'Error',
+          description: `Ocurrió un error inesperado: ${error}`,
+        });
+        return false;
       }
       const mensaje = this.obtenerMensajeError(contenido?.mensaje, codigoError);
       notification.error({

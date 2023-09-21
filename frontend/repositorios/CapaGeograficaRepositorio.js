@@ -118,7 +118,7 @@ async function obtenerGeometria(nombreCapaGeografica) {
     service: 'WFS',
     version: '1.0.0',
     request: 'GetFeature',
-    typeName: `Servicio_OGC:${nombreCapaGeografica}`,
+    typeName: nombreCapaGeografica,
     outputFormat: 'application/json',
     srsName: 'EPSG:4326',
   };

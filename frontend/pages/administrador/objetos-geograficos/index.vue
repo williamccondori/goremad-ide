@@ -173,7 +173,7 @@ export default {
     async obtenerObjetosGeograficos() {
       try {
         this.$iniciarCarga();
-        const { data } = await this.$axios.get('/objetos-geograficos');
+        const { data } = await this.$axios.get('/objetos-geograficos/');
         this.objetosGeograficos = data;
       } catch (error) {
         this.$manejarError(error);
@@ -184,7 +184,7 @@ export default {
     async obtenerGrupos() {
       try {
         this.$iniciarCarga();
-        const { data } = await this.$axios.get('/grupos');
+        const { data } = await this.$axios.get('/grupos/');
         this.grupos = data;
       } catch (error) {
         this.$manejarError(error);
@@ -208,11 +208,11 @@ export default {
         this.$iniciarCarga();
         if (this.form.id) {
           await this.$axios.put(
-            `/objetos-geograficos/${this.form.id}`,
+            `/objetos-geograficos/${this.form.id}/`,
             this.form
           );
         } else {
-          await this.$axios.post('/objetos-geograficos', this.form);
+          await this.$axios.post('/objetos-geograficos/', this.form);
         }
         await this.obtenerObjetosGeograficos();
         this.limpiar();
@@ -245,7 +245,7 @@ export default {
         onOk: async () => {
           try {
             this.$iniciarCarga();
-            await this.$axios.delete(`/objetos-geograficos/${record.id}`);
+            await this.$axios.delete(`/objetos-geograficos/${record.id}/`);
             await this.obtenerObjetosGeograficos();
             this.$mostrarMensajeCorrecto();
           } catch (error) {

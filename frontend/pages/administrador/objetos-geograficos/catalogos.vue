@@ -102,7 +102,7 @@ export default {
     async obtenerCatalogos() {
       try {
         this.$iniciarCarga();
-        const { data } = await this.$axios.get('/catalogos');
+        const { data } = await this.$axios.get('/catalogos/');
         this.catalogos = data;
       } catch (error) {
         this.$manejarError(error);
@@ -125,9 +125,9 @@ export default {
       try {
         this.$iniciarCarga();
         if (this.form.id) {
-          await this.$axios.put(`/catalogos/${this.form.id}`, this.form);
+          await this.$axios.put(`/catalogos/${this.form.id}/`, this.form);
         } else {
-          await this.$axios.post('/catalogos', this.form);
+          await this.$axios.post('/catalogos/', this.form);
         }
         await this.obtenerCatalogos();
         this.limpiar();
@@ -156,7 +156,7 @@ export default {
         onOk: async () => {
           try {
             this.$iniciarCarga();
-            await this.$axios.delete(`/catalogos/${record.id}`);
+            await this.$axios.delete(`/catalogos/${record.id}/`);
             await this.obtenerCatalogos();
             this.$mostrarMensajeCorrecto();
           } catch (error) {

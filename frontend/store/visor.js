@@ -19,7 +19,7 @@ export const state = () => ({
   capasEstructura: [],
   capaSuperior: undefined,
 
-  capasGEOJSON: [],
+  capasOperativas: [],
 
   informacionCapaOperativa: undefined,
 
@@ -58,6 +58,7 @@ export const state = () => ({
   estaAbiertoVentanaDescargarInformacion: false,
   estaAbiertoVentanaBuscar: false,
   estaAbiertoVentanaSubirInformacion: false,
+  estructuraObjetosGeograficos: [],
 });
 
 export const actions = {
@@ -238,6 +239,16 @@ export const actions = {
   cerrarVentana({ commit }, ventana) {
     commit(`establecerEstaAbiertoVentana`, { ventana, estaAbierto: false });
   },
+
+  establecerEstructuraObjetosGeograficos(
+    { commit },
+    estructuraObjetosGeograficos
+  ) {
+    commit(
+      'establecerEstructuraObjetosGeograficos',
+      estructuraObjetosGeograficos
+    );
+  },
 };
 
 export const mutations = {
@@ -288,16 +299,16 @@ export const mutations = {
     );
   },
   agregarCapaOperativa(state, capaOperativa) {
-    const existe = state.capasGEOJSON.find(
-      (capa) => capa.nombre === capaOperativa.nombre
+    const existe = state.capasOperativas.find(
+      (capa) => capa.id === capaOperativa.id
     );
     if (!existe) {
-      state.capasGEOJSON.push(capaOperativa);
+      state.capasOperativas.push(capaOperativa);
     }
   },
-  eliminarCapaOperativa(state, nombreCapaOperativa) {
-    state.capasGEOJSON = state.capasGEOJSON.filter(
-      (capa) => capa.nombre !== nombreCapaOperativa
+  eliminarCapaOperativa(state, capaOperativaId) {
+    state.capasOperativas = state.capasOperativas.filter(
+      (capa) => capa.id !== capaOperativaId
     );
   },
 
@@ -382,5 +393,8 @@ export const mutations = {
   establecerEstaAbiertoVentana(state, payload) {
     const nombreEstado = `estaAbiertoVentana${payload.ventana}`;
     state[nombreEstado] = payload.estaAbierto;
+  },
+  establecerEstructuraObjetosGeograficos(state, payload) {
+    state.estructuraObjetosGeograficos = payload;
   },
 };

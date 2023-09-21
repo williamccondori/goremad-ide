@@ -1,13 +1,13 @@
 <template>
   <div>
     <LGeoJson
-      v-for="capaGEOJSON in capasGEOJSON"
-      :key="capaGEOJSON.id"
-      :geojson="capaGEOJSON.geojson"
+      v-for="capaOperativa in capasOperativas"
+      :key="capaOperativa.id"
+      :geojson="capaOperativa.geometria"
       :options="{
-        style: capaGEOJSON.estilos,
+        style: capaOperativa.estilo,
         onEachFeature: (feature, layer) =>
-          onEachFeature(capaGEOJSON.estilos, feature, layer),
+          onEachFeature(capaOperativa.estilo, feature, layer),
       }"
     />
   </div>
@@ -29,23 +29,19 @@ export default {
     };
   },
   computed: {
-    ...mapState('visor', ['capasGEOJSON']),
+    ...mapState('visor', ['capasOperativas']),
   },
   methods: {
     onEachFeature(estilosPorDefecto, feature, layer) {
-      // Aplicar estilos iniciales.
       layer.setStyle(estilosPorDefecto);
-
-      // Configurar eventos del ratón.
       layer.on({
-        mouseover: this.highlightFeature,
-        mouseout: (e) => this.resetHighlight(e, estilosPorDefecto),
+        mouseover: this.resaltarPoligono,
+        mouseout: (e) => this.reestablecerPoligono(e, estilosPorDefecto),
       });
     },
-    highlightFeature(e) {
-      const layer = e.target;
-
-      layer.setStyle({
+    resaltarPoligono(e) {
+      const capa = e.target;
+      capa.setStyle({
         color: '#00FFFF',
         fillColor: '#FFFFFF',
         fillOpacity: 0.5,
@@ -54,11 +50,9 @@ export default {
         weight: 3,
       });
     },
-    resetHighlight(e, estilosPorDefecto) {
-      const layer = e.target;
-
-      // Restablecer a los estilos por defecto
-      layer.setStyle(estilosPorDefecto);
+    reestablecerPoligono(e, estilosPorDefecto) {
+      const capa = e.target;
+      capa.setStyle(estilosPorDefecto);
     },
   },
 };

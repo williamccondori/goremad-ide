@@ -9,45 +9,30 @@
     </span>
     <a-space direction="vertical" style="width: 100%">
       <a-collapse expand-icon-position="right">
-        <a-collapse-panel key="1">
-          <span slot="header"> <b>🌍 Fundamentales</b> </span>
-        </a-collapse-panel>
-        <a-collapse-panel key="2" class="collapsePanelSinBordes">
-          <span slot="header"> <b>🌳 Gestión forestal</b> </span>
+        <a-collapse-panel
+          v-for="catalogo in estructuraObjetosGeograficos"
+          :key="catalogo.id"
+          class="collapsePanelSinBordes"
+        >
+          <span slot="header">
+            <b>{{ catalogo.nombre }}</b>
+          </span>
           <a-collapse :bordered="false" expand-icon-position="right">
-            <a-collapse-panel key="2-1">
+            <a-collapse-panel v-for="tema in catalogo.temas" :key="tema.id">
               <span slot="header">
-                <b>📂 Modalidad de acceso</b>
+                <b>{{ tema.nombre }}</b>
               </span>
-              <p><b>📄 Concesiones</b></p>
-              <div>
-                <a-switch
-                  size="small"
-                  @change="
-                    (e) =>
-                      cambiarEstadoVisualizacion('Con_ConcesionProForDifMad', e)
-                  "
-                />
-                Concesión para productos forestales diferentes a la madera
-              </div>
-              <div>
-                <a-switch
-                  size="small"
-                  @change="
-                    (e) =>
-                      cambiarEstadoVisualizacion('Con_ConcesionForFinMad', e)
-                  "
-                />
-                Concesión forestal con fines maderables
-              </div>
-              <div>
-                <a-switch
-                  size="small"
-                  @change="
-                    (e) => cambiarEstadoVisualizacion('Con_ConcesionForRef', e)
-                  "
-                />
-                Concesión para forestación y/o reforestación
+              <div v-for="grupo in tema.grupos" :key="grupo.id">
+                <p>
+                  <b>{{ grupo.nombre }}</b>
+                </p>
+                <div v-for="objeto in grupo.objetos" :key="objeto.id">
+                  <a-switch
+                    size="small"
+                    @change="(e) => cambiarEstadoVisualizacion(objeto.id, e)"
+                  />
+                  {{ objeto.nombre }}
+                </div>
               </div>
             </a-collapse-panel>
           </a-collapse>
@@ -59,11 +44,13 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import { obtenerGeometria } from '@/repositorios/CapaGeograficaRepositorio';
 export default {
   computed: {
     ...mapState(['tamanioVentana']),
-    ...mapState('visor', ['estaAbiertoVentanaCapasOperables']),
+    ...mapState('visor', [
+      'estaAbiertoVentanaCapasOperables',
+      'estructuraObjetosGeograficos',
+    ]),
   },
   methods: {
     ...mapActions('visor', [
@@ -71,16 +58,22 @@ export default {
       'agregarCapaOperativa',
       'eliminarCapaOperativa',
     ]),
-    async cambiarEstadoVisualizacion(nombreCapaOperativa, estado) {
+    async cambiarEstadoVisualizacion(objetoGeograficoId, estado) {
       try {
         this.$iniciarCarga();
         if (estado) {
-          const capaGeografica = await obtenerGeometria(nombreCapaOperativa);
-          if (capaGeografica) {
-            this.agregarCapaOperativa(capaGeografica);
+          const { data } = await this.$axios.get(
+            `/visor/objetos-geograficos/${objetoGeograficoId}/geometrias`
+          );
+          if (data) {
+            this.agregarCapaOperativa({
+              ...data,
+              geometria: JSON.parse(data.geometria),
+              estilo: JSON.parse(data.estilo),
+            });
           }
         } else {
-          this.eliminarCapaOperativa(nombreCapaOperativa);
+          this.eliminarCapaOperativa(objetoGeograficoId);
         }
       } catch (error) {
         this.$manejarError(error);

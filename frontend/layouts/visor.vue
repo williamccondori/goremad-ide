@@ -51,6 +51,9 @@ export default {
         this.establecerCapasActivas(configuracionInicial.capasActivas);
         // Se establce la estructura de arbol de las capas.
         this.establecerCapasEstructura(configuracionInicial.estructura);
+        this.establecerEstructuraObjetosGeograficos(
+          configuracionInicial.estructuraObjetosGeograficos
+        );
         this.establecerImagenesSatelitales([]);
       }
     } catch (error) {
@@ -77,6 +80,7 @@ export default {
       'establecerCapasActivas',
       'establecerCapasEstructura',
       'establecerImagenesSatelitales',
+      'establecerEstructuraObjetosGeograficos',
     ]),
   },
 };

@@ -124,7 +124,7 @@ export default {
     async obtenerTemas() {
       try {
         this.$iniciarCarga();
-        const { data } = await this.$axios.get('/temas');
+        const { data } = await this.$axios.get('/temas/');
         this.temas = data;
       } catch (error) {
         this.$manejarError(error);
@@ -135,7 +135,7 @@ export default {
     async obtenerGrupos() {
       try {
         this.$iniciarCarga();
-        const { data } = await this.$axios.get('/grupos');
+        const { data } = await this.$axios.get('/grupos/');
         this.grupos = data;
       } catch (error) {
         this.$manejarError(error);
@@ -158,9 +158,9 @@ export default {
       try {
         this.$iniciarCarga();
         if (this.form.id) {
-          await this.$axios.put(`/grupos/${this.form.id}`, this.form);
+          await this.$axios.put(`/grupos/${this.form.id}/`, this.form);
         } else {
-          await this.$axios.post('/grupos', this.form);
+          await this.$axios.post('/grupos/', this.form);
         }
         await this.obtenerGrupos();
         this.limpiar();
@@ -190,7 +190,7 @@ export default {
         onOk: async () => {
           try {
             this.$iniciarCarga();
-            await this.$axios.delete(`/grupos/${record.id}`);
+            await this.$axios.delete(`/grupos/${record.id}/`);
             await this.obtenerGrupos();
             this.$mostrarMensajeCorrecto();
           } catch (error) {
