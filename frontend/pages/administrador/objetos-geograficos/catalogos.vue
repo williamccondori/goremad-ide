@@ -8,7 +8,6 @@
           :rules="{
             required: true,
             message: 'Ingrese el código',
-            trigger: 'blur',
           }"
         >
           <a-input v-model="form.codigo" placeholder="Ingrese el código" />
@@ -19,7 +18,6 @@
           :rules="{
             required: true,
             message: 'Ingrese el nombre',
-            trigger: 'blur',
           }"
         >
           <a-input v-model="form.nombre" placeholder="Ingrese el nombre" />

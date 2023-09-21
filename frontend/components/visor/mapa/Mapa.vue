@@ -32,8 +32,6 @@
     </client-only>
     <Ventanas />
     <CapaResumenVentana />
-    <UbicacionVentana />
-    <CoordenadaVentana />
     <DibujoVentana />
     <CompartirModal />
     <MarcadorCatalogoVentana />
@@ -73,8 +71,6 @@ import CapaDetallePopup from '@/components/visor/capa/CapaDetallePopup.vue';
 // Ventanas.
 import Ventanas from './Ventanas.vue';
 import CapaResumenVentana from '@/components/visor/capa/CapaResumenVentana.vue';
-import UbicacionVentana from '@/components/visor/ubicacion/UbicacionVentana.vue';
-import CoordenadaVentana from '@/components/visor/coordenada/CoordenadaVentana.vue';
 import DibujoVentana from '@/components/visor/dibujo/DibujoVentana.vue';
 import MarcadorCatalogoVentana from '@/components/visor/marcador/MarcadorCatalogoVentana.vue';
 import CompartirModal from '@/components/visor/compartir/CompartirModal.vue';
@@ -108,8 +104,6 @@ export default {
     // Ventanas.
     Ventanas,
     CapaResumenVentana,
-    UbicacionVentana,
-    CoordenadaVentana,
     DibujoVentana,
     MarcadorCatalogoVentana,
     CompartirModal,

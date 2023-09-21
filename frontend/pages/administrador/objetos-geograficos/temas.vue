@@ -1,62 +1,66 @@
 <template>
   <AdministracionPagina titulo="Temas">
     <a-space direction="vertical" style="width: 100%">
-      <a-form-model ref="form" :model="form" @submit.prevent="guardar()">
-        <a-form-model-item
-          label="Código"
-          prop="codigo"
-          :rules="{
-            required: true,
-            message: 'Ingrese el código',
-            trigger: 'blur',
-          }"
-        >
-          <a-input v-model="form.codigo" placeholder="Ingrese el código" />
-        </a-form-model-item>
-        <a-form-model-item
-          label="Nombre"
-          prop="nombre"
-          :rules="{
-            required: true,
-            message: 'Ingrese el nombre',
-            trigger: 'blur',
-          }"
-        >
-          <a-input v-model="form.nombre" placeholder="Ingrese el nombre" />
-        </a-form-model-item>
-        <a-form-model-item label="Descripción" prop="descripcion">
-          <a-input
-            v-model="form.descripcion"
-            placeholder="Ingrese la descripción"
-            type="textarea"
-          />
-        </a-form-model-item>
-        <a-form-model-item
-          label="Catálogo"
-          prop="catalogoId"
-          :rules="{
-            required: true,
-            message: 'Seleccione el catálogo',
-            trigger: 'blur',
-          }"
-        >
-          <a-select
-            v-model="form.catalogoId"
-            placeholder="Seleccione el catálogo"
-          >
-            <a-select-option v-for="catalogo in catalogos" :key="catalogo.id">
-              {{ catalogo.nombre }}
-            </a-select-option>
-          </a-select>
-        </a-form-model-item>
-        <a-button html-type="submit" type="primary">
-          <a-icon type="save" /> Guardar
-        </a-button>
-        <a-button type="danger" @click="limpiar()">
-          <a-icon type="redo" />
-          Limpiar
-        </a-button>
-      </a-form-model>
+      <a-collapse v-model="collapseActivo">
+        <a-collapse-panel key="formularioPanel" :header="tituloFormulario">
+          <a-form-model ref="form" :model="form" @submit.prevent="guardar()">
+            <a-form-model-item
+              label="Código"
+              prop="codigo"
+              :rules="{
+                required: true,
+                message: 'Ingrese el código',
+              }"
+            >
+              <a-input v-model="form.codigo" placeholder="Ingrese el código" />
+            </a-form-model-item>
+            <a-form-model-item
+              label="Nombre"
+              prop="nombre"
+              :rules="{
+                required: true,
+                message: 'Ingrese el nombre',
+              }"
+            >
+              <a-input v-model="form.nombre" placeholder="Ingrese el nombre" />
+            </a-form-model-item>
+            <a-form-model-item label="Descripción" prop="descripcion">
+              <a-input
+                v-model="form.descripcion"
+                placeholder="Ingrese la descripción"
+                type="textarea"
+              />
+            </a-form-model-item>
+            <a-form-model-item
+              label="Catálogo"
+              prop="catalogoId"
+              :rules="{
+                required: true,
+                message: 'Seleccione el catálogo',
+              }"
+            >
+              <a-select
+                v-model="form.catalogoId"
+                placeholder="Seleccione el catálogo"
+              >
+                <a-select-option
+                  v-for="catalogo in catalogos"
+                  :key="catalogo.id"
+                >
+                  {{ catalogo.nombre }}
+                </a-select-option>
+              </a-select>
+            </a-form-model-item>
+            <a-button html-type="submit" type="primary">
+              <a-icon type="save" /> Guardar
+            </a-button>
+            <a-button type="danger" @click="limpiar()">
+              <a-icon type="redo" />
+              Limpiar
+            </a-button>
+          </a-form-model>
+        </a-collapse-panel>
+      </a-collapse>
       <a-table
         bordered
         :columns="[
@@ -111,6 +115,8 @@ export default {
   layout: 'administrador',
   data() {
     return {
+      collapseActivo: undefined,
+      tituloFormulario: 'Agregar registro',
       form: {
         id: undefined,
         codigo: '',
@@ -130,7 +136,7 @@ export default {
     async obtenerCatalogos() {
       try {
         this.$iniciarCarga();
-        const { data } = await this.$axios.get('/catalogos');
+        const { data } = await this.$axios.get('/catalogos/');
         this.catalogos = data;
       } catch (error) {
         this.$manejarError(error);
@@ -141,7 +147,7 @@ export default {
     async obtenerTemas() {
       try {
         this.$iniciarCarga();
-        const { data } = await this.$axios.get('/temas');
+        const { data } = await this.$axios.get('/temas/');
         this.temas = data;
       } catch (error) {
         this.$manejarError(error);
@@ -164,9 +170,9 @@ export default {
       try {
         this.$iniciarCarga();
         if (this.form.id) {
-          await this.$axios.put(`/temas/${this.form.id}`, this.form);
+          await this.$axios.put(`/temas/${this.form.id}/`, this.form);
         } else {
-          await this.$axios.post('/temas', this.form);
+          await this.$axios.post('/temas/', this.form);
         }
         await this.obtenerTemas();
         this.limpiar();
@@ -185,6 +191,8 @@ export default {
         descripcion: record.descripcion,
         catalogoId: record.catalogoId,
       };
+      this.tituloFormulario = 'Editar registro';
+      this.collapseActivo = 'formularioPanel';
     },
     eliminar(record) {
       this.$confirm({
@@ -196,7 +204,7 @@ export default {
         onOk: async () => {
           try {
             this.$iniciarCarga();
-            await this.$axios.delete(`/temas/${record.id}`);
+            await this.$axios.delete(`/temas/${record.id}/`);
             await this.obtenerTemas();
             this.$mostrarMensajeCorrecto();
           } catch (error) {
@@ -215,6 +223,8 @@ export default {
         descripcion: '',
         catalogoId: undefined,
       };
+      this.collapseActivo = undefined;
+      this.tituloFormulario = 'Agregar registro';
       this.$refs.form.resetFields();
     },
   },

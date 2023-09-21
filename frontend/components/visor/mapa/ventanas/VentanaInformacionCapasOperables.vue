@@ -10,7 +10,7 @@
     <a-space direction="vertical" style="width: 100%">
       <div>
         <a-form-model
-          ref="formModel"
+          ref="form"
           :model="form"
           :rules="rules"
           @submit.prevent="consultarCapaGeografica()"
@@ -176,7 +176,7 @@ export default {
     ]),
     async validarFormulario() {
       try {
-        await this.$refs.formModel.validate();
+        await this.$refs.form.validate();
         return true;
       } catch (error) {
         this.$message.error('Los campos ingresados son inválidos');
@@ -202,7 +202,7 @@ export default {
           this.establecerInformacionCapaOperativa(informacionCapaGeografica);
         }
       } catch (error) {
-        this.$message.error(`Error inesperado: ${error}`);
+        this.$manejarError(error);
       } finally {
         this.$finalizarCarga();
       }

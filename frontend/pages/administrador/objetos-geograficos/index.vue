@@ -31,7 +31,6 @@
           :rules="{
             required: true,
             message: 'Seleccione el grupo',
-            trigger: 'blur',
           }"
         >
           <a-select v-model="form.grupoId" placeholder="Seleccione el grupo">
@@ -46,7 +45,6 @@
           :rules="{
             required: true,
             message: 'Ingrese el código',
-            trigger: 'blur',
           }"
         >
           <a-input v-model="form.codigo" placeholder="Ingrese el código" />
@@ -57,7 +55,6 @@
           :rules="{
             required: true,
             message: 'Ingrese el nombre',
-            trigger: 'blur',
           }"
         >
           <a-input v-model="form.nombre" placeholder="Ingrese el nombre" />
@@ -68,7 +65,6 @@
           :rules="{
             required: true,
             message: 'Ingrese el nombre de la capa (GeoServer)',
-            trigger: 'blur',
           }"
         >
           <a-input

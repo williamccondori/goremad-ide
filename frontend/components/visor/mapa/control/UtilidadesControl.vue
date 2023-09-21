@@ -2,23 +2,6 @@
   <LControl>
     <div class="utilidades-control">
       <AButton
-        title="Búsqueda de ubicaciones"
-        type="dashed"
-        @click="abrirUbicacionVentana()"
-      >
-        <i class="bx bx-search" />
-      </AButton>
-      <AButton
-        title="Búsqueda de coordenadas"
-        type="dashed"
-        @click="abrirCoordenadaVentana()"
-      >
-        <i class="bx bx-map-pin" />
-      </AButton>
-      <AButton title="Dibujos" type="dashed" @click="abrirDibujoVentana()">
-        <i class="bx bx-palette" />
-      </AButton>
-      <AButton
         title="Marcadores"
         type="dashed"
         @click="abrirMarcadorCatalogoVentana()"

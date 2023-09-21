@@ -36,7 +36,15 @@
       type="primary"
       @click="abrirVentana('Buscar')"
     >
-      <i class="bx bx-map" />
+      <i class="bx bx-search" />
+    </a-button>
+    <a-button
+      shape="circle"
+      title="Subir información"
+      type="primary"
+      @click="abrirVentana('SubirInformacion')"
+    >
+      <i class="bx bx-upload" />
     </a-button>
     <a-button
       shape="circle"

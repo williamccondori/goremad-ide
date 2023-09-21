@@ -11,7 +11,6 @@
       <a-tabs default-active-key="capasOperables" type="card">
         <a-tab-pane key="capasOperables" tab="Capas">
           <a-form-model
-            ref="formModel"
             :model="form"
             :rules="rules"
             @submit.prevent="descargarInformacionCapas()"

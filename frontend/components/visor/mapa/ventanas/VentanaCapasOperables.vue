@@ -83,7 +83,7 @@ export default {
           this.eliminarCapaOperativa(nombreCapaOperativa);
         }
       } catch (error) {
-        this.$message.error(`Error inesperado: ${error}`);
+        this.$manejarError(error);
       } finally {
         this.$finalizarCarga();
       }

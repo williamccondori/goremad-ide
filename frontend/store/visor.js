@@ -57,6 +57,7 @@ export const state = () => ({
   estaAbiertoVentanaResultadoInformacionCapasOperables: false,
   estaAbiertoVentanaDescargarInformacion: false,
   estaAbiertoVentanaBuscar: false,
+  estaAbiertoVentanaSubirInformacion: false,
 });
 
 export const actions = {
