@@ -9,7 +9,8 @@ from app.aplicacion.dtos.visor.obtener_inicial_response import (
     EstructuraCapaResponse,
 )
 from app.aplicacion.utilidades.wms import obtener_url_leyenda
-from app.dependencies import registrar_repo_capa_base
+from app.dependencies import registrar_repo_capa_base, registrar_repo_tema, registrar_repo_catalogo, \
+    registrar_repo_grupo, registrar_repo_objeto_geografico
 from app.dominio.entidades.capa_base_entidad import CapaBaseEntidad
 from app.dominio.entidades.compartido.base_entidad import ESTADO_ACTIVO
 from app.dominio.entidades.grupo_capa_entidad import GrupoCapaEntidad
@@ -34,23 +35,31 @@ from app.infraestructura.mongo_db.repositorios.servicio_externo_repositorio impo
 
 class InicialServicio:
     def __init__(
-        self,
-        capa_base_repositorio: IBaseRepositorio = Depends(registrar_repo_capa_base),
-        grupo_capa_repositorio: IGrupoCapaRepositorio = Depends(GrupoCapaRepositorio),
-        servicio_externo_repositorio: IServicioExternoRepositorio = Depends(
-            ServicioExternoRepositorio
-        ),
-        configuracion_repositorio: IConfiguracionRepositorio = Depends(
-            ConfiguracionRepositorio
-        ),
+            self,
+            capa_base_repositorio: IBaseRepositorio = Depends(registrar_repo_capa_base),
+            grupo_capa_repositorio: IGrupoCapaRepositorio = Depends(GrupoCapaRepositorio),
+            servicio_externo_repositorio: IServicioExternoRepositorio = Depends(
+                ServicioExternoRepositorio
+            ),
+            configuracion_repositorio: IConfiguracionRepositorio = Depends(
+                ConfiguracionRepositorio
+            ),
+            catalogo_repositorio: IBaseRepositorio = Depends(registrar_repo_catalogo),
+            tema_repositorio: IBaseRepositorio = Depends(registrar_repo_tema),
+            grupo_repositorio: IBaseRepositorio = Depends(registrar_repo_grupo),
+            obejto_geografico_repositorio: IBaseRepositorio = Depends(registrar_repo_objeto_geografico),
     ):
         self._capa_base_repositorio = capa_base_repositorio
         self._grupo_capa_repositorio = grupo_capa_repositorio
         self._servicio_externo_repositorio = servicio_externo_repositorio
         self._configuracion_repositorio = configuracion_repositorio
+        self._catalogo_repositorio = catalogo_repositorio
+        self._tema_repositorio = tema_repositorio
+        self._grupo_repositorio = grupo_repositorio
+        self._obejto_geografico_repositorio = obejto_geografico_repositorio
 
     async def __obtener_hijos(
-        self, grupo_capa_id: str, grupos_capas: list[GrupoCapaEntidad]
+            self, grupo_capa_id: str, grupos_capas: list[GrupoCapaEntidad]
     ) -> list[EstructuraCapaResponse]:
         hijos: list[EstructuraCapaResponse] = []
         for grupo_capa in grupos_capas:
@@ -70,7 +79,7 @@ class InicialServicio:
         return hijos
 
     async def __obtener_estructura_grupos_capas(
-        self, grupos_capas: list[GrupoCapaEntidad]
+            self, grupos_capas: list[GrupoCapaEntidad]
     ) -> list[EstructuraCapaResponse]:
         raices: list[EstructuraCapaResponse] = []
         for grupo_capa in grupos_capas:
@@ -88,7 +97,7 @@ class InicialServicio:
         return raices
 
     async def __obtener_servicios_externos(
-        self, grupo_capa_id: Optional[str]
+            self, grupo_capa_id: Optional[str]
     ) -> list[EstructuraCapaResponse]:
         servicios_externos: list[
             ServicioExternoEntidad
@@ -197,6 +206,28 @@ class InicialServicio:
             capas_activas_id.split(",") if capas_activas_id else []
         )
 
+        # Se obtiene la estructura de objetos geograficos.
+        estructura_objetos_geograficos: list[dict] = []
+        catalogos = await self._catalogo_repositorio.obtener_todos()
+        for catalogo in catalogos:
+            estructura_objetos_geograficos.append({
+                "id": catalogo.id,
+                "nombre": catalogo.nombre,
+                "temas": [{
+                    "id": tema.id,
+                    "nombre": f"📁 {tema.nombre}",
+                    "grupos": [{
+                        "id": grupo.id,
+                        "nombre": f"📁 {grupo.nombre}",
+                        "objetos": [{
+                            "id": objeto_geografico.id,
+                            "nombre": f"📄 {objeto_geografico.nombre}"
+                        } for objeto_geografico in
+                            await self._obejto_geografico_repositorio.obtener_todos({"grupo_id": grupo.id})]
+                    } for grupo in await self._grupo_repositorio.obtener_todos({"tema_id": tema.id})]
+                } for tema in await self._tema_repositorio.obtener_todos({"catalogo_id": catalogo.id})]
+            })
+
         return ObtenerInicialResponse(
             estructura=[estructura],
             capas_base=[
@@ -214,4 +245,5 @@ class InicialServicio:
             latitud_inicial=latitud_inicial,
             longitud_inicial=longitud_inicial,
             zoom_inicial=zoom_inicial,
+            estructura_objetos_geograficos=estructura_objetos_geograficos
         )

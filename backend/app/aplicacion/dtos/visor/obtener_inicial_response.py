@@ -25,3 +25,4 @@ class ObtenerInicialResponse(BaseModelo):
     latitud_inicial: float
     longitud_inicial: float
     zoom_inicial: int
+    estructura_objetos_geograficos: list[dict] = []
