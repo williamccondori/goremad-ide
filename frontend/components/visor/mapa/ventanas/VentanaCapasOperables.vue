@@ -55,25 +55,30 @@ export default {
   methods: {
     ...mapActions('visor', [
       'cerrarVentana',
-      'agregarCapaOperativa',
-      'eliminarCapaOperativa',
+      'agregarCapaEnMapa',
+      'eliminarCapaEnMapa',
     ]),
     async cambiarEstadoVisualizacion(objetoGeograficoId, estado) {
       try {
         this.$iniciarCarga();
         if (estado) {
           const { data } = await this.$axios.get(
-            `/visor/objetos-geograficos/${objetoGeograficoId}/geometrias`
+            `/visor/objetos-geograficos/${objetoGeograficoId}/informacion/`
           );
           if (data) {
-            this.agregarCapaOperativa({
-              ...data,
-              geometria: JSON.parse(data.geometria),
-              estilo: JSON.parse(data.estilo),
+            this.agregarCapaEnMapa({
+              id: data.id,
+              esVectorial: true,
+              wfs: {
+                nombre: data.nombre,
+                geometria: JSON.parse(data.geometria),
+                estilo: JSON.parse(data.estilo),
+                transparencia: 1,
+              },
             });
           }
         } else {
-          this.eliminarCapaOperativa(objetoGeograficoId);
+          this.eliminarCapaEnMapa(objetoGeograficoId);
         }
       } catch (error) {
         this.$manejarError(error);

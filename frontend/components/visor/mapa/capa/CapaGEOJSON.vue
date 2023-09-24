@@ -1,25 +1,27 @@
 <template>
-  <div>
+  <LLayerGroup>
     <LGeoJson
-      v-for="capaOperativa in capasOperativas"
-      :key="capaOperativa.id"
-      :geojson="capaOperativa.geometria"
+      v-for="capaActiva in capasActivas"
+      :key="capaActiva.id"
+      :geojson="capaActiva.geojson"
+      :name="capaActiva.nombre"
       :options="{
-        style: capaOperativa.estilo,
+        style: capaActiva.estilo,
         onEachFeature: (feature, layer) =>
-          onEachFeature(capaOperativa.estilo, feature, layer),
+          onEachFeature(capaActiva.estilo, feature, layer),
       }"
     />
-  </div>
+  </LLayerGroup>
 </template>
 
 <script>
 import { mapState } from 'vuex';
-import { LGeoJson } from 'vue2-leaflet';
+import { LGeoJson, LLayerGroup } from 'vue2-leaflet';
 
 export default {
   components: {
     LGeoJson,
+    LLayerGroup,
   },
   data() {
     return {
@@ -30,6 +32,15 @@ export default {
   },
   computed: {
     ...mapState('visor', ['capasOperativas']),
+    capasActivas() {
+      const capasWfs = this.capasOperativas.filter((capa) => capa.esVectorial);
+      return capasWfs.map((capa) => ({
+        id: capa.id,
+        nombre: capa.wfs.nombre,
+        geojson: capa.wfs.geometria,
+        estilo: capa.wfs.estilo,
+      }));
+    },
   },
   methods: {
     onEachFeature(estilosPorDefecto, feature, layer) {
@@ -37,6 +48,7 @@ export default {
       layer.on({
         mouseover: this.resaltarPoligono,
         mouseout: (e) => this.reestablecerPoligono(e, estilosPorDefecto),
+        click: (e) => this.seleccionarPoligono(e, feature),
       });
     },
     resaltarPoligono(e) {
@@ -53,6 +65,9 @@ export default {
     reestablecerPoligono(e, estilosPorDefecto) {
       const capa = e.target;
       capa.setStyle(estilosPorDefecto);
+    },
+    seleccionarPoligono(e, feature) {
+      alert(JSON.stringify(feature.properties));
     },
   },
 };

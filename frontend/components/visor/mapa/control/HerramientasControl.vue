@@ -24,6 +24,14 @@
     </a-button>
     <a-button
       shape="circle"
+      title="Compartir"
+      type="primary"
+      @click="abrirCompartirVistaModal()"
+    >
+      <i class="bx bx-share-alt" />
+    </a-button>
+    <a-button
+      shape="circle"
       title="Imágenes satelitales"
       type="primary"
       @click="abrirImagenSatelitalCatalogoVentana()"
@@ -42,6 +50,7 @@ export default {
   },
   methods: {
     ...mapActions('visor', [
+      'abrirCompartirVistaModal',
       'abrirCapaCatalogoVentana',
       'abrirCapaResumenVentana',
       'abrirCapaBaseCatalogoVentana',

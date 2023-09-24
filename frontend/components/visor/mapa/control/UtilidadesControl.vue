@@ -9,13 +9,6 @@
         <i class="bx bx-pin" />
       </AButton>
       <AButton
-        title="Compartir"
-        type="dashed"
-        @click="abrirCompartirVistaModal()"
-      >
-        <i class="bx bx-share-alt" />
-      </AButton>
-      <AButton
         title="Comparar capas activas"
         type="dashed"
         @click="abrirComparacionVentana()"
@@ -37,11 +30,7 @@ export default {
   },
   methods: {
     ...mapActions('visor', [
-      'abrirUbicacionVentana',
-      'abrirCoordenadaVentana',
-      'abrirDibujoVentana',
       'abrirMarcadorCatalogoVentana',
-      'abrirCompartirVistaModal',
       'abrirComparacionVentana',
     ]),
   },

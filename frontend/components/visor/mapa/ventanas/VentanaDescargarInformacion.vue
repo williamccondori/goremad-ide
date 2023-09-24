@@ -12,7 +12,6 @@
         <a-tab-pane key="capasOperables" tab="Capas">
           <a-form-model
             :model="form"
-            :rules="rules"
             @submit.prevent="descargarInformacionCapas()"
           >
             <a-form-model-item label="Temática" prop="tematica">
@@ -34,18 +33,6 @@
                 v-model="form.capaGeografica"
                 placeholder="Seleccione una capa geográfica"
               >
-                <a-select-opt-group
-                  v-for="grupo in gruposDisponibles"
-                  :key="grupo.id"
-                  :label="grupo.nombre"
-                >
-                  <a-select-option
-                    v-for="capaGeografica in grupo.capasGeograficas"
-                    :key="capaGeografica.id"
-                  >
-                    {{ capaGeografica.nombre }}
-                  </a-select-option>
-                </a-select-opt-group>
               </a-select>
             </a-form-model-item>
             <a-form-model-item label="Formato" prop="formato">

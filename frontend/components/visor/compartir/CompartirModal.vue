@@ -1,46 +1,65 @@
 <template>
-  <AModal
+  <a-modal
     :footer="null"
     :visible="estaAbiertoCompartirVistaModal"
     @cancel="cerrarCompartirVistaModal()"
   >
-    <span slot="title" style="text-transform: uppercase">
+    <span slot="title">
       <b>Compartir</b>
     </span>
-    <AFormModel
-      ref="referenciaFormulario"
-      :model="formulario"
-      @submit.prevent="compartir()"
-    >
-      <AFormModelItem label="Ruta" prop="url">
-        <AInput v-model="formulario.url" :read-only="true">
-          <AIcon slot="addonBefore" type="global" />
-        </AInput>
-      </AFormModelItem>
-      <AButton block html-type="submit" icon="copy" type="primary">
-        Copiar y cerrar ventana
-      </AButton>
-    </AFormModel>
-  </AModal>
+    <a-space direction="vertical" size="large" style="width: 100%">
+      <a-form-model
+        ref="referenciaFormulario"
+        :model="formulario"
+        @submit.prevent="compartir()"
+      >
+        <a-form-model-item label="Ruta" prop="url">
+          <a-input v-model="formulario.url" :read-only="true">
+            <a-icon slot="addonBefore" type="global" />
+          </a-input>
+        </a-form-model-item>
+        <a-form-model-item label="Insertar" prop="url">
+          <a-input
+            v-model="formulario.insertar"
+            :read-only="true"
+            type="textarea"
+          />
+        </a-form-model-item>
+        <a-button block html-type="submit" icon="copy" type="primary">
+          Copiar ruta y cerrar ventana
+        </a-button>
+      </a-form-model>
+      <div>
+        <a-button
+          class="facebook"
+          target="_blank"
+          title="Compartir en Facebook"
+          @click="compartirEnFacebook()"
+        >
+          <i class="bx bxl-facebook-square" />
+        </a-button>
+        <a-button
+          class="linkedin"
+          target="_blank"
+          title="Compartir en LinkedIn"
+          @click="compartirEnLinkedIn()"
+        >
+          <i class="bx bxl-linkedin-square" />
+        </a-button>
+      </div>
+    </a-space>
+  </a-modal>
 </template>
 
 <script>
-import { Modal, FormModel, Input, Icon, Button } from 'ant-design-vue';
 import { mapState, mapActions } from 'vuex';
 
 const formulario = {
   url: '',
+  insertar: '',
 };
 
 export default {
-  components: {
-    AModal: Modal,
-    AFormModel: FormModel,
-    AFormModelItem: FormModel.Item,
-    AInput: Input,
-    AIcon: Icon,
-    AButton: Button,
-  },
   data() {
     return {
       formulario: { ...formulario },
@@ -58,6 +77,7 @@ export default {
         const urlBase = window.location.href.split('?')[0];
         const { latitud, longitud, zoom } = this.informacionPosicion;
         this.formulario.url = `${urlBase}?latitud=${latitud}&longitud=${longitud}&zoom=${zoom}`;
+        this.formulario.insertar = `<iframe src="${this.formulario.url}" width="100%" height="500px"></iframe>`;
       }
     },
   },
@@ -66,6 +86,14 @@ export default {
     compartir() {
       navigator.clipboard.writeText(this.formulario.url);
       this.cerrarCompartirVistaModal();
+    },
+    compartirEnFacebook() {
+      const url = `https://www.facebook.com/sharer/sharer.php?u=${this.formulario.url}&src=sdkpreparse?title=GEOGOREMAD&summary=Visor de mapas&source=GEOGOREMAD`;
+      window.open(url, '_blank');
+    },
+    compartirEnLinkedIn() {
+      const url = `https://www.linkedin.com/shareArticle?mini=true&url=${this.formulario.url}&title=GEOGOREMAD&summary=Visor de mapas&source=GEOGOREMAD`;
+      window.open(url, '_blank');
     },
   },
 };

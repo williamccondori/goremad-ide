@@ -12,37 +12,76 @@
         <a-form-model
           ref="form"
           :model="form"
-          :rules="rules"
-          @submit.prevent="consultarCapaGeografica()"
+          @submit.prevent="consultarInformacionObjetoGeografico()"
         >
-          <a-form-model-item label="Temática" prop="tematica">
+          <a-form-model-item
+            label="Catálogo"
+            prop="catalogoId"
+            :rules="[{ required: true, message: 'Seleccione un catálogo' }]"
+          >
             <a-select
-              v-model="form.tematica"
-              placeholder="Seleccione una temática"
-              @change="form.capaGeografica = undefined"
+              v-model="form.catalogoId"
+              placeholder="Seleccione un catálogo"
+              @change="
+                form.temaId = undefined;
+                form.grupoId = undefined;
+                form.objetoGeograficoId = undefined;
+              "
             >
-              <a-select-option v-for="tematica in tematicas" :key="tematica.id">
-                {{ tematica.nombre }}
+              <a-select-option
+                v-for="catalogo in catalogosDisponibles"
+                :key="catalogo.id"
+              >
+                {{ catalogo.nombre }}
               </a-select-option>
             </a-select>
           </a-form-model-item>
-          <a-form-model-item label="Capa geográfica" prop="capaGeografica">
+          <a-form-model-item
+            label="Tema"
+            prop="temaId"
+            :rules="[{ required: true, message: 'Seleccione un tema' }]"
+          >
             <a-select
-              v-model="form.capaGeografica"
-              placeholder="Seleccione una capa geográfica"
+              v-model="form.temaId"
+              placeholder="Seleccione una tema"
+              @change="form.grupoId = undefined"
             >
-              <a-select-opt-group
+              <a-select-option v-for="tema in temasDisponibles" :key="tema.id">
+                {{ tema.nombre }}
+              </a-select-option>
+            </a-select>
+          </a-form-model-item>
+          <a-form-model-item
+            label="Grupo"
+            prop="grupoId"
+            :rules="[{ required: true, message: 'Seleccione un grupo' }]"
+          >
+            <a-select v-model="form.grupoId" placeholder="Seleccione un grupo">
+              <a-select-option
                 v-for="grupo in gruposDisponibles"
                 :key="grupo.id"
-                :label="grupo.nombre"
               >
-                <a-select-option
-                  v-for="capaGeografica in grupo.capasGeograficas"
-                  :key="capaGeografica.id"
-                >
-                  {{ capaGeografica.nombre }}
-                </a-select-option>
-              </a-select-opt-group>
+                {{ grupo.nombre }}
+              </a-select-option>
+            </a-select>
+          </a-form-model-item>
+          <a-form-model-item
+            label="Objeto geográfico"
+            prop="objetoGeograficoId"
+            :rules="[
+              { required: true, message: 'Seleccione un objeto geográfico' },
+            ]"
+          >
+            <a-select
+              v-model="form.objetoGeograficoId"
+              placeholder="Seleccione un objeto geográfico"
+            >
+              <a-select-option
+                v-for="objetoGeografico in objetosGeograficosDisponibles"
+                :key="objetoGeografico.id"
+              >
+                {{ objetoGeografico.nombre }}
+              </a-select-option>
             </a-select>
           </a-form-model-item>
           <a-button block html-type="submit" type="primary">
@@ -51,7 +90,7 @@
           </a-button>
         </a-form-model>
       </div>
-      <div v-if="capaGeograficaResultado">
+      <div v-if="informacionObjetoGeografico">
         <h1>
           <b>Resultados de la búsqueda:</b>
         </h1>
@@ -59,30 +98,29 @@
           <a-button block type="primary" @click="verInformacion()">
             <a-icon type="eye" />
             Ver la información de los
-            {{ capaGeograficaResultado.total }} registros
+            {{ informacionObjetoGeografico.total }} registros
           </a-button>
           <a-descriptions :bordered="true" :column="1" size="small">
+            <a-descriptions-item label="Código">
+              <a-tag color="green" style="font-size: x-small">
+                {{ informacionObjetoGeografico.codigo }}
+              </a-tag>
+            </a-descriptions-item>
             <a-descriptions-item label="Título">
-              {{ capaGeograficaResultado.titulo }}
+              {{ informacionObjetoGeografico.nombre }}
             </a-descriptions-item>
             <a-descriptions-item label="Nombre de la capa">
               <a-tag color="purple" style="font-size: x-small">
-                {{ capaGeograficaResultado.nombre }}
+                {{ informacionObjetoGeografico.nombreGeoserver }}
               </a-tag>
             </a-descriptions-item>
             <a-descriptions-item label="Descripción">
-              {{ capaGeograficaResultado.descripcion }}
+              {{ informacionObjetoGeografico.descripcion }}
             </a-descriptions-item>
             <a-descriptions-item label="Estilos">
-              <div style="margin-bottom: 0.25rem">
-                {{ capaGeograficaResultado.titulo }}
-              </div>
-              <div
-                v-if="capaGeograficaResultado.tipoEstilo === 'poligono'"
-                :style="`width: 1rem; height: 1rem;
-                border: ${capaGeograficaResultado.estilos.weight}px ${capaGeograficaResultado.estilos.color} solid;
-                background-color: ${capaGeograficaResultado.estilos.fillColor}
-                background-transparency: ${capaGeograficaResultado.estilos.fillOpacity}`"
+              <ObjetoGeograficoLeyenda
+                :estilo="informacionObjetoGeografico.estilo"
+                :nombre="informacionObjetoGeografico.nombre"
               />
             </a-descriptions-item>
           </a-descriptions>
@@ -94,85 +132,54 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import { obtenerInformacionCapaGeografica } from '@/repositorios/CapaGeograficaRepositorio';
+import ObjetoGeograficoLeyenda from '../../compartido/ObjetoGeograficoLeyenda.vue';
 export default {
+  components: { ObjetoGeograficoLeyenda },
   data() {
     return {
-      capaGeograficaResultado: undefined,
       form: {
-        tematica: undefined,
-        capaGeografica: undefined,
+        catalogoId: undefined,
+        temaId: undefined,
+        grupoId: undefined,
+        objetoGeograficoId: undefined,
       },
-      rules: {
-        tematica: [{ required: true, message: 'Seleccione una temática' }],
-        capaGeografica: [
-          { required: true, message: 'Please select an option' },
-        ],
-      },
-      tematicas: [
-        {
-          id: 'fundamental',
-          nombre: 'Fundamentales',
-          grupos: [],
-        },
-        {
-          id: 'gestionForestal',
-          nombre: 'Gestión forestal',
-          grupos: [
-            {
-              id: 'autorizaciones',
-              nombre: 'Modalidad de acceso / Autorizaciones',
-              capasGeograficas: [
-                {
-                  id: 'Act_AutorizacionDes',
-                  nombre: 'Autorización de desbosque',
-                },
-                {
-                  id: 'Act_AutorizacionCamUsoActTieFinAgrPrePri',
-                  nombre:
-                    'Autorización de cambio de uso actual de las tierras a fines agropecuarios en predios privados',
-                },
-              ],
-            },
-            {
-              id: 'concesion',
-              nombre: 'Modalidad de acceso / Concesiones',
-              capasGeograficas: [
-                {
-                  id: 'Con_ConcesionProForDifMad',
-                  nombre:
-                    'Concesión para productos forestales diferentes a la madera',
-                },
-                {
-                  id: 'Con_ConcesionForFinMad',
-                  nombre: 'Concesión forestal con fines maderables',
-                },
-                {
-                  id: 'Con_ConcesionForRef',
-                  nombre: 'Concesión para forestación y/o reforestación',
-                },
-              ],
-            },
-          ],
-        },
-      ],
+      informacionObjetoGeografico: undefined,
     };
   },
   computed: {
     ...mapState(['tamanioVentana']),
-    ...mapState('visor', ['estaAbiertoVentanaInformacionCapasOperables']),
+    ...mapState('visor', [
+      'estaAbiertoVentanaInformacionCapasOperables',
+      'estructuraObjetosGeograficos',
+    ]),
+    catalogosDisponibles() {
+      return this.estructuraObjetosGeograficos;
+    },
+    temasDisponibles() {
+      return (
+        this.catalogosDisponibles.find(
+          (catalogo) => catalogo.id === this.form.catalogoId
+        )?.temas ?? []
+      );
+    },
     gruposDisponibles() {
       return (
-        this.tematicas.find((tematica) => tematica.id === this.form.tematica)
+        this.temasDisponibles.find((tema) => tema.id === this.form.temaId)
           ?.grupos ?? []
+      );
+    },
+    objetosGeograficosDisponibles() {
+      return (
+        this.gruposDisponibles.find((grupo) => grupo.id === this.form.grupoId)
+          ?.objetos ?? []
       );
     },
   },
   methods: {
     ...mapActions('visor', [
       'cerrarVentana',
-      'establecerInformacionCapaOperativa',
       'abrirVentana',
+      'establecerRegistroObjetoGeografico',
     ]),
     async validarFormulario() {
       try {
@@ -183,7 +190,7 @@ export default {
         return false;
       }
     },
-    async consultarCapaGeografica() {
+    async consultarInformacionObjetoGeografico() {
       try {
         this.$iniciarCarga();
         this.capaGeografica = undefined;
@@ -191,15 +198,14 @@ export default {
         if (!formularioValido) {
           return;
         }
-        const informacionCapaGeografica =
-          await obtenerInformacionCapaGeografica(this.form.capaGeografica);
-        if (informacionCapaGeografica) {
-          this.capaGeograficaResultado = {
-            ...informacionCapaGeografica,
-            columnas: undefined,
-            registros: undefined,
+        const { data: informacionObjetoGeografico } = await this.$axios.get(
+          `/visor/objetos-geograficos/${this.form.objetoGeograficoId}/informacion/?incluir_propiedades=true`
+        );
+        if (informacionObjetoGeografico) {
+          this.informacionObjetoGeografico = {
+            ...informacionObjetoGeografico,
+            estilo: JSON.parse(informacionObjetoGeografico.estilo),
           };
-          this.establecerInformacionCapaOperativa(informacionCapaGeografica);
         }
       } catch (error) {
         this.$manejarError(error);
@@ -208,6 +214,7 @@ export default {
       }
     },
     verInformacion() {
+      this.establecerRegistroObjetoGeografico(this.informacionObjetoGeografico);
       this.cerrarVentana('InformacionCapasOperables');
       this.abrirVentana('ResultadoInformacionCapasOperables');
     },

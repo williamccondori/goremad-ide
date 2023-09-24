@@ -91,7 +91,7 @@
           <a-button type="dashed" @click="eliminar(record)">
             <a-icon type="delete" />
           </a-button>
-          <a-button type="dashed" @click="verGeometria(record.geojson)">
+          <a-button type="dashed" @click="verGeometria(record)">
             <a-icon type="eye" />
           </a-button>
         </div>
@@ -122,7 +122,11 @@ export default {
     ...mapState('visor', ['estaAbiertoVentanaSubirInformacion']),
   },
   methods: {
-    ...mapActions('visor', ['cerrarVentana']),
+    ...mapActions('visor', [
+      'cerrarVentana',
+      'agregarCapaEnMapa',
+      'elimnarCapaEnMapa',
+    ]),
     limpiar() {
       this.form = {
         id: undefined,
@@ -223,19 +227,32 @@ export default {
         },
       });
     },
-    editar(record) {
+    editar(registro) {
       this.form = {
-        id: record.id,
-        cantidadRegistros: record.cantidadRegistros,
-        nombre: record.nombre,
-        tipoGeometria: record.tipoGeometria,
-        geojson: record.geojson,
+        id: registro.id,
+        cantidadRegistros: registro.cantidadRegistros,
+        nombre: registro.nombre,
+        tipoGeometria: registro.tipoGeometria,
+        geojson: registro.geojson,
       };
       this.tituloFormulario = 'Editar registro';
       this.collapseActivo = 'formularioPanel';
     },
-    verGeometria(geojson) {
-      alert(JSON.stringify(geojson));
+    verGeometria(registro) {
+      this.agregarCapaEnMapa({
+        id: registro.id,
+        esVectorial: true,
+        wfs: {
+          nombre: registro.nombre,
+          geometria: JSON.parse(registro.geojson),
+          estilo: {
+            color: '#000000',
+            fillColor: '#333333',
+            fillOpacity: 0.5,
+          },
+          transparencia: 1,
+        },
+      });
     },
   },
 };

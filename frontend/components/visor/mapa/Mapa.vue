@@ -6,12 +6,12 @@
         :max-zoom="18"
         :min-zoom="3"
         :options="{ preferCanvas: true }"
+        style="outline: none"
         @ready="inicializarMapa"
       >
         <!--Controles.-->
         <InformacionControl />
         <HerramientasControl />
-
         <UtilidadesControl />
         <InformacionPosicionControl />
         <LControlScale :max-width="200" position="bottomleft" />

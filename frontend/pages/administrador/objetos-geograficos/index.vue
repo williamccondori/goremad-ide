@@ -88,6 +88,7 @@
         </a-form-model-item>
         <a-form-model-item label="¿Está habilitado?" prop="estaHabilitado">
           <a-switch v-model="form.estaHabilitado" />
+          <EditorEstilo />
         </a-form-model-item>
         <a-button html-type="submit" type="primary">
           <a-icon type="save" /> Guardar
@@ -144,9 +145,11 @@
 
 <script>
 import AdministracionPagina from '@/components/administrador/compartido/AdministracionPagina.vue';
+import EditorEstilo from '~/components/compartido/EditorEstilo.vue';
 export default {
   components: {
     AdministracionPagina,
+    EditorEstilo,
   },
   layout: 'administrador',
   data() {

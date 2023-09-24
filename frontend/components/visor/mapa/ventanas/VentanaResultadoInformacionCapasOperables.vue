@@ -6,15 +6,18 @@
     @close="cerrarVentana('ResultadoInformacionCapasOperables')"
   >
     <span slot="title">
-      <b>INFORMACIÓN DE LA CAPA: {{ informacionCapaOperativa?.titulo }}</b>
+      <b>INFORMACIÓN DE LA CAPA: {{ registroObjetoGeografico?.nombre }}</b>
     </span>
     <a-space direction="vertical" style="width: 100%">
-      <a-input v-model="cadenaBusqueda" placeholder="Buscar..." />
+      <a-input
+        v-model="cadenaBusqueda"
+        placeholder="Buscar (a partir del tercer caracter)..."
+      />
       <div>
         <a-table
-          v-if="informacionCapaOperativa"
+          v-if="registroObjetoGeografico"
           bordered
-          :columns="informacionCapaOperativa.columnas"
+          :columns="registroObjetoGeografico.columnas"
           :data-source="registrosFiltrados"
           row-key="id"
           size="small"
@@ -35,14 +38,14 @@ export default {
   computed: {
     ...mapState('visor', [
       'estaAbiertoVentanaResultadoInformacionCapasOperables',
-      'informacionCapaOperativa',
+      'registroObjetoGeografico',
     ]),
     registrosFiltrados() {
-      if (!this.cadenaBusqueda) {
-        return this.informacionCapaOperativa.registros;
+      if (!this.cadenaBusqueda || this.cadenaBusqueda.length <= 3) {
+        return this.registroObjetoGeografico.registros;
       }
       const query = this.cadenaBusqueda.toLowerCase();
-      return this.informacionCapaOperativa.registros.filter((row) =>
+      return this.registroObjetoGeografico.registros.filter((row) =>
         Object.values(row).some((value) =>
           String(value).toLowerCase().includes(query)
         )

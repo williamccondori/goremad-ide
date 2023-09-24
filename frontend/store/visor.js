@@ -18,10 +18,8 @@ export const state = () => ({
   capasActivas: [],
   capasEstructura: [],
   capaSuperior: undefined,
-
   capasOperativas: [],
-
-  informacionCapaOperativa: undefined,
+  registroObjetoGeografico: undefined,
 
   /*----------  Capas base.  ----------*/
 
@@ -108,14 +106,36 @@ export const actions = {
   eliminarCapaActiva({ commit }, capaActivaId) {
     commit('eliminarCapaActiva', capaActivaId);
   },
-  agregarCapaOperativa({ commit }, capaOperativa) {
-    commit('agregarCapaOperativa', capaOperativa);
+  agregarCapaEnMapa({ commit }, capaEnMapa) {
+    commit('agregarCapaEnMapa', capaEnMapa);
   },
-  eliminarCapaOperativa({ commit }, nombreCapaOperativa) {
-    commit('eliminarCapaOperativa', nombreCapaOperativa);
+  eliminarCapaEnMapa({ commit }, capaId) {
+    commit('eliminarCapaEnMapa', capaId);
   },
-  establecerInformacionCapaOperativa({ commit }, informacionCapaOperativa) {
-    commit('establecerInformacionCapaOperativa', informacionCapaOperativa);
+  establecerRegistroObjetoGeografico({ commit }, informacionObjetoGeografico) {
+    const geojsonFeatures =
+      JSON.parse(informacionObjetoGeografico.geometria)?.features ?? [];
+
+    const registros = geojsonFeatures.map((feature, index) => {
+      return {
+        id: index + 1,
+        ...feature.properties,
+      };
+    });
+
+    const columnas = Object.keys(registros[0]).map((key) => {
+      return {
+        title: key === 'id' ? 'ID' : key,
+        dataIndex: key,
+        key,
+      };
+    });
+
+    commit('establecerRegistroObjetoGeografico', {
+      nombre: informacionObjetoGeografico.nombre,
+      registros,
+      columnas,
+    });
   },
 
   /*----------  Capas base.  ----------*/
@@ -298,7 +318,7 @@ export const mutations = {
       (capaActiva) => capaActiva !== capaId
     );
   },
-  agregarCapaOperativa(state, capaOperativa) {
+  agregarCapaEnMapa(state, capaOperativa) {
     const existe = state.capasOperativas.find(
       (capa) => capa.id === capaOperativa.id
     );
@@ -306,14 +326,14 @@ export const mutations = {
       state.capasOperativas.push(capaOperativa);
     }
   },
-  eliminarCapaOperativa(state, capaOperativaId) {
+  eliminarCapaEnMapa(state, capaOperativaId) {
     state.capasOperativas = state.capasOperativas.filter(
       (capa) => capa.id !== capaOperativaId
     );
   },
 
-  establecerInformacionCapaOperativa(state, informacionCapaOperativa) {
-    state.informacionCapaOperativa = informacionCapaOperativa;
+  establecerRegistroObjetoGeografico(state, registroObjetoGeografico) {
+    state.registroObjetoGeografico = registroObjetoGeografico;
   },
 
   /*----------  Capas base.  ----------*/
