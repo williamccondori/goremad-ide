@@ -57,6 +57,8 @@ export const state = () => ({
   estaAbiertoVentanaBuscar: false,
   estaAbiertoVentanaSubirInformacion: false,
   estructuraObjetosGeograficos: [],
+  estaAbiertoVentanaInformacionCapaWfs: false,
+  informacionCapaWfs: undefined,
 });
 
 export const actions = {
@@ -269,6 +271,9 @@ export const actions = {
       estructuraObjetosGeograficos
     );
   },
+  establecerInformacionCapaWfs({ commit }, informacionCapaWfs) {
+    commit('establecerInformacionCapaWfs', informacionCapaWfs);
+  },
 };
 
 export const mutations = {
@@ -416,5 +421,8 @@ export const mutations = {
   },
   establecerEstructuraObjetosGeograficos(state, payload) {
     state.estructuraObjetosGeograficos = payload;
+  },
+  establecerInformacionCapaWfs(state, payload) {
+    state.informacionCapaWfs = payload;
   },
 };

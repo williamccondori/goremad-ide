@@ -6,6 +6,7 @@
       :geojson="capaActiva.geojson"
       :name="capaActiva.nombre"
       :options="{
+        identificador: capaActiva.id,
         style: capaActiva.estilo,
         onEachFeature: (feature, layer) =>
           onEachFeature(capaActiva.estilo, feature, layer),
@@ -15,7 +16,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapActions } from 'vuex';
 import { LGeoJson, LLayerGroup } from 'vue2-leaflet';
 
 export default {
@@ -43,6 +44,11 @@ export default {
     },
   },
   methods: {
+    ...mapActions('visor', [
+      'abrirVentana',
+      'establecerInformacionCapaWfs',
+      'establecerBounds',
+    ]),
     onEachFeature(estilosPorDefecto, feature, layer) {
       layer.setStyle(estilosPorDefecto);
       layer.on({
@@ -67,7 +73,21 @@ export default {
       capa.setStyle(estilosPorDefecto);
     },
     seleccionarPoligono(e, feature) {
-      alert(JSON.stringify(feature.properties));
+      const capa = e.target;
+      const identificador = capa?.options?.identificador;
+
+      const capaGEOJSON = this.capasActivas.find(
+        (capa) => capa.id === identificador
+      );
+      this.establecerInformacionCapaWfs({
+        nombre: capaGEOJSON.nombre,
+        propiedades: feature.properties,
+      });
+
+      const cuadroDelimitador = capa.getBounds();
+      this.establecerBounds(cuadroDelimitador);
+
+      this.abrirVentana('InformacionCapaWfs');
     },
   },
 };

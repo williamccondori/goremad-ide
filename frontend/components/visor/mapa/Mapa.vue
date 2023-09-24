@@ -12,7 +12,6 @@
         <!--Controles.-->
         <InformacionControl />
         <HerramientasControl />
-        <UtilidadesControl />
         <InformacionPosicionControl />
         <LControlScale :max-width="200" position="bottomleft" />
         <LogoControl />
@@ -20,19 +19,16 @@
         <PantallaCompletaControl />
         <NavegadorControl />
         <UbicadorControl />
-        <DibujoControl />
         <!--Capas.-->
         <CapaGEOJSON />
         <CapaBaseCapa />
         <CapaCapa />
-        <ComparacionCapa />
         <!--Adicionales.-->
         <CapaDetallePopup />
       </LMap>
     </client-only>
     <Ventanas />
     <CapaResumenVentana />
-    <DibujoVentana />
     <CompartirModal />
     <MarcadorCatalogoVentana />
     <CapaBaseCatalogoVentana />
@@ -59,19 +55,15 @@ import LogoControl from '@/components/visor/mapa/control/LogoControl.vue';
 import NavegadorControl from '@/components/visor/mapa/control/NavegadorControl.vue';
 import PantallaCompletaControl from '@/components/visor/mapa/control/PantallaCompletaControl.vue';
 import UbicadorControl from '@/components/visor/mapa/control/UbicadorControl.vue';
-import UtilidadesControl from '@/components/visor/mapa/control/UtilidadesControl.vue';
-import DibujoControl from '@/components/visor/mapa-control/DibujoControl.vue';
 // Capas.
 import CapaBaseCapa from '@/components/visor/mapa/capa/CapaBaseCapa.vue';
 import CapaCapa from '@/components/visor/mapa/capa/CapaCapa.vue';
-import ComparacionCapa from '@/components/visor/mapa/capa/ComparacionCapa.vue';
 // Adicionales.
 import CapaDetallePopup from '@/components/visor/capa/CapaDetallePopup.vue';
 // import CapasInteroperablesLayer from "@/components/visor/CapasInteroperablesLayer.vue";
 // Ventanas.
 import Ventanas from './Ventanas.vue';
 import CapaResumenVentana from '@/components/visor/capa/CapaResumenVentana.vue';
-import DibujoVentana from '@/components/visor/dibujo/DibujoVentana.vue';
 import MarcadorCatalogoVentana from '@/components/visor/marcador/MarcadorCatalogoVentana.vue';
 import CompartirModal from '@/components/visor/compartir/CompartirModal.vue';
 import CapaBaseCatalogoVentana from '@/components/visor/capa-base/CapaBaseCatalogoVentana.vue';
@@ -92,19 +84,15 @@ export default {
     NavegadorControl,
     PantallaCompletaControl,
     UbicadorControl,
-    UtilidadesControl,
-    DibujoControl,
     // Capas.
     CapaBaseCapa,
     CapaCapa,
-    ComparacionCapa,
     // Adicionales
     CapaDetallePopup,
     // CapasInteroperablesLayer,
     // Ventanas.
     Ventanas,
     CapaResumenVentana,
-    DibujoVentana,
     MarcadorCatalogoVentana,
     CompartirModal,
     CapaBaseCatalogoVentana,

@@ -144,7 +144,7 @@ export default {
       const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
 
       if (!esTamanioValido) {
-        this.$message.error('El archivo debe ser menor a 5MB');
+        this.$message.error('El archivo debe ser menor a 3MB');
         return false;
       }
 

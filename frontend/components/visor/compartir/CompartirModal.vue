@@ -46,6 +46,14 @@
         >
           <i class="bx bxl-linkedin-square" />
         </a-button>
+        <a-button
+          class="twitter"
+          target="_blank"
+          title="Compartir en Twitter"
+          @click="compartirEnTwitter()"
+        >
+          <i class="bx bxl-twitter" />
+        </a-button>
       </div>
     </a-space>
   </a-modal>
@@ -89,11 +97,15 @@ export default {
     },
     compartirEnFacebook() {
       const url = `https://www.facebook.com/sharer/sharer.php?u=${this.formulario.url}&src=sdkpreparse?title=GEOGOREMAD&summary=Visor de mapas&source=GEOGOREMAD`;
-      window.open(url, '_blank');
+      window.open(url, 'Compartir en Facebook', 'width=600,height=450');
     },
     compartirEnLinkedIn() {
       const url = `https://www.linkedin.com/shareArticle?mini=true&url=${this.formulario.url}&title=GEOGOREMAD&summary=Visor de mapas&source=GEOGOREMAD`;
-      window.open(url, '_blank');
+      window.open(url, 'Compartir en LinkedIn', 'width=600,height=450');
+    },
+    compartirEnTwitter() {
+      const url = `https://twitter.com/intent/tweet?url=${this.formulario.url}&text=GEOGOREMAD&hashtags=GEOGOREMAD`;
+      window.open(url, 'Compartir en Twitter', 'width=600,height=450');
     },
   },
 };

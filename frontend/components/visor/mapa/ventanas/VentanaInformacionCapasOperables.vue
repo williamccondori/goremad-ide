@@ -101,23 +101,23 @@
             {{ informacionObjetoGeografico.total }} registros
           </a-button>
           <a-descriptions :bordered="true" :column="1" size="small">
-            <a-descriptions-item label="Código">
+            <a-descriptions-item label="Código:">
               <a-tag color="green" style="font-size: x-small">
                 {{ informacionObjetoGeografico.codigo }}
               </a-tag>
             </a-descriptions-item>
-            <a-descriptions-item label="Título">
+            <a-descriptions-item label="Título:">
               {{ informacionObjetoGeografico.nombre }}
             </a-descriptions-item>
-            <a-descriptions-item label="Nombre de la capa">
+            <a-descriptions-item label="Nombre de la capa:">
               <a-tag color="purple" style="font-size: x-small">
                 {{ informacionObjetoGeografico.nombreGeoserver }}
               </a-tag>
             </a-descriptions-item>
-            <a-descriptions-item label="Descripción">
+            <a-descriptions-item label="Descripción:">
               {{ informacionObjetoGeografico.descripcion }}
             </a-descriptions-item>
-            <a-descriptions-item label="Estilos">
+            <a-descriptions-item label="Estilos:">
               <ObjetoGeograficoLeyenda
                 :estilo="informacionObjetoGeografico.estilo"
                 :nombre="informacionObjetoGeografico.nombre"

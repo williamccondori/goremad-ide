@@ -16,11 +16,27 @@
     </a-button>
     <a-button
       shape="circle"
+      title="Marcadores"
+      type="primary"
+      @click="abrirMarcadorCatalogoVentana()"
+    >
+      <i class="bx bx-pin" />
+    </a-button>
+    <a-button
+      shape="circle"
       title="Leyenda"
       type="primary"
       @click="abrirCapaResumenVentana()"
     >
       <i class="bx bx-label" />
+    </a-button>
+    <a-button
+      shape="circle"
+      title="Imprimir"
+      type="primary"
+      @click="abrirVentana('Imprimir')"
+    >
+      <i class="bx bx-printer" />
     </a-button>
     <a-button
       shape="circle"
@@ -50,10 +66,12 @@ export default {
   },
   methods: {
     ...mapActions('visor', [
+      'abrirVentana',
       'abrirCompartirVistaModal',
       'abrirCapaCatalogoVentana',
       'abrirCapaResumenVentana',
       'abrirCapaBaseCatalogoVentana',
+      'abrirMarcadorCatalogoVentana',
       'abrirWebMapServiceFormularioVentana',
       'abrirImagenSatelitalCatalogoVentana',
     ]),

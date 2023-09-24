@@ -1,5 +1,5 @@
 <template>
-  <fragment>
+  <div>
     <VentanaCapasOperables />
     <VentanaCapasInteroperables />
     <VentanaInformacionCapasOperables />
@@ -7,7 +7,8 @@
     <VentanaSubirInformacion />
     <VentanaDescargarInformacion />
     <VentanaBuscar />
-  </fragment>
+    <VentanaInformacionCapaWfs />
+  </div>
 </template>
 <script>
 import VentanaCapasOperables from './ventanas/VentanaCapasOperables.vue';
@@ -17,6 +18,7 @@ import VentanaResultadoInformacionCapasOperables from './ventanas/VentanaResulta
 import VentanaSubirInformacion from './ventanas/VentanaSubirInformacion.vue';
 import VentanaDescargarInformacion from './ventanas/VentanaDescargarInformacion.vue';
 import VentanaBuscar from './ventanas/VentanaBuscar.vue';
+import VentanaInformacionCapaWfs from './ventanas/VentanaInformacionCapaWfs.vue';
 export default {
   components: {
     VentanaCapasOperables,
@@ -26,6 +28,7 @@ export default {
     VentanaSubirInformacion,
     VentanaDescargarInformacion,
     VentanaBuscar,
+    VentanaInformacionCapaWfs,
   },
 };
 </script>
