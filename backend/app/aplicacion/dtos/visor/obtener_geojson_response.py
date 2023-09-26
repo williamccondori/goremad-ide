@@ -7,6 +7,10 @@ ESTILO_PREDETERMINADO = {
     "color": "#000000",
     "fillColor": "#333333",
     "fillOpacity": 0.5,
+    "weight": 1,
+    "opacity": 1,
+    "lineJoin": 'round',
+    "fillRule": 'evenodd',
 }
 
 

@@ -64,8 +64,8 @@ class ObjetoGeograficoServicio:
 
         return cur, conn
 
-    async def obtener_geometrias_objeto_geografico(self, nombre_base_datos: str, nombre_esquema: str,
-                                                   nombre_tabla: str) -> GeometriaObjetoGeograficoModelo:
+    async def obtener_geometrias_desde_postgis(self, nombre_base_datos: str, nombre_esquema: str,
+                                               nombre_tabla: str) -> GeometriaObjetoGeograficoModelo:
         cur, conn = await self.obtener_cursor(nombre_base_datos)
 
         # Consulta de las columnas.
@@ -104,46 +104,7 @@ class ObjetoGeograficoServicio:
             geometrias=datos
         )
 
-    async def obtener_datos_objeto_geografico(self, nombre_base_datos: str, nombre_esquema: str,
-                                              nombre_tabla: str) -> ColumnaObjetoGeograficoModelo:
-        cur, conn = await self.obtener_cursor(nombre_base_datos)
-
-        # Consulta de comentarios y columnas.
-
-        consulta_columnas_comentarios = f"""
-            SELECT column_name, pgd.description
-            FROM information_schema.columns AS cols
-            LEFT JOIN pg_catalog.pg_description AS pgd
-            ON (
-                pgd.objoid = (
-                    SELECT oid FROM pg_catalog.pg_class 
-                    WHERE relname = '{nombre_tabla}' 
-                    AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = '{nombre_esquema}')
-                )
-                AND pgd.objsubid = cols.ordinal_position
-            )
-            WHERE table_name = '{nombre_tabla}' AND table_schema = '{nombre_esquema}';
-        """
-        cur.execute(consulta_columnas_comentarios)
-        columnas_comentarios: list[dict] = cur.fetchall()
-
-        alias = {}
-        for columna_comentario in columnas_comentarios:
-            alias[columna_comentario["column_name"]] = columna_comentario["description"]
-
-        # Consulta de columnas.
-        columnas: list[str] = list(alias.keys())
-
-        cur.close()
-        conn.close()
-
-        return ColumnaObjetoGeograficoModelo(
-            columnas=columnas,
-            alias=alias
-        )
-
-    async def obtener_geometria_objeto_geografico(self,
-                                                  objeto_geografico_id: str) -> ObtenerGeometriaObjetoGeograficoResponse:
+    async def obtener_geometria(self, objeto_geografico_id: str) -> ObtenerGeometriaObjetoGeograficoResponse:
         objeto_geografico: ObjetoGeograficoEntidad = await self.obtener_objeto_geografico_por_id(objeto_geografico_id)
 
         # Estlos.
@@ -154,7 +115,7 @@ class ObjetoGeograficoServicio:
         except TypeError:
             estilo = json.dumps(ESTILO_PREDETERMINADO)
 
-        geometrias_objeto_geografico = await self.obtener_geometrias_objeto_geografico(
+        geometrias_objeto_geografico = await self.obtener_geometrias_desde_postgis(
             objeto_geografico.nombre_base_datos,
             objeto_geografico.nombre_esquema,
             objeto_geografico.nombre_tabla
@@ -180,3 +141,68 @@ class ObjetoGeograficoServicio:
             cuadro_delimitador=bounding_box,
             codigo=objeto_geografico.codigo,
         )
+
+    async def obtener_alias_columnas(self, nombre_base_datos: str, nombre_esquema: str, nombre_tabla) -> dict:
+
+        cur, conn = await self.obtener_cursor(nombre_base_datos)
+
+        # Consulta de comentarios y columnas.
+
+        consulta_columnas_comentarios = f"""
+                            SELECT column_name, pgd.description
+                            FROM information_schema.columns AS cols
+                            LEFT JOIN pg_catalog.pg_description AS pgd
+                            ON (
+                                pgd.objoid = (
+                                    SELECT oid FROM pg_catalog.pg_class 
+                                    WHERE relname = '{nombre_tabla}' 
+                                    AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace 
+                                                        WHERE nspname = '{nombre_esquema}')
+                                )
+                                AND pgd.objsubid = cols.ordinal_position
+                            )
+                            WHERE table_name = '{nombre_tabla}' 
+                            AND table_schema = '{nombre_esquema}';
+                        """
+        cur.execute(consulta_columnas_comentarios)
+        columnas_comentarios: list[dict] = cur.fetchall()
+
+        alias = {}
+        for columna_comentario in columnas_comentarios:
+            nueva_propiedad = columna_comentario["description"]
+            nueva_propiedad = nueva_propiedad.replace("\"", "")  # Eliminar comillas dobles.
+            nueva_propiedad = nueva_propiedad.strip()  # Eliminar espacios en blanco.
+
+            alias[columna_comentario["column_name"]] = nueva_propiedad
+        return alias
+
+    async def obtener_propiedades(self, objeto_geografico_id: str, registro_id: str) -> dict:
+        objeto_geografico: ObjetoGeograficoEntidad = await self.obtener_objeto_geografico_por_id(objeto_geografico_id)
+
+        alias = await self.obtener_alias_columnas(objeto_geografico.nombre_base_datos, objeto_geografico.nombre_esquema,
+                                                  objeto_geografico.nombre_tabla)
+
+        # Consulta de las columas.
+
+        if alias == {}:
+            raise AplicacionException("No se encontraron columnas con comentarios",
+                                      status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        # Consulta del registro.
+
+        cur, conn = await self.obtener_cursor(objeto_geografico.nombre_base_datos)
+
+        alias.pop("geom")  # Eliminar la columna geom.
+
+        columna_id = list(alias.keys())[0]
+        columnas_para_consultar = [f'"{columna}"' for columna in alias.keys()]
+        consulta_registro = f"""
+            SELECT {", ".join(columnas_para_consultar)} FROM "{objeto_geografico.nombre_esquema}"."{objeto_geografico.nombre_tabla}"
+            WHERE "{columna_id}" = '{registro_id}';
+        """
+
+        cur.execute(consulta_registro)
+        resultado_registro = cur.fetchone()
+        registro = dict(resultado_registro)
+
+        return {alias[columna]: registro[columna] for columna in alias.keys()}
