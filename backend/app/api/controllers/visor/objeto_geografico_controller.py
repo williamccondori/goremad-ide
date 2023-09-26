@@ -16,8 +16,15 @@ async def obtener_geometria(
 
 
 @objeto_geografico_controller.get("/{objeto_geografico_id}/propiedades/", response_model=dict)
-async def obtener_geometria(
+async def obtener_propiedades(
         objeto_geografico_id: str,
         registro_id: str,
         objeto_geografico_servicio: ObjetoGeograficoServicio = Depends()) -> dict:
     return await objeto_geografico_servicio.obtener_propiedades(objeto_geografico_id, registro_id)
+
+
+@objeto_geografico_controller.get("/{objeto_geografico_id}/informaciones/", response_model=dict)
+async def obtener_informaciones(
+        objeto_geografico_id: str,
+        objeto_geografico_servicio: ObjetoGeograficoServicio = Depends()) -> dict:
+    return await objeto_geografico_servicio.obtener_informaciones(objeto_geografico_id)

@@ -179,25 +179,26 @@ class ObjetoGeograficoServicio:
     async def obtener_propiedades(self, objeto_geografico_id: str, registro_id: str) -> dict:
         objeto_geografico: ObjetoGeograficoEntidad = await self.obtener_objeto_geografico_por_id(objeto_geografico_id)
 
-        alias = await self.obtener_alias_columnas(objeto_geografico.nombre_base_datos, objeto_geografico.nombre_esquema,
-                                                  objeto_geografico.nombre_tabla)
+        alias_catalogo = await self.obtener_alias_columnas(objeto_geografico.nombre_base_datos,
+                                                           objeto_geografico.nombre_esquema,
+                                                           objeto_geografico.nombre_tabla)
 
         # Consulta de las columas.
 
-        if alias == {}:
+        if alias_catalogo == {}:
             raise AplicacionException("No se encontraron columnas con comentarios",
                                       status.HTTP_500_INTERNAL_SERVER_ERROR)
+        alias_catalogo.pop("geom")  # Eliminar la columna geom.
 
         # Consulta del registro.
 
         cur, conn = await self.obtener_cursor(objeto_geografico.nombre_base_datos)
 
-        alias.pop("geom")  # Eliminar la columna geom.
-
-        columna_id = list(alias.keys())[0]
-        columnas_para_consultar = [f'"{columna}"' for columna in alias.keys()]
+        columna_id = list(alias_catalogo.keys())[0]
+        columnas_para_consultar = [f'"{columna}"' for columna in alias_catalogo.keys()]
         consulta_registro = f"""
-            SELECT {", ".join(columnas_para_consultar)} FROM "{objeto_geografico.nombre_esquema}"."{objeto_geografico.nombre_tabla}"
+            SELECT {", ".join(columnas_para_consultar)} FROM 
+            "{objeto_geografico.nombre_esquema}"."{objeto_geografico.nombre_tabla}"
             WHERE "{columna_id}" = '{registro_id}';
         """
 
@@ -205,4 +206,47 @@ class ObjetoGeograficoServicio:
         resultado_registro = cur.fetchone()
         registro = dict(resultado_registro)
 
-        return {alias[columna]: registro[columna] for columna in alias.keys()}
+        return {alias_catalogo[columna]: registro[columna] for columna in alias_catalogo.keys()}
+
+    async def obtener_informaciones(self, objeto_geografico_id: str) -> dict:
+        objeto_geografico: ObjetoGeograficoEntidad = await self.obtener_objeto_geografico_por_id(objeto_geografico_id)
+
+        alias_catalogo = await self.obtener_alias_columnas(objeto_geografico.nombre_base_datos,
+                                                           objeto_geografico.nombre_esquema,
+                                                           objeto_geografico.nombre_tabla)
+
+        # Consulta de las columas.
+
+        if alias_catalogo == {}:
+            raise AplicacionException("No se encontraron columnas con comentarios",
+                                      status.HTTP_500_INTERNAL_SERVER_ERROR)
+        alias_catalogo.pop("geom")  # Eliminar la columna geom.
+
+        columnas: List[str] = list(alias_catalogo.keys())
+        alias: dict = alias_catalogo
+
+        # Consulta del registro.
+
+        cur, conn = await self.obtener_cursor(objeto_geografico.nombre_base_datos)
+
+        columnas_para_consultar = [f'"{columna}"' for columna in alias_catalogo.keys()]
+        consulta_registro = f"""
+                    SELECT {", ".join(columnas_para_consultar)} FROM 
+                    "{objeto_geografico.nombre_esquema}"."{objeto_geografico.nombre_tabla}";
+                """
+        cur.execute(consulta_registro)
+        resultado_registro = cur.fetchall()
+
+        registros = []
+        for registro in resultado_registro:
+            registros.append({columna: registro[columna] for columna in alias_catalogo.keys()})
+
+        return {
+            "columnas": columnas,
+            "alias": alias,
+            "registros": registros,
+            "codigo": objeto_geografico.codigo,
+            "nombre": objeto_geografico.nombre,
+            "descripcion": objeto_geografico.descripcion,
+            "estilo": objeto_geografico.estilo
+        }
