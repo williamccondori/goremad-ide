@@ -10,25 +10,39 @@
     </span>
     <a-space direction="vertical" size="middle" style="width: 100%">
       <a-descriptions
-        v-if="informacionCapaWfs"
+        v-if="informacionCapaGeojson"
         :bordered="true"
         :column="1"
         size="small"
-        :title="informacionCapaWfs.nombre"
+        :title="informacionCapaGeojson.nombre"
       >
+        <a-descriptions-item
+          v-if="informacionCapaGeojson.codigo"
+          label="Código:"
+        >
+          <a-tag color="purple">
+            {{ informacionCapaGeojson.codigo }}
+          </a-tag>
+        </a-descriptions-item>
         <a-descriptions-item label="Nombre:">
-          {{ informacionCapaWfs.nombre }}
+          {{ informacionCapaGeojson.nombre }}
+        </a-descriptions-item>
+        <a-descriptions-item
+          v-if="informacionCapaGeojson.descripcion"
+          label="Descripción:"
+        >
+          {{ informacionCapaGeojson.descripcion }}
         </a-descriptions-item>
       </a-descriptions>
       <a-descriptions
-        v-if="informacionCapaWfs"
+        v-if="informacionCapaGeojson"
         :bordered="true"
         :column="1"
         size="small"
         title="Propiedades"
       >
         <a-descriptions-item
-          v-for="(value, key) in informacionCapaWfs.propiedades"
+          v-for="(value, key) in informacionCapaGeojson.propiedades"
           :key="key"
         >
           <small slot="label"> {{ key }}: </small>
@@ -48,7 +62,7 @@ export default {
     ...mapState(['tamanioVentana']),
     ...mapState('visor', [
       'estaAbiertoVentanaInformacionCapaWfs',
-      'informacionCapaWfs',
+      'informacionCapaGeojson',
     ]),
   },
   methods: {

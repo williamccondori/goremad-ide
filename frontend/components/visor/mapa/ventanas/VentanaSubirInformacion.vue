@@ -228,14 +228,13 @@ export default {
       this.collapseActivo = 'formularioPanel';
     },
     verGeometria(record) {
-      console.log(record);
       this.agregarCapaEnMapa({
         id: record.id,
         esGeojson: true,
         geojson: {
           origen: record.origen,
           nombre: record.nombre,
-          description: record.descripcion,
+          descripcion: record.descripcion,
           estilo: JSON.parse(record.estilo),
           geometria: JSON.parse(record.geometria),
           cuadroDelimitador: record.cuadroDelimitador,

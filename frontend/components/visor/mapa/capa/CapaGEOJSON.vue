@@ -40,19 +40,21 @@ export default {
       );
       return capasGeojson.map((capa) => ({
         id: capa.id,
+        origen: capa.geojson.origen,
         nombre: capa.geojson.nombre,
-        description: capa.geojson.descripcion,
+        descripcion: capa.geojson.descripcion,
         geojson: capa.geojson.geometria,
         estilo: capa.geojson.estilo,
         cuadroDelimitador: capa.geojson.cuadroDelimitador,
         transparencia: capa.geojson.transparencia,
+        codigo: capa.geojson.codigo,
       }));
     },
   },
   methods: {
     ...mapActions('visor', [
       'abrirVentana',
-      'establecerInformacionCapaWfs',
+      'establecerInformacionCapaGeojson',
       'establecerBounds',
     ]),
     onEachFeature(estilosPorDefecto, feature, layer) {
@@ -77,18 +79,32 @@ export default {
       const capa = e.target;
       capa.setStyle(estilosPorDefecto);
     },
-    seleccionarPoligono(e, feature) {
+    async seleccionarPoligono(e, feature) {
       const capa = e.target;
       const identificador = capa?.options?.identificador;
 
       const capaGeojson = this.capasActivas.find(
         (capa) => capa.id === identificador
       );
-      this.establecerInformacionCapaWfs({
+
+      // Manejo de alias de propiedades.
+
+      let propiedades = {};
+      if (capaGeojson.origen === 'POSTGRESQL') {
+        const propiedadesAntiguas = feature.properties;
+        const { data } = await this.$axios.get(
+          `/visor/objetos-geograficos/${capaGeojson.id}/propiedades/?registro_id=${propiedadesAntiguas.id}`
+        );
+        propiedades = data;
+      } else {
+        propiedades = feature.properties;
+      }
+
+      this.establecerInformacionCapaGeojson({
         nombre: capaGeojson.nombre,
-        descripcion: capaGeojson.description,
+        descripcion: capaGeojson.descripcion,
         codigo: capaGeojson.codigo,
-        propiedades: feature.properties,
+        propiedades: propiedades,
       });
 
       const cuadroDelimitador = capa.getBounds();

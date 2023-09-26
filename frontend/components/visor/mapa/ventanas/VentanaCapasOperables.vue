@@ -72,10 +72,10 @@ export default {
               geojson: {
                 origen: data.origen,
                 nombre: data.nombre,
-                description: data.descripcion,
+                descripcion: data.descripcion,
                 estilo: JSON.parse(data.estilo),
                 geometria: JSON.parse(data.geometria),
-                cuadroDelimitador: data.cuadro_delimitador,
+                cuadroDelimitador: data.cuadroDelimitador,
                 transparencia: data.transparencia,
                 codigo: data.codigo,
               },
