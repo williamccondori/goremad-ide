@@ -141,13 +141,8 @@
               </a-col>
               <a-col :lg="24" :md="24" :sm="24" :xs="24">
                 <a-form-model-item label="Estilo" prop="estilo">
-                  <a-input
-                    v-model="form.estilo"
-                    placeholder="Ingrese la definición de estilos"
-                    type="textarea"
-                  />
+                  <EditorEstilo v-model="form.estilo" />
                 </a-form-model-item>
-                <EditorEstilo />
               </a-col>
             </a-row>
             <a-button html-type="submit" type="primary">
@@ -222,8 +217,8 @@ export default {
         id: undefined,
         codigo: '',
         nombre: '',
-        nombreBaseDatos: '',
-        nombreEsquema: '',
+        nombreBaseDatos: 'CatalogoObjetosGestionForestalDistribucion',
+        nombreEsquema: 'public',
         nombreTabla: '',
         descripcion: '',
         estilo: '',
@@ -334,8 +329,8 @@ export default {
         id: undefined,
         codigo: '',
         nombre: '',
-        nombreBaseDatos: '',
-        nombreEsquema: '',
+        nombreBaseDatos: 'CatalogoObjetosGestionForestalDistribucion',
+        nombreEsquema: 'public',
         nombreTabla: '',
         descripcion: '',
         estilo: '',
