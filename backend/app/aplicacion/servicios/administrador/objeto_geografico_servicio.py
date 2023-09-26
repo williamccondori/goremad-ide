@@ -53,7 +53,9 @@ class ObjetoGeograficoServicio:
         objeto_geografico = ObjetoGeograficoEntidad(
             codigo=request.codigo,
             nombre=request.nombre,
-            nombre_geoserver=request.nombre_geoserver,
+            nombre_base_datos=request.nombre_base_datos,
+            nombre_esquema=request.nombre_esquema,
+            nombre_tabla=request.nombre_tabla,
             descripcion=request.descripcion,
             estilo=request.estilo,
             esta_habilitado=request.esta_habilitado,
@@ -65,10 +67,13 @@ class ObjetoGeograficoServicio:
     async def actualizar(self, objeto_geografico_id: str, request: ActualizarObjetoGeograficoRequest,
                          usuario_auditoria_id: str) -> str:
         await self.validar_request(request, objeto_geografico_id)
-        objeto_geografico = await self._objeto_geografico_repositorio.obtener_por_id(objeto_geografico_id)
+        objeto_geografico: ObjetoGeograficoEntidad = await self._objeto_geografico_repositorio.obtener_por_id(
+            objeto_geografico_id)
         objeto_geografico.codigo = request.codigo
         objeto_geografico.nombre = request.nombre
-        objeto_geografico.nombre_geoserver=request.nombre_geoserver
+        objeto_geografico.nombre_base_datos = request.nombre_base_datos
+        objeto_geografico.nombre_esquema = request.nombre_esquema
+        objeto_geografico.nombre_tabla = request.nombre_tabla
         objeto_geografico.descripcion = request.descripcion
         objeto_geografico.estilo = request.estilo
         objeto_geografico.esta_habilitado = request.esta_habilitado

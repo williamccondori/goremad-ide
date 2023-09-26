@@ -7,7 +7,9 @@ class ObjetoGeograficoEntidad(BaseEntidad):
     id: str = None
     codigo: str
     nombre: str
-    nombre_geoserver: str
+    nombre_base_datos: str
+    nombre_esquema: str
+    nombre_tabla: str
     descripcion: Optional[str]
     estilo: Optional[str]
     grupo_id: str

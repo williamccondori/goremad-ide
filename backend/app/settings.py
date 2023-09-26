@@ -22,6 +22,8 @@ class Settings(BaseSettings):
     SENTINEL_HUB_PASSWORD: str
     CARPETA_IMAGENES_SATELITALES: str
 
+    CADENA_CONEXION_POSTGIS: str
+
     class Config:
         env_file = ".env"
         env_file_encoding = 'utf-8'

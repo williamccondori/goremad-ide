@@ -1,12 +1,5 @@
-from app.aplicacion.parseadores.base_modelo import BaseModelo
+from app.aplicacion.dtos.visor.obtener_geojson_response import ObtenerGeojsonResponse
 
 
-class ObtenerGeometriaObjetoGeograficoResponse(BaseModelo):
-    id: str
+class ObtenerGeometriaObjetoGeograficoResponse(ObtenerGeojsonResponse):
     codigo: str
-    nombre: str
-    descripcion: str
-    estilo: str
-    columnas: list[str]
-    alias: dict
-    datos: list[dict]

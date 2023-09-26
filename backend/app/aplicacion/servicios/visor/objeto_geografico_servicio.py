@@ -1,26 +1,33 @@
 import json
-from datetime import datetime
-from typing import Optional
+from typing import List
 
+import geopandas as gpd
+import psycopg2
 from fastapi import Depends
-from owslib.wfs import WebFeatureService
+from psycopg2.extras import RealDictCursor
+from shapely import wkt
+from sqlalchemy.engine import make_url
+from starlette import status
 
-from app.aplicacion.dtos.visor.obtener_informacion_objeto_geografico_response import \
-    ObtenerInformacionObjetoGeograficoResponse
+from app.aplicacion.dtos.visor.obtener_geojson_response import ORIGEN_POSTGRESQL, ESTILO_PREDETERMINADO
+from app.aplicacion.dtos.visor.obtener_geometria_objeto_geografico_response import \
+    ObtenerGeometriaObjetoGeograficoResponse
+from app.aplicacion.parseadores.base_modelo import BaseModelo
 from app.dependencies import registrar_repo_objeto_geografico, registrar_repo_objeto_geografico_geometria
 from app.dominio.entidades.objeto_geografico_entidad import ObjetoGeograficoEntidad
-from app.dominio.entidades.objeto_geografico_geometria_entidad import ObjetoGeograficoGeometriaEntidad
 from app.dominio.excepciones.aplicacion_exception import AplicacionException
 from app.dominio.repositorios.base_repositorio import IBaseRepositorio
 from app.settings import settings
 
-ESTILO_PREDETERMINADO = {
-    "color": "#000000",
-    "fillColor": "#333333",
-    "fillOpacity": 0.5,
-}
 
-RANGO_ACTUALIZACION = 3600
+class ColumnaObjetoGeograficoModelo(BaseModelo):
+    columnas: List[str]
+    alias: dict
+
+
+class GeometriaObjetoGeograficoModelo(BaseModelo):
+    crs: str
+    geometrias: List[dict]
 
 
 class ObjetoGeograficoServicio:
@@ -40,81 +47,136 @@ class ObjetoGeograficoServicio:
         return objeto_geografico
 
     @staticmethod
-    async def obtener_geometria_desde_geoserver(
-            objeto_geografico_nombre_geoserver: str) -> str:
-        geoserver_host = settings.GEOSERVER_URL
-        owslib_wfs = WebFeatureService(url=f"{geoserver_host}/geoserver/wfs", version="1.1.0")
+    async def obtener_cursor(nombre_base_datos: str):
+        url = make_url(settings.CADENA_CONEXION_POSTGIS)
 
-        # Obtener la geometría sin propiedades.
-        response = owslib_wfs.getfeature(
-            typename=objeto_geografico_nombre_geoserver,
-            outputFormat='application/json',
-            srsname='EPSG:4326'
+        try:
+            conn = psycopg2.connect(
+                host=url.host,
+                port=url.port,
+                dbname=nombre_base_datos,
+                user=url.username,
+                password=url.password
+            )
+            cur = conn.cursor(cursor_factory=RealDictCursor)  # Para obtener los datos como diccionario.
+        except Exception:
+            raise AplicacionException("No se pudo conectar a la base de datos", status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        return cur, conn
+
+    async def obtener_geometrias_objeto_geografico(self, nombre_base_datos: str, nombre_esquema: str,
+                                                   nombre_tabla: str) -> GeometriaObjetoGeograficoModelo:
+        cur, conn = await self.obtener_cursor(nombre_base_datos)
+
+        # Consulta de las columnas.
+
+        consulta_columnas = f"""
+            SELECT column_name FROM information_schema.columns
+            WHERE table_name = '{nombre_tabla}' AND table_schema = '{nombre_esquema}';
+        """
+        cur.execute(consulta_columnas)
+        columnas: list[dict] = cur.fetchall()
+
+        # Consulta de la geometria.
+
+        columna_id: str = columnas[0]["column_name"]
+        columnas_para_consulta: list[str] = [f'"{columna_id}"', 'ST_AsText("geom") AS "geom"']
+
+        consulta_datos = f"""
+                    SELECT {", ".join(columnas_para_consulta)} FROM "{nombre_esquema}"."{nombre_tabla}";
+                """
+        cur.execute(consulta_datos)
+        resultado_datos = cur.fetchall()
+        datos = [dict(resultado) for resultado in resultado_datos]
+
+        consulta_crs = f"""
+            SELECT Find_SRID('{nombre_esquema}', '{nombre_tabla}', 'geom');
+        """
+        cur.execute(consulta_crs)
+        resultado_crs = cur.fetchone()
+        crs = f"EPSG:{resultado_crs['find_srid']}"
+
+        cur.close()
+        conn.close()
+
+        return GeometriaObjetoGeograficoModelo(
+            crs=crs,
+            geometrias=datos
         )
 
-        # Eliminar las propiedades de la geometría.
-        geojson = json.loads(response.read())
-        return json.dumps(geojson)
+    async def obtener_datos_objeto_geografico(self, nombre_base_datos: str, nombre_esquema: str,
+                                              nombre_tabla: str) -> ColumnaObjetoGeograficoModelo:
+        cur, conn = await self.obtener_cursor(nombre_base_datos)
 
-    async def obtener_geometria_desde_local(self, objeto_geografico_id: str) -> str:
-        objeto_geografico_geometria: ObjetoGeograficoGeometriaEntidad = await (
-            self._objeto_geografico_informacion_repositorio.obtener_por_filtros({
-                "objeto_geografico_id": objeto_geografico_id
-            })
+        # Consulta de comentarios y columnas.
+
+        consulta_columnas_comentarios = f"""
+            SELECT column_name, pgd.description
+            FROM information_schema.columns AS cols
+            LEFT JOIN pg_catalog.pg_description AS pgd
+            ON (
+                pgd.objoid = (
+                    SELECT oid FROM pg_catalog.pg_class 
+                    WHERE relname = '{nombre_tabla}' 
+                    AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname = '{nombre_esquema}')
+                )
+                AND pgd.objsubid = cols.ordinal_position
+            )
+            WHERE table_name = '{nombre_tabla}' AND table_schema = '{nombre_esquema}';
+        """
+        cur.execute(consulta_columnas_comentarios)
+        columnas_comentarios: list[dict] = cur.fetchall()
+
+        alias = {}
+        for columna_comentario in columnas_comentarios:
+            alias[columna_comentario["column_name"]] = columna_comentario["description"]
+
+        # Consulta de columnas.
+        columnas: list[str] = list(alias.keys())
+
+        cur.close()
+        conn.close()
+
+        return ColumnaObjetoGeograficoModelo(
+            columnas=columnas,
+            alias=alias
         )
-        return objeto_geografico_geometria.geometria
 
-    async def obtener_informacion_objeto_geografico(self, objeto_geografico_id: str, incluir_propiedades: bool) \
-            -> ObtenerInformacionObjetoGeograficoResponse:
+    async def obtener_geometria_objeto_geografico(self,
+                                                  objeto_geografico_id: str) -> ObtenerGeometriaObjetoGeograficoResponse:
         objeto_geografico: ObjetoGeograficoEntidad = await self.obtener_objeto_geografico_por_id(objeto_geografico_id)
 
         # Estlos.
+
         try:
             estilo_renderizado = json.loads(objeto_geografico.estilo)
             estilo = json.dumps(estilo_renderizado)
         except TypeError:
             estilo = json.dumps(ESTILO_PREDETERMINADO)
 
-            # Geometría.
-        fecha_actual = datetime.now()
-
-        objeto_geografico_geometria: Optional[ObjetoGeograficoGeometriaEntidad] = await (
-            self._objeto_geografico_informacion_repositorio.obtener_por_filtros({
-                "objeto_geografico_id": objeto_geografico_id
-            })
+        geometrias_objeto_geografico = await self.obtener_geometrias_objeto_geografico(
+            objeto_geografico.nombre_base_datos,
+            objeto_geografico.nombre_esquema,
+            objeto_geografico.nombre_tabla
         )
-        if not objeto_geografico_geometria:
-            geometria = await self.obtener_geometria_desde_geoserver(objeto_geografico.nombre_geoserver)
-            objeto_geografico_informacion = ObjetoGeograficoGeometriaEntidad(
-                objeto_geografico_id=objeto_geografico_id,
-                geometria=geometria,
-                fecha_ultima_actualizacion=fecha_actual
-            )
-            await self._objeto_geografico_informacion_repositorio.crear(objeto_geografico_informacion)
-        else:
-            fecha_proxima_actualizacion = (
-                    objeto_geografico_geometria.fecha_ultima_actualizacion.timestamp() + RANGO_ACTUALIZACION)
-            if fecha_actual.timestamp() > fecha_proxima_actualizacion:
-                geometria = await self.obtener_geometria_desde_geoserver(objeto_geografico.nombre_geoserver)
-                objeto_geografico_geometria.geometria = geometria
-                objeto_geografico_geometria.fecha_ultima_actualizacion = fecha_actual
-                await self._objeto_geografico_informacion_repositorio.actualizar(
-                    objeto_geografico_geometria.id, objeto_geografico_geometria)
-            else:
-                geometria = objeto_geografico_geometria.geometria
 
-        if not incluir_propiedades:
-            geojson = json.loads(geometria)
-            for feature in geojson["features"]:
-                feature["properties"] = {}
-            geometria = json.dumps(geojson)
+        # Geometrias.
 
-        return ObtenerInformacionObjetoGeograficoResponse(
+        for geom in geometrias_objeto_geografico.geometrias:
+            geom["geom"] = wkt.loads(geom["geom"])
+
+        gdf = gpd.GeoDataFrame(geometrias_objeto_geografico.geometrias, geometry="geom",
+                               crs=geometrias_objeto_geografico.crs)
+        gdf = gdf.to_crs("EPSG:4326")
+        bounding_box = gdf.total_bounds.tolist()
+
+        return ObtenerGeometriaObjetoGeograficoResponse(
             id=objeto_geografico.id,
-            codigo=objeto_geografico.codigo,
+            origen=ORIGEN_POSTGRESQL,
             nombre=objeto_geografico.nombre,
-            nombre_geoserver=objeto_geografico.nombre_geoserver,
             descripcion=objeto_geografico.descripcion,
             estilo=estilo,
-            geometria=geometria
+            geometria=gdf.to_json(),
+            cuadro_delimitador=bounding_box,
+            codigo=objeto_geografico.codigo,
         )

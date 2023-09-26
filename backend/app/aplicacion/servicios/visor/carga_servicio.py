@@ -1,4 +1,6 @@
+import json
 import os
+import uuid
 from typing import List
 from zipfile import ZipFile
 
@@ -6,6 +8,7 @@ import geopandas as gpd
 from fastapi import UploadFile
 from starlette import status
 
+from app.aplicacion.dtos.visor.obtener_geojson_response import ORIGEN_CARGA, ESTILO_PREDETERMINADO
 from app.aplicacion.dtos.visor.obtener_geometria_carga_response import ObtenerGeometriaCargaResponse
 from app.dominio.excepciones.aplicacion_exception import AplicacionException
 
@@ -41,18 +44,19 @@ class CargaServicio:
     async def obtener_geometria(self, archivo: UploadFile) -> ObtenerGeometriaCargaResponse:
         extension = self.verificar_archivo(archivo)
         try:
-            # Se lee el archivo.
             gdf = gpd.read_file(archivo.file)
             archivo.file.close()
-            # Se transforma a CRS 4326 para que sea compatible con el mapa.
-            gdf = gdf.to_crs(epsg=4326)
-            # Vaciado del archivo en memoria.
+            gdf = gdf.to_crs("EPSG:4326")
+            bounding_box = gdf.total_bounds.tolist()
+
             return ObtenerGeometriaCargaResponse(
+                id=str(uuid.uuid4()),
+                origen=ORIGEN_CARGA,
                 nombre=archivo.filename,
-                extension=extension,
-                cantidad_registros=len(gdf),
-                geojson=gdf.to_json(),
-                tipo_geometria=gdf.geom_type[0]
+                descripcion=f"Archivo cargado desde el visor. Nombre: {archivo.filename}. Extensión: {extension}",
+                estilo=json.dumps(ESTILO_PREDETERMINADO),
+                geometria=gdf.to_json(),
+                cuadro_delimitador=bounding_box
             )
         except Exception as e:
             raise AplicacionException(f"Error al leer el archivo {e}", status.HTTP_400_BAD_REQUEST)

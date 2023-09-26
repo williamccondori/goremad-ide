@@ -1,9 +1,5 @@
-from app.aplicacion.parseadores.base_modelo import BaseModelo
+from app.aplicacion.dtos.visor.obtener_geojson_response import ObtenerGeojsonResponse
 
 
-class ObtenerGeometriaCargaResponse(BaseModelo):
-    nombre: str
-    extension: str
-    cantidad_registros: int
-    geojson: str
-    tipo_geometria: str
+class ObtenerGeometriaCargaResponse(ObtenerGeojsonResponse):
+    pass
