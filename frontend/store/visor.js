@@ -19,7 +19,7 @@ export const state = () => ({
   capasEstructura: [],
   capaSuperior: undefined,
   capasOperativas: [],
-  registroObjetoGeografico: undefined,
+  informacionObjetoGeografico: undefined,
 
   /*----------  Capas base.  ----------*/
 
@@ -114,30 +114,14 @@ export const actions = {
   eliminarCapaEnMapa({ commit }, capaId) {
     commit('eliminarCapaEnMapa', capaId);
   },
-  establecerRegistroObjetoGeografico({ commit }, informacionObjetoGeografico) {
-    const geojsonFeatures =
-      JSON.parse(informacionObjetoGeografico.geometria)?.features ?? [];
-
-    const registros = geojsonFeatures.map((feature, index) => {
-      return {
-        id: index + 1,
-        ...feature.properties,
-      };
-    });
-
-    const columnas = Object.keys(registros[0]).map((key) => {
-      return {
-        title: key === 'id' ? 'ID' : key,
-        dataIndex: key,
-        key,
-      };
-    });
-
-    commit('establecerRegistroObjetoGeografico', {
-      nombre: informacionObjetoGeografico.nombre,
-      registros,
-      columnas,
-    });
+  establecerInformacionObjetoGeografico(
+    { commit },
+    informacionObjetoGeografico
+  ) {
+    commit(
+      'establecerInformacionObjetoGeografico',
+      informacionObjetoGeografico
+    );
   },
 
   /*----------  Capas base.  ----------*/
@@ -337,8 +321,8 @@ export const mutations = {
     );
   },
 
-  establecerRegistroObjetoGeografico(state, registroObjetoGeografico) {
-    state.registroObjetoGeografico = registroObjetoGeografico;
+  establecerInformacionObjetoGeografico(state, payload) {
+    state.informacionObjetoGeografico = payload;
   },
 
   /*----------  Capas base.  ----------*/

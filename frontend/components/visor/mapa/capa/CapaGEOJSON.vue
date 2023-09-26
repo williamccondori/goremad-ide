@@ -91,11 +91,18 @@ export default {
 
       let propiedades = {};
       if (capaGeojson.origen === 'POSTGRESQL') {
-        const propiedadesAntiguas = feature.properties;
-        const { data } = await this.$axios.get(
-          `/visor/objetos-geograficos/${capaGeojson.id}/propiedades/?registro_id=${propiedadesAntiguas.id}`
-        );
-        propiedades = data;
+        try {
+          this.$iniciarCarga();
+          const propiedadesAntiguas = feature.properties;
+          const { data } = await this.$axios.get(
+            `/visor/objetos-geograficos/${capaGeojson.id}/propiedades/?registro_id=${propiedadesAntiguas.id}`
+          );
+          propiedades = data;
+        } catch (error) {
+          this.$manejarError(error);
+        } finally {
+          this.$finalizarCarga();
+        }
       } else {
         propiedades = feature.properties;
       }
@@ -105,6 +112,7 @@ export default {
         descripcion: capaGeojson.descripcion,
         codigo: capaGeojson.codigo,
         propiedades: propiedades,
+        estilo: capaGeojson.estilo,
       });
 
       const cuadroDelimitador = capa.getBounds();

@@ -6,7 +6,7 @@
     @close="cerrarVentana('ResultadoInformacionCapasOperables')"
   >
     <span slot="title">
-      <b>INFORMACIÓN DE LA CAPA: {{ registroObjetoGeografico?.nombre }}</b>
+      <b>INFORMACIÓN DE LA CAPA: {{ informacionObjetoGeografico?.nombre }}</b>
     </span>
     <a-space direction="vertical" style="width: 100%">
       <a-input
@@ -15,13 +15,26 @@
       />
       <div>
         <a-table
-          v-if="registroObjetoGeografico"
+          v-if="informacionObjetoGeografico"
           bordered
-          :columns="registroObjetoGeografico.columnas"
-          :data-source="registrosFiltrados"
+          :columns="columasDisponibles"
+          :data-source="registrosDisponibles"
           row-key="id"
           size="small"
-        />
+        >
+          <span
+            v-for="columna in columasDisponibles"
+            :key="`titulo-${columna.key}`"
+            :slot="`titulo-${columna.key}`"
+          >
+            <a-tooltip
+              placement="top"
+              :title="informacionObjetoGeografico.alias[columna.key]"
+            >
+              <span>{{ columna.key.toUpperCase() }}</span>
+            </a-tooltip>
+          </span>
+        </a-table>
       </div>
     </a-space>
   </a-drawer>
@@ -38,14 +51,27 @@ export default {
   computed: {
     ...mapState('visor', [
       'estaAbiertoVentanaResultadoInformacionCapasOperables',
-      'registroObjetoGeografico',
+      'informacionObjetoGeografico',
     ]),
-    registrosFiltrados() {
+    columasDisponibles() {
+      if (!this.informacionObjetoGeografico) {
+        return [];
+      }
+      return this.informacionObjetoGeografico.columnas.map((columna) => ({
+        dataIndex: columna,
+        key: columna,
+        slots: {
+          title: `titulo-${columna}`,
+          customRender: columna.toUpperCase(),
+        },
+      }));
+    },
+    registrosDisponibles() {
       if (!this.cadenaBusqueda || this.cadenaBusqueda.length <= 3) {
-        return this.registroObjetoGeografico.registros;
+        return this.informacionObjetoGeografico.registros;
       }
       const query = this.cadenaBusqueda.toLowerCase();
-      return this.registroObjetoGeografico.registros.filter((row) =>
+      return this.informacionObjetoGeografico.registros.filter((row) =>
         Object.values(row).some((value) =>
           String(value).toLowerCase().includes(query)
         )

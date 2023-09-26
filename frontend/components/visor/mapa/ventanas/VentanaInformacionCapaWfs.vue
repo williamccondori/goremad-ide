@@ -1,6 +1,6 @@
 <template>
   <a-drawer
-    :mask="false"
+    :mask="esMovil"
     :visible="estaAbiertoVentanaInformacionCapaWfs"
     :width="tamanioVentana"
     @close="cerrarVentana('InformacionCapaWfs')"
@@ -33,6 +33,12 @@
         >
           {{ informacionCapaGeojson.descripcion }}
         </a-descriptions-item>
+        <a-descriptions-item label="Estilos:">
+          <ObjetoGeograficoLeyenda
+            :estilo="informacionCapaGeojson.estilo"
+            :nombre="informacionCapaGeojson.nombre"
+          />
+        </a-descriptions-item>
       </a-descriptions>
       <a-descriptions
         v-if="informacionCapaGeojson"
@@ -51,15 +57,22 @@
           </small>
         </a-descriptions-item>
       </a-descriptions>
+      <a-alert
+        v-else
+        message="No hay información disponible, debe seleccionar una geometría"
+        type="info"
+      />
     </a-space>
   </a-drawer>
 </template>
 
 <script>
 import { mapState, mapActions } from 'vuex';
+import ObjetoGeograficoLeyenda from '../../compartido/ObjetoGeograficoLeyenda.vue';
 export default {
+  components: { ObjetoGeograficoLeyenda },
   computed: {
-    ...mapState(['tamanioVentana']),
+    ...mapState(['tamanioVentana', 'esMovil']),
     ...mapState('visor', [
       'estaAbiertoVentanaInformacionCapaWfs',
       'informacionCapaGeojson',

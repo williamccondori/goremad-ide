@@ -56,7 +56,11 @@
             prop="grupoId"
             :rules="[{ required: true, message: 'Seleccione un grupo' }]"
           >
-            <a-select v-model="form.grupoId" placeholder="Seleccione un grupo">
+            <a-select
+              v-model="form.grupoId"
+              placeholder="Seleccione un grupo"
+              @change="form.objetoGeograficoId = undefined"
+            >
               <a-select-option
                 v-for="grupo in gruposDisponibles"
                 :key="grupo.id"
@@ -102,17 +106,12 @@
           </a-button>
           <a-descriptions :bordered="true" :column="1" size="small">
             <a-descriptions-item label="Código:">
-              <a-tag color="green" style="font-size: x-small">
+              <a-tag color="purple" style="font-size: x-small">
                 {{ informacionObjetoGeografico.codigo }}
               </a-tag>
             </a-descriptions-item>
             <a-descriptions-item label="Título:">
               {{ informacionObjetoGeografico.nombre }}
-            </a-descriptions-item>
-            <a-descriptions-item label="Nombre de la capa:">
-              <a-tag color="purple" style="font-size: x-small">
-                {{ informacionObjetoGeografico.nombreGeoserver }}
-              </a-tag>
             </a-descriptions-item>
             <a-descriptions-item label="Descripción:">
               {{ informacionObjetoGeografico.descripcion }}
@@ -179,7 +178,7 @@ export default {
     ...mapActions('visor', [
       'cerrarVentana',
       'abrirVentana',
-      'establecerRegistroObjetoGeografico',
+      'establecerInformacionObjetoGeografico',
     ]),
     async validarFormulario() {
       try {
@@ -191,15 +190,12 @@ export default {
       }
     },
     async consultarInformacionObjetoGeografico() {
+      const formularioValido = await this.validarFormulario();
+      if (!formularioValido) return;
       try {
         this.$iniciarCarga();
-        this.capaGeografica = undefined;
-        const formularioValido = await this.validarFormulario();
-        if (!formularioValido) {
-          return;
-        }
         const { data: informacionObjetoGeografico } = await this.$axios.get(
-          `/visor/objetos-geograficos/${this.form.objetoGeograficoId}/informacion/?incluir_propiedades=true`
+          `/visor/objetos-geograficos/${this.form.objetoGeograficoId}/informaciones/`
         );
         if (informacionObjetoGeografico) {
           this.informacionObjetoGeografico = {
@@ -214,7 +210,9 @@ export default {
       }
     },
     verInformacion() {
-      this.establecerRegistroObjetoGeografico(this.informacionObjetoGeografico);
+      this.establecerInformacionObjetoGeografico(
+        this.informacionObjetoGeografico
+      );
       this.cerrarVentana('InformacionCapasOperables');
       this.abrirVentana('ResultadoInformacionCapasOperables');
     },
