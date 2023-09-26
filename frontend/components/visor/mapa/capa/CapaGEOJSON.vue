@@ -5,6 +5,7 @@
       :key="capaActiva.id"
       :geojson="capaActiva.geojson"
       :name="capaActiva.nombre"
+      :opacity="capaActiva.transparencia"
       :options="{
         identificador: capaActiva.id,
         style: capaActiva.estilo,
@@ -34,12 +35,17 @@ export default {
   computed: {
     ...mapState('visor', ['capasOperativas']),
     capasActivas() {
-      const capasWfs = this.capasOperativas.filter((capa) => capa.esVectorial);
-      return capasWfs.map((capa) => ({
+      const capasGeojson = this.capasOperativas.filter(
+        (capa) => capa.esGeojson
+      );
+      return capasGeojson.map((capa) => ({
         id: capa.id,
-        nombre: capa.wfs.nombre,
-        geojson: capa.wfs.geometria,
-        estilo: capa.wfs.estilo,
+        nombre: capa.geojson.nombre,
+        description: capa.geojson.descripcion,
+        geojson: capa.geojson.geometria,
+        estilo: capa.geojson.estilo,
+        cuadroDelimitador: capa.geojson.cuadroDelimitador,
+        transparencia: capa.geojson.transparencia,
       }));
     },
   },
@@ -63,7 +69,6 @@ export default {
         color: '#00FFFF',
         fillColor: '#FFFFFF',
         fillOpacity: 0.5,
-        lineJoin: 'bevel',
         opacity: 1,
         weight: 3,
       });
@@ -76,11 +81,13 @@ export default {
       const capa = e.target;
       const identificador = capa?.options?.identificador;
 
-      const capaGEOJSON = this.capasActivas.find(
+      const capaGeojson = this.capasActivas.find(
         (capa) => capa.id === identificador
       );
       this.establecerInformacionCapaWfs({
-        nombre: capaGEOJSON.nombre,
+        nombre: capaGeojson.nombre,
+        descripcion: capaGeojson.description,
+        codigo: capaGeojson.codigo,
         propiedades: feature.properties,
       });
 

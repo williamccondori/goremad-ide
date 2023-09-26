@@ -1,11 +1,12 @@
 from app.aplicacion.parseadores.base_modelo import BaseModelo
 
 
-class ObtenerInformacionObjetoGeograficoResponse(BaseModelo):
+class ObtenerGeometriaObjetoGeograficoResponse(BaseModelo):
     id: str
     codigo: str
     nombre: str
-    nombre_geoserver: str
     descripcion: str
     estilo: str
-    geometria: str
+    columnas: list[str]
+    alias: dict
+    datos: list[dict]

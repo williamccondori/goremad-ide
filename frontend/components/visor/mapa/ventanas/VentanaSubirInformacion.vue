@@ -65,16 +65,6 @@
             key: 'nombre',
           },
           {
-            title: 'Geometría',
-            dataIndex: 'tipoGeometria',
-            key: 'tipoGeometria',
-          },
-          {
-            title: 'Registros',
-            dataIndex: 'cantidadRegistros',
-            key: 'cantidadRegistros',
-          },
-          {
             title: 'Acciones',
             key: 'acciones',
             scopedSlots: { customRender: 'acciones' },
@@ -88,7 +78,7 @@
           <a-button type="dashed" @click="editar(record)">
             <a-icon type="edit" />
           </a-button>
-          <a-button type="dashed" @click="eliminar(record)">
+          <a-button type="dashed" @click="eliminar(record.id)">
             <a-icon type="delete" />
           </a-button>
           <a-button type="dashed" @click="verGeometria(record)">
@@ -102,7 +92,6 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import { v4 as uuidv4 } from 'uuid';
 export default {
   data() {
     return {
@@ -192,11 +181,13 @@ export default {
             formData
           );
           this.cargas.push({
-            id: uuidv4(),
-            cantidadRegistros: data.cantidadRegistros,
+            id: data.id,
+            origen: data.origen,
             nombre: this.form.nombre,
-            tipoGeometria: data.tipoGeometria,
-            geojson: data.geojson,
+            descripcion: data.descripcion,
+            estilo: data.estilo,
+            geometria: data.geometria,
+            cuadroDelimitador: data.cuadroDelimitador,
           });
         }
         this.limpiar();
@@ -207,7 +198,7 @@ export default {
         this.$finalizarCarga();
       }
     },
-    eliminar(record) {
+    eliminar(id) {
       this.$confirm({
         title: '¿Está seguro de eliminar la carga?',
         content: 'Esta acción no se puede revertir',
@@ -217,7 +208,7 @@ export default {
         onOk: async () => {
           try {
             this.$iniciarCarga();
-            this.cargas = this.cargas.filter((c) => c.id !== record.id);
+            this.cargas = this.cargas.filter((c) => c.id !== id);
             this.$mostrarMensajeCorrecto();
           } catch (error) {
             this.$manejarError(error);
@@ -230,27 +221,25 @@ export default {
     editar(registro) {
       this.form = {
         id: registro.id,
-        cantidadRegistros: registro.cantidadRegistros,
         nombre: registro.nombre,
-        tipoGeometria: registro.tipoGeometria,
-        geojson: registro.geojson,
+        archivo: undefined,
       };
       this.tituloFormulario = 'Editar registro';
       this.collapseActivo = 'formularioPanel';
     },
-    verGeometria(registro) {
+    verGeometria(record) {
+      console.log(record);
       this.agregarCapaEnMapa({
-        id: registro.id,
-        esVectorial: true,
-        wfs: {
-          nombre: registro.nombre,
-          geometria: JSON.parse(registro.geojson),
-          estilo: {
-            color: '#000000',
-            fillColor: '#333333',
-            fillOpacity: 0.5,
-          },
-          transparencia: 1,
+        id: record.id,
+        esGeojson: true,
+        geojson: {
+          origen: record.origen,
+          nombre: record.nombre,
+          description: record.descripcion,
+          estilo: JSON.parse(record.estilo),
+          geometria: JSON.parse(record.geometria),
+          cuadroDelimitador: record.cuadroDelimitador,
+          transparencia: record.transparencia,
         },
       });
     },

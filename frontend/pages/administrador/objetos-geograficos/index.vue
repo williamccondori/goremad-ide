@@ -24,80 +24,142 @@
           </a-card>
         </a-col>
       </a-row>
-      <a-form-model ref="form" :model="form" @submit.prevent="guardar()">
-        <a-form-model-item
-          label="Grupo"
-          prop="grupoId"
-          :rules="{
-            required: true,
-            message: 'Seleccione el grupo',
-          }"
-        >
-          <a-select v-model="form.grupoId" placeholder="Seleccione el grupo">
-            <a-select-option v-for="grupo in grupos" :key="grupo.id">
-              {{ grupo.nombre }}
-            </a-select-option>
-          </a-select>
-        </a-form-model-item>
-        <a-form-model-item
-          label="Código"
-          prop="codigo"
-          :rules="{
-            required: true,
-            message: 'Ingrese el código',
-          }"
-        >
-          <a-input v-model="form.codigo" placeholder="Ingrese el código" />
-        </a-form-model-item>
-        <a-form-model-item
-          label="Nombre"
-          prop="nombre"
-          :rules="{
-            required: true,
-            message: 'Ingrese el nombre',
-          }"
-        >
-          <a-input v-model="form.nombre" placeholder="Ingrese el nombre" />
-        </a-form-model-item>
-        <a-form-model-item
-          label="Nombre de la capa (GeoServer)"
-          prop="nombreGeoserver"
-          :rules="{
-            required: true,
-            message: 'Ingrese el nombre de la capa (GeoServer)',
-          }"
-        >
-          <a-input
-            v-model="form.nombreGeoserver"
-            placeholder="Ingrese el nombre de la capa (GeoServer)"
-          />
-        </a-form-model-item>
-        <a-form-model-item label="Descripción" prop="descripcion">
-          <a-input
-            v-model="form.descripcion"
-            placeholder="Ingrese la descripción"
-            type="textarea"
-          />
-        </a-form-model-item>
-        <a-form-model-item label="Estilo" prop="estilo">
-          <a-input
-            v-model="form.estilo"
-            placeholder="Ingrese la definición de estilos"
-            type="textarea"
-          />
-        </a-form-model-item>
-        <a-form-model-item label="¿Está habilitado?" prop="estaHabilitado">
-          <a-switch v-model="form.estaHabilitado" />
-          <EditorEstilo />
-        </a-form-model-item>
-        <a-button html-type="submit" type="primary">
-          <a-icon type="save" /> Guardar
-        </a-button>
-        <a-button type="danger" @click="limpiar()">
-          <a-icon type="redo" />
-          Limpiar
-        </a-button>
-      </a-form-model>
+      <a-collapse v-model="collapseActivo">
+        <a-collapse-panel key="formularioPanel" :header="tituloFormulario">
+          <a-form-model ref="form" :model="form" @submit.prevent="guardar()">
+            <a-row :gutter="[8, 8]">
+              <a-col :lg="6" :md="12" :sm="12" :xs="24">
+                <a-form-model-item
+                  label="Grupo"
+                  prop="grupoId"
+                  :rules="{
+                    required: true,
+                    message: 'Seleccione el grupo',
+                  }"
+                >
+                  <a-select
+                    v-model="form.grupoId"
+                    placeholder="Seleccione el grupo"
+                  >
+                    <a-select-option v-for="grupo in grupos" :key="grupo.id">
+                      {{ grupo.nombre }}
+                    </a-select-option>
+                  </a-select>
+                </a-form-model-item>
+              </a-col>
+              <a-col :lg="6" :md="12" :sm="12" :xs="24">
+                <a-form-model-item
+                  label="Código"
+                  prop="codigo"
+                  :rules="{
+                    required: true,
+                    message: 'Ingrese el código',
+                  }"
+                >
+                  <a-input
+                    v-model="form.codigo"
+                    placeholder="Ingrese el código"
+                  />
+                </a-form-model-item>
+              </a-col>
+              <a-col :lg="6" :md="12" :sm="12" :xs="24">
+                <a-form-model-item
+                  label="Nombre"
+                  prop="nombre"
+                  :rules="{
+                    required: true,
+                    message: 'Ingrese el nombre',
+                  }"
+                >
+                  <a-input
+                    v-model="form.nombre"
+                    placeholder="Ingrese el nombre"
+                  />
+                </a-form-model-item>
+              </a-col>
+              <a-col :lg="6" :md="12" :sm="12" :xs="24">
+                <a-form-model-item
+                  label="Base de datos"
+                  prop="nombreBaseDatos"
+                  :rules="{
+                    required: true,
+                    message: 'Ingrese la tabla',
+                  }"
+                >
+                  <a-input
+                    v-model="form.nombreBaseDatos"
+                    placeholder="Ingrese la base de datos"
+                  />
+                </a-form-model-item>
+              </a-col>
+              <a-col :lg="6" :md="12" :sm="12" :xs="24">
+                <a-form-model-item
+                  label="Esquema"
+                  prop="nombreEsquema"
+                  :rules="{
+                    required: true,
+                    message: 'Ingrese el esquema',
+                  }"
+                >
+                  <a-input
+                    v-model="form.nombreEsquema"
+                    placeholder="Ingrese el esquema"
+                  />
+                </a-form-model-item>
+              </a-col>
+              <a-col :lg="6" :md="12" :sm="12" :xs="24">
+                <a-form-model-item
+                  label="Tabla"
+                  prop="nombreTabla"
+                  :rules="{
+                    required: true,
+                    message: 'Ingrese la tabla',
+                  }"
+                >
+                  <a-input
+                    v-model="form.nombreTabla"
+                    placeholder="Ingrese la tabla"
+                  />
+                </a-form-model-item>
+              </a-col>
+              <a-col :lg="6" :md="12" :sm="12" :xs="24">
+                <a-form-model-item
+                  label="¿Está habilitado?"
+                  prop="estaHabilitado"
+                >
+                  <a-switch v-model="form.estaHabilitado" />
+                </a-form-model-item>
+              </a-col>
+              <a-col :lg="24" :md="24" :sm="24" :xs="24">
+                <a-form-model-item label="Descripción" prop="descripcion">
+                  <a-input
+                    v-model="form.descripcion"
+                    placeholder="Ingrese la descripción"
+                    type="textarea"
+                  />
+                </a-form-model-item>
+              </a-col>
+              <a-col :lg="24" :md="24" :sm="24" :xs="24">
+                <a-form-model-item label="Estilo" prop="estilo">
+                  <a-input
+                    v-model="form.estilo"
+                    placeholder="Ingrese la definición de estilos"
+                    type="textarea"
+                  />
+                </a-form-model-item>
+                <EditorEstilo />
+              </a-col>
+            </a-row>
+            <a-button html-type="submit" type="primary">
+              <a-icon type="save" /> Guardar
+            </a-button>
+            <a-button type="danger" @click="limpiar()">
+              <a-icon type="redo" />
+              Limpiar
+            </a-button>
+          </a-form-model>
+        </a-collapse-panel>
+      </a-collapse>
       <a-table
         bordered
         :columns="[
@@ -154,11 +216,15 @@ export default {
   layout: 'administrador',
   data() {
     return {
+      collapseActivo: undefined,
+      tituloFormulario: 'Agregar registro',
       form: {
         id: undefined,
         codigo: '',
         nombre: '',
-        nombreGeoserver: '',
+        nombreBaseDatos: '',
+        nombreEsquema: '',
+        nombreTabla: '',
         descripcion: '',
         estilo: '',
         estaHabilitado: true,
@@ -231,12 +297,16 @@ export default {
         id: record.id,
         codigo: record.codigo,
         nombre: record.nombre,
-        nombreGeoserver: record.nombreGeoserver,
+        nombreBaseDatos: record.nombreBaseDatos,
+        nombreEsquema: record.nombreEsquema,
+        nombreTabla: record.nombreTabla,
         descripcion: record.descripcion,
         estilo: record.estilo,
         estaHabilitado: record.estaHabilitado,
         grupoId: record.grupoId,
       };
+      this.tituloFormulario = 'Editar registro';
+      this.collapseActivo = 'formularioPanel';
     },
     eliminar(record) {
       this.$confirm({
@@ -264,12 +334,16 @@ export default {
         id: undefined,
         codigo: '',
         nombre: '',
-        nombreGeoserver: '',
+        nombreBaseDatos: '',
+        nombreEsquema: '',
+        nombreTabla: '',
         descripcion: '',
         estilo: '',
         estaHabilitado: true,
         grupoId: undefined,
       };
+      this.collapseActivo = undefined;
+      this.tituloFormulario = 'Agregar registro';
       this.$refs.form.resetFields();
     },
   },

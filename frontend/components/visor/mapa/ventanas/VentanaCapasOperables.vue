@@ -63,17 +63,21 @@ export default {
         this.$iniciarCarga();
         if (estado) {
           const { data } = await this.$axios.get(
-            `/visor/objetos-geograficos/${objetoGeograficoId}/informacion/`
+            `/visor/objetos-geograficos/${objetoGeograficoId}/geometrias/`
           );
           if (data) {
             this.agregarCapaEnMapa({
               id: data.id,
-              esVectorial: true,
-              wfs: {
+              esGeojson: true,
+              geojson: {
+                origen: data.origen,
                 nombre: data.nombre,
-                geometria: JSON.parse(data.geometria),
+                description: data.descripcion,
                 estilo: JSON.parse(data.estilo),
-                transparencia: 1,
+                geometria: JSON.parse(data.geometria),
+                cuadroDelimitador: data.cuadro_delimitador,
+                transparencia: data.transparencia,
+                codigo: data.codigo,
               },
             });
           }
