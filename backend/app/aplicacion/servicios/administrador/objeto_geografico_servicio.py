@@ -27,6 +27,8 @@ class ObjetoGeograficoServicio:
             filtros["id__ne"] = objeto_geografico_id
         if await self._objeto_geografico_repositorio.obtener_por_filtros(filtros):
             raise AplicacionException("El código ingresado ya ha sido asignado")
+        if request.estilo == "":
+            raise AplicacionException("El estilo no puede estar vacío")
 
         if not await self._grupo_repositorio.verificar_existencia(request.grupo_id):
             raise AplicacionException("El grupo seleccionado no existe", status.HTTP_404_NOT_FOUND)
