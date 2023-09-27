@@ -490,3 +490,7 @@ h2 {
 .collapsePanelSinBordes > .ant-collapse-content > .ant-collapse-content-box {
   padding: 0;
 }
+
+.ant-spin-blur {
+  z-index: 10000;
+}

@@ -59,6 +59,7 @@ export const state = () => ({
   estructuraObjetosGeograficos: [],
   estaAbiertoVentanaInformacionCapaWfs: false,
   informacionCapaGeojson: undefined,
+  estaAbiertoVentanaImprimir: false,
 });
 
 export const actions = {

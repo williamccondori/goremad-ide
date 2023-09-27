@@ -7,7 +7,6 @@ export default {
   mounted() {
     this.$nextTick(() => {
       const mapa = findRealParent(this.$parent).mapObject;
-      // Configuracion del control.
       mapa.addControl(
         L.control.locate({
           strings: {

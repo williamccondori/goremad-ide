@@ -10,8 +10,10 @@
         @ready="inicializarMapa"
       >
         <!--Controles.-->
+
         <InformacionControl />
         <HerramientasControl />
+
         <InformacionPosicionControl />
         <LControlScale :max-width="200" position="bottomleft" />
         <LogoControl />
@@ -25,6 +27,7 @@
         <CapaCapa />
         <!--Adicionales.-->
         <CapaDetallePopup />
+        <ImpresionControl />
       </LMap>
     </client-only>
     <Ventanas />
@@ -72,25 +75,21 @@ import ComparacionVentana from '@/components/visor/comparacion/ComparacionVentan
 import CapaGEOJSON from './capa/CapaGEOJSON.vue';
 import HerramientasControl from './control/HerramientasControl.vue';
 import InformacionControl from './control/InformacionControl.vue';
+import ImpresionControl from './control/ImpresionControl.vue';
 
 export default {
   components: {
     LMap,
     LControlScale,
-    // Controles.
     InformacionPosicionControl,
     MiniMapaControl,
     LogoControl,
     NavegadorControl,
     PantallaCompletaControl,
     UbicadorControl,
-    // Capas.
     CapaBaseCapa,
     CapaCapa,
-    // Adicionales
     CapaDetallePopup,
-    // CapasInteroperablesLayer,
-    // Ventanas.
     Ventanas,
     CapaResumenVentana,
     MarcadorCatalogoVentana,
@@ -101,6 +100,7 @@ export default {
     CapaGEOJSON,
     HerramientasControl,
     InformacionControl,
+    ImpresionControl,
   },
 
   data() {

@@ -20,6 +20,7 @@
     "ant-design-vue": "^1.7.6",
     "core-js": "^3.15.1",
     "leaflet": "^1.9.4",
+    "leaflet-easyprint": "^2.1.9",
     "leaflet-minimap": "^3.6.1",
     "leaflet-navbar": "^1.0.0",
     "leaflet.fullscreen": "^2.4.0",

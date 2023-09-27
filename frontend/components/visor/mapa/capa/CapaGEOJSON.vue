@@ -11,12 +11,15 @@
         style: capaActiva.estilo,
         onEachFeature: (feature, layer) =>
           onEachFeature(capaActiva.estilo, feature, layer),
+        pointToLayer: (feature, latlng) =>
+          puntoACirculo(feature, latlng, capaActiva.estilo),
       }"
     />
   </LLayerGroup>
 </template>
 
 <script>
+import L from 'leaflet';
 import { mapState, mapActions } from 'vuex';
 import { LGeoJson, LLayerGroup } from 'vue2-leaflet';
 
@@ -64,6 +67,8 @@ export default {
         mouseout: (e) => this.reestablecerPoligono(e, estilosPorDefecto),
         click: (e) => this.seleccionarPoligono(e, feature),
       });
+
+      // Si es punto, se trata como circulo.
     },
     resaltarPoligono(e) {
       const capa = e.target;
@@ -119,6 +124,19 @@ export default {
       this.establecerBounds(cuadroDelimitador);
 
       this.abrirVentana('InformacionCapaWfs');
+    },
+
+    puntoACirculo(feature, latlng, estilosPorDefecto) {
+      if (feature.geometry.type === 'Point') {
+        return L.circleMarker(latlng, {
+          radius: 5,
+          fillColor: estilosPorDefecto.fillColor,
+          color: estilosPorDefecto.color,
+          weight: estilosPorDefecto.weight,
+          opacity: estilosPorDefecto.opacity,
+          fillOpacity: estilosPorDefecto.fillOpacity,
+        });
+      }
     },
   },
 };
