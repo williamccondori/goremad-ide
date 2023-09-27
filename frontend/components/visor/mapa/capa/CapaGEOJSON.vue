@@ -67,8 +67,6 @@ export default {
         mouseout: (e) => this.reestablecerPoligono(e, estilosPorDefecto),
         click: (e) => this.seleccionarPoligono(e, feature),
       });
-
-      // Si es punto, se trata como circulo.
     },
     resaltarPoligono(e) {
       const capa = e.target;
@@ -128,7 +126,7 @@ export default {
 
     puntoACirculo(feature, latlng, estilosPorDefecto) {
       if (feature.geometry.type === 'Point') {
-        return L.circleMarker(latlng, {
+        const marcador = L.circleMarker(latlng, {
           radius: 5,
           fillColor: estilosPorDefecto.fillColor,
           color: estilosPorDefecto.color,
@@ -136,6 +134,13 @@ export default {
           opacity: estilosPorDefecto.opacity,
           fillOpacity: estilosPorDefecto.fillOpacity,
         });
+
+        marcador.options = {
+          ...marcador.options,
+          identificador: estilosPorDefecto.identificador,
+        };
+
+        return marcador;
       }
     },
   },
