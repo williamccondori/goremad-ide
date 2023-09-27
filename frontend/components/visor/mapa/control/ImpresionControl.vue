@@ -39,6 +39,12 @@
               <a-select-option value="CurrentSize">
                 Tamaño actual
               </a-select-option>
+              <a-select-option value="A4Portrait">
+                Tamaño A4 vertical
+              </a-select-option>
+              <a-select-option value="A4Landscape">
+                Tamaño A4 horizontal
+              </a-select-option>
             </a-select>
           </a-form-model-item>
           <a-button block html-type="submit" type="primary">
@@ -76,6 +82,7 @@ export default {
       const mapa = findRealParent(this.$parent).mapObject;
       this.easyPrintPlugin = L.easyPrint({
         hidden: true,
+        exportOnly: true,
         sizeModes: ['CurrentSize', 'A4Portrait', 'A4Landscape'],
       });
       mapa.addControl(this.easyPrintPlugin);
