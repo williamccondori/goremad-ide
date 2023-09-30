@@ -117,7 +117,7 @@
               {{ informacionObjetoGeografico.descripcion }}
             </a-descriptions-item>
             <a-descriptions-item label="Estilos:">
-              <ObjetoGeograficoLeyenda
+              <LeyendaObjetoGeografico
                 :estilo="informacionObjetoGeografico.estilo"
                 :nombre="informacionObjetoGeografico.nombre"
               />
@@ -131,9 +131,9 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import ObjetoGeograficoLeyenda from '../../compartido/ObjetoGeograficoLeyenda.vue';
+import LeyendaObjetoGeografico from '../compartido/LeyendaObjetoGeografico.vue';
 export default {
-  components: { ObjetoGeograficoLeyenda },
+  components: { LeyendaObjetoGeografico },
   data() {
     return {
       form: {

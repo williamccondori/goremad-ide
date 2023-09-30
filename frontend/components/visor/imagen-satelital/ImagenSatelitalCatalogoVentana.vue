@@ -104,16 +104,19 @@ export default {
     ...mapActions('visor', [
       'cerrarImagenSatelitalCatalogoVentana',
       'abrirImagenSatelitalBuscadorFormularioVentana',
-      'establecerCapasActivas',
+      'establecerCapasWmsActivas',
     ]),
     mostrarImagenSatelital(imagenSatelitalId) {
       const existe = this.capasActivas.includes(imagenSatelitalId);
       if (existe) {
-        this.establecerCapasActivas(
+        this.establecerCapasWmsActivas(
           this.capasActivas.filter((id) => id !== imagenSatelitalId)
         );
       } else {
-        this.establecerCapasActivas([...this.capasActivas, imagenSatelitalId]);
+        this.establecerCapasWmsActivas([
+          ...this.capasActivas,
+          imagenSatelitalId,
+        ]);
       }
     },
     obtenerTipoIcono(imagenSatelitalId) {

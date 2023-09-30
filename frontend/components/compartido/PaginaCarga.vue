@@ -1,35 +1,44 @@
 <template>
-  <div id="animacionCargando">
-    <div class="contenedor">
-      <div class="contenedor-pajaro">
-        <img class="pajaro" src="/pajaro.svg" />
+  <div id="loading-page">
+    <div class="container">
+      <h1 style="text-align: center; margin-top: 1rem">
+        <Titulo style="margin-bottom: 1rem" />
+        <a-spin />
+      </h1>
+      <div class="bird-container">
+        <img class="bird" src="/pajaro.svg" />
       </div>
-      <img class="fondo" src="/fondo.svg" />
-      <div class="fondo-gradiente" />
+      <img class="background" src="/fondo.svg" />
+      <div class="gradient-background" />
     </div>
   </div>
 </template>
-
+<script>
+import Titulo from '../compartido/Titulo.vue';
+export default {
+  components: { Titulo },
+};
+</script>
 <style scoped>
-#animacionCargando {
+#loading-page {
   width: 100%;
   height: 100%;
   overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1001;
   background-color: white;
 }
-.contenedor {
+.container {
   width: 100%;
   height: 100%;
 }
-
-/** Fondo */
-.fondo {
+.background {
   width: auto;
   height: 100%;
 }
-
-/** Pájaro */
-.contenedor-pajaro {
+.bird-container {
   height: 300px;
   left: calc(50% - 130px);
   overflow: hidden;
@@ -38,7 +47,7 @@
   width: 306px;
   z-index: 1;
 }
-.pajaro {
+.bird {
   -webkit-animation: fly 0.9s steps(10) infinite;
   -moz-animation: fly 0.9s steps(10) infinite;
   -o-animation: fly 0.9s steps(10) infinite;
@@ -86,9 +95,7 @@
     -moz-transform: translate(-3064px, 0);
   }
 }
-
-/** Fondo gradiente */
-.fondo-gradiente {
+.gradient-background {
   width: 100%;
   height: 100%;
   filter: alpha(opacity=40);
@@ -97,7 +104,7 @@
   opacity: 0.4;
   -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=40)';
   color: #fff;
-  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #00ff00 #23a6d5);
   background-size: 400% 400%;
   -webkit-animation: Gradient 10s ease infinite;
   -moz-animation: Gradient 10s ease infinite;

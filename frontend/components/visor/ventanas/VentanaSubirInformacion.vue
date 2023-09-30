@@ -42,6 +42,7 @@
                   </p>
                   <p class="ant-upload-text">
                     Haga clic o arrastre un archivo a esta área para cargarlo
+                    (Máximo 3MB, en los formatos: ZIP, KML, KMZ o GeoJSON)
                   </p>
                 </div>
               </a-upload-dragger>
@@ -128,7 +129,7 @@ export default {
       this.$refs.form.resetFields();
     },
     validarArchivo(file) {
-      const esTamanioValido = file.size / 1024 / 1024 < 5;
+      const esTamanioValido = file.size / 1024 / 1024 < 3;
       const extensionesAceptadas = ['.zip', '.kml', '.kmz', '.geojson'];
       const fileExtension = '.' + file.name.split('.').pop().toLowerCase();
 

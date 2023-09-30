@@ -91,14 +91,14 @@ export const actions = {
   agregarCapas({ commit }, capas) {
     commit('agregarCapas', capas);
   },
-  establacerCapas({ commit }, capas) {
+  establacerCapasWms({ commit }, capas) {
     commit('establecerCapas', capas);
   },
-  establecerCapasActivas({ commit }, capasActivas) {
-    commit('establecerCapasActivas', capasActivas);
+  establecerCapasWmsActivas({ commit }, capasActivas) {
+    commit('establecerCapasWmsActivas', capasActivas);
   },
-  establecerCapasEstructura({ commit }, capasEstructura) {
-    commit('establecerCapasEstructura', capasEstructura);
+  establecerEstructuraCapasInteroperables({ commit }, capasEstructura) {
+    commit('establecerEstructuraCapasInteroperables', capasEstructura);
   },
   establecerCapaTransparencia({ commit }, capaTransparencia) {
     commit('establecerCapaTransparencia', capaTransparencia);
@@ -115,6 +115,9 @@ export const actions = {
   eliminarCapaEnMapa({ commit }, capaId) {
     commit('eliminarCapaEnMapa', capaId);
   },
+  eliminarTodasCapasEnMapa({ commit }) {
+    commit('eliminarTodasCapasEnMapa');
+  },
   establecerInformacionObjetoGeografico(
     { commit },
     informacionObjetoGeografico
@@ -127,11 +130,11 @@ export const actions = {
 
   /*----------  Capas base.  ----------*/
 
-  establecerCapasBase({ commit }, capasBase) {
-    commit('establecerCapasBase', capasBase);
+  establecerMapasBase({ commit }, capasBase) {
+    commit('establecerMapasBase', capasBase);
   },
-  establecerCapaBaseActiva({ commit }, capaBaseId) {
-    commit('establecerCapaBaseActiva', capaBaseId);
+  establecerMapaBaseActiva({ commit }, capaBaseId) {
+    commit('establecerMapaBaseActiva', capaBaseId);
   },
 
   /*----------  Marcadores.  ----------*/
@@ -289,10 +292,10 @@ export const mutations = {
   establecerCapas(state, payload) {
     state.capas = payload;
   },
-  establecerCapasActivas(state, payload) {
+  establecerCapasWmsActivas(state, payload) {
     state.capasActivas = payload;
   },
-  establecerCapasEstructura(state, payload) {
+  establecerEstructuraCapasInteroperables(state, payload) {
     state.capasEstructura = payload;
   },
   establecerCapaTransparencia(state, capaTransparencia) {
@@ -321,6 +324,9 @@ export const mutations = {
       (capa) => capa.id !== capaOperativaId
     );
   },
+  eliminarTodasCapasEnMapa(state) {
+    state.capasOperativas = [];
+  },
 
   establecerInformacionObjetoGeografico(state, payload) {
     state.informacionObjetoGeografico = payload;
@@ -328,10 +334,10 @@ export const mutations = {
 
   /*----------  Capas base.  ----------*/
 
-  establecerCapasBase(state, payload) {
+  establecerMapasBase(state, payload) {
     state.capasBase = payload;
   },
-  establecerCapaBaseActiva(state, payload) {
+  establecerMapaBaseActiva(state, payload) {
     state.capaBaseActiva = payload;
   },
 

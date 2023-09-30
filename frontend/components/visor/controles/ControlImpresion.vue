@@ -60,7 +60,6 @@ import L from 'leaflet';
 import { findRealParent, LControl } from 'vue2-leaflet';
 import { mapState } from 'vuex';
 import 'leaflet-easyprint';
-
 export default {
   components: {
     LControl,

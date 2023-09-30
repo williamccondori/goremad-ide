@@ -1,5 +1,5 @@
 <template>
-  <a-card hoverable size="small" @click="establecerCapaBaseActiva(capaBase.id)">
+  <a-card hoverable size="small" @click="establecerMapaBaseActiva(capaBase.id)">
     <template #cover>
       <client-only>
         <LMap
@@ -42,7 +42,7 @@ export default {
     };
   },
   methods: {
-    ...mapActions('visor', ['establecerCapaBaseActiva']),
+    ...mapActions('visor', ['establecerMapaBaseActiva']),
   },
 };
 </script>

@@ -1,7 +1,7 @@
 {
   "name": "frontend",
-  "description": "goremad-ide-fronend",
-  "author": "GOREMAD",
+  "description": "geogoremad-frontend",
+  "author": "Gobierno Regional de Madre de Dios",
   "version": "1.0.0",
   "license": "MIT",
   "private": true,
@@ -14,7 +14,6 @@
     "format": "prettier . --ignore-path .gitignore --write"
   },
   "dependencies": {
-    "@geoman-io/leaflet-geoman-free": "^2.14.2",
     "@nuxtjs/auth-next": "5.0.0-1624817847.21691f1",
     "@nuxtjs/axios": "^5.13.6",
     "ant-design-vue": "^1.7.6",

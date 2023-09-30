@@ -53,7 +53,6 @@
     </a-form-model>
   </a-card>
 </template>
-
 <script>
 const ESTILO_PREDETERMINADO = {
   color: '#000000',
@@ -64,7 +63,6 @@ const ESTILO_PREDETERMINADO = {
   lineJoin: 'round',
   fillRule: 'evenodd',
 };
-
 export default {
   props: {
     value: {

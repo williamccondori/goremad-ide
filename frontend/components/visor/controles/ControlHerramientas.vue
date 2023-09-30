@@ -10,61 +10,66 @@
       <a-collapse-panel>
         <span slot="header">
           <b style="display: flex; align-items: center; gap: 0.25rem">
-            📚 Información &nbsp;&nbsp;
+            🧰 Herramientas
           </b>
         </span>
-        <a-tooltip placement="left" title="Capas">
+        <a-tooltip title="Mapas base">
           <a-button
             shape="circle"
             type="primary"
-            @click="abrirVentana('CapasOperables')"
+            @click="abrirCapaBaseCatalogoVentana()"
           >
-            <i class="bx bx-layer" />
+            <div style="display: flex; align-items: center; gap: 0.25rem">
+              <i class="bx bx-map-alt" />
+            </div>
           </a-button>
         </a-tooltip>
-        <a-tooltip placement="left" title="Capas interoperables">
+        <a-tooltip title="Marcadores">
           <a-button
             shape="circle"
             type="primary"
-            @click="abrirVentana('CapasInteroperables')"
+            @click="abrirMarcadorCatalogoVentana()"
           >
-            <i class="bx bx-globe" />
+            <div style="display: flex; align-items: center; gap: 0.25rem">
+              <i class="bx bx-pin" />
+            </div>
           </a-button>
         </a-tooltip>
-        <a-tooltip placement="left" title="Información de las capas">
+        <a-tooltip title="Leyenda">
           <a-button
             shape="circle"
+            title="Leyenda"
             type="primary"
-            @click="abrirVentana('InformacionCapasOperables')"
+            @click="abrirCapaResumenVentana()"
           >
-            <i class="bx bx-table" />
+            <i class="bx bx-label" />
           </a-button>
         </a-tooltip>
-        <a-tooltip placement="left" title="Buscar">
+        <a-tooltip title="Gráficos">
           <a-button
             shape="circle"
             type="primary"
-            @click="abrirVentana('Buscar')"
+            @click="abrirVentana('Graficos')"
           >
-            <i class="bx bx-search" />
+            <i class="bx bx-chart" />
           </a-button>
         </a-tooltip>
-        <a-tooltip placement="left" title="Subir información">
+        <a-tooltip title="Compartir">
           <a-button
             shape="circle"
             type="primary"
-            @click="abrirVentana('SubirInformacion')"
+            @click="abrirCompartirVistaModal()"
           >
-            <i class="bx bx-upload" />
+            <i class="bx bx-share-alt" />
           </a-button>
         </a-tooltip>
-        <a-tooltip placement="left" title="Descargar información">
+        <a-tooltip title="Satelitales">
           <a-button
             shape="circle"
             type="primary"
-            @click="abrirVentana('DescargarInformacion')"
+            @click="abrirImagenSatelitalCatalogoVentana()"
           >
-            <i class="bx bx-download" />
+            <i class="bx bx-images" />
           </a-button>
         </a-tooltip>
       </a-collapse-panel>
@@ -80,7 +85,16 @@ export default {
     LControl,
   },
   methods: {
-    ...mapActions('visor', ['abrirVentana']),
+    ...mapActions('visor', [
+      'abrirVentana',
+      'abrirCompartirVistaModal',
+      'abrirCapaCatalogoVentana',
+      'abrirCapaResumenVentana',
+      'abrirCapaBaseCatalogoVentana',
+      'abrirMarcadorCatalogoVentana',
+      'abrirWebMapServiceFormularioVentana',
+      'abrirImagenSatelitalCatalogoVentana',
+    ]),
   },
 };
 </script>

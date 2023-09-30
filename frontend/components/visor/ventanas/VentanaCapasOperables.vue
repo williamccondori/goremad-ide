@@ -12,7 +12,7 @@
         <a-collapse-panel
           v-for="catalogo in estructuraObjetosGeograficos"
           :key="catalogo.id"
-          class="collapsePanelSinBordes"
+          class="ant-collapse-fluid"
         >
           <span slot="header">
             <b>{{ catalogo.nombre }}</b>

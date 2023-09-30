@@ -2,7 +2,7 @@
   <div class="app--pagina">
     <ASpin :spinning="estaCargando">
       <div class="contenedor-principal">
-        <AplicacionCabecera />
+        <Cabecera />
         <ALayout style="background: none">
           <AdministracionMenu v-if="$auth.loggedIn" />
           <ALayoutContent style="padding: 1rem">
@@ -17,14 +17,14 @@
 <script>
 import { Spin, Layout } from 'ant-design-vue';
 import { mapState, mapActions } from 'vuex';
-import AplicacionCabecera from '@/components/compartido/AplicacionCabecera.vue';
+import Cabecera from '@/components/compartido/Cabecera.vue';
 import AdministracionMenu from '@/components/administrador/compartido/AdministracionMenu.vue';
 export default {
   components: {
     ASpin: Spin,
     ALayout: Layout,
     ALayoutContent: Layout.Content,
-    AplicacionCabecera,
+    Cabecera,
     AdministracionMenu,
   },
   computed: {

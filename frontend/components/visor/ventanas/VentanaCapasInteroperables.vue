@@ -50,7 +50,7 @@ export default {
     ...mapActions('visor', [
       'cerrarVentana',
       'establecerCapasInteroperablesActivas',
-      'establecerCapasActivas',
+      'establecerCapasWmsActivas',
     ]),
     onCheck({ checked }) {
       const capasInteroperablesSeleccinadas = checked.filter((elemento) => {
@@ -66,7 +66,7 @@ export default {
       const capasSeleccinadas = elementos.filter((elemento) => {
         return this.capas.find((capa) => capa.id === elemento);
       });
-      this.establecerCapasActivas(capasSeleccinadas);
+      this.establecerCapasWmsActivas(capasSeleccinadas);
     },
   },
 };

@@ -2,44 +2,31 @@
   <div style="height: 100%">
     <client-only>
       <LMap
-        ref="referenciaMapa"
         :max-zoom="18"
         :min-zoom="3"
         :options="{ preferCanvas: true }"
         style="outline: none"
         @ready="inicializarMapa"
       >
-        <!--Controles.-->
-
-        <InformacionControl />
-        <HerramientasControl />
-
+        <ControlInformacion />
+        <ControlHerramientas />
+        <ControlImpresion />
         <InformacionPosicionControl />
         <LControlScale :max-width="200" position="bottomleft" />
-        <LogoControl />
+        <ControlLogo />
         <MiniMapaControl />
         <PantallaCompletaControl />
         <NavegadorControl />
         <UbicadorControl />
-        <!--Capas.-->
-        <CapaGEOJSON />
-        <CapaBaseCapa />
+        <CapaMapaBase />
+        <CapaGeojson />
         <CapaCapa />
-        <!--Adicionales.-->
         <CapaDetallePopup />
-        <ImpresionControl />
       </LMap>
     </client-only>
     <Ventanas />
-    <CapaResumenVentana />
-    <CompartirModal />
-    <MarcadorCatalogoVentana />
-    <CapaBaseCatalogoVentana />
-    <ImagenSatelitalCatalogoVentana />
-    <ComparacionVentana />
   </div>
 </template>
-
 <script>
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
@@ -51,58 +38,42 @@ L.Icon.Default.mergeOptions({
   shadowUrl: require('leaflet/dist/images/marker-shadow.png'),
 });
 import { mapState, mapActions } from 'vuex';
-// Controles.
+/* ================================================================================================================ */
+import ControlInformacion from './controles/ControlInformacion.vue';
+import ControlHerramientas from './controles/ControlHerramientas.vue';
+import ControlImpresion from './controles/ControlImpresion.vue';
+import ControlLogo from './controles/ControlLogo.vue';
+/* ================================================================================================================ */
+import Ventanas from './Ventanas.vue';
+/* ================================================================================================================ */
 import InformacionPosicionControl from '@/components/visor/mapa/control/InformacionPosicionControl.vue';
 import MiniMapaControl from '@/components/visor/mapa/control/MiniMapaControl.vue';
-import LogoControl from '@/components/visor/mapa/control/LogoControl.vue';
 import NavegadorControl from '@/components/visor/mapa/control/NavegadorControl.vue';
 import PantallaCompletaControl from '@/components/visor/mapa/control/PantallaCompletaControl.vue';
 import UbicadorControl from '@/components/visor/mapa/control/UbicadorControl.vue';
-// Capas.
-import CapaBaseCapa from '@/components/visor/mapa/capa/CapaBaseCapa.vue';
+import CapaMapaBase from './capas/CapaMapaBase.vue';
+import CapaGeojson from './capas/CapaGeojson.vue';
 import CapaCapa from '@/components/visor/mapa/capa/CapaCapa.vue';
-// Adicionales.
 import CapaDetallePopup from '@/components/visor/capa/CapaDetallePopup.vue';
-// import CapasInteroperablesLayer from "@/components/visor/CapasInteroperablesLayer.vue";
-// Ventanas.
-import Ventanas from './Ventanas.vue';
-import CapaResumenVentana from '@/components/visor/capa/CapaResumenVentana.vue';
-import MarcadorCatalogoVentana from '@/components/visor/marcador/MarcadorCatalogoVentana.vue';
-import CompartirModal from '@/components/visor/compartir/CompartirModal.vue';
-import CapaBaseCatalogoVentana from '@/components/visor/capa-base/CapaBaseCatalogoVentana.vue';
-import ImagenSatelitalCatalogoVentana from '@/components/visor/imagen-satelital/ImagenSatelitalCatalogoVentana.vue';
-import ComparacionVentana from '@/components/visor/comparacion/ComparacionVentana.vue';
-import CapaGEOJSON from './capa/CapaGEOJSON.vue';
-import HerramientasControl from './control/HerramientasControl.vue';
-import InformacionControl from './control/InformacionControl.vue';
-import ImpresionControl from './control/ImpresionControl.vue';
-
 export default {
   components: {
     LMap,
     LControlScale,
     InformacionPosicionControl,
     MiniMapaControl,
-    LogoControl,
+    ControlLogo,
     NavegadorControl,
     PantallaCompletaControl,
     UbicadorControl,
-    CapaBaseCapa,
+    CapaMapaBase,
     CapaCapa,
     CapaDetallePopup,
     Ventanas,
-    CapaResumenVentana,
-    MarcadorCatalogoVentana,
-    CompartirModal,
-    CapaBaseCatalogoVentana,
-    ImagenSatelitalCatalogoVentana,
-    ComparacionVentana,
-    CapaGEOJSON,
-    HerramientasControl,
-    InformacionControl,
-    ImpresionControl,
+    CapaGeojson,
+    ControlHerramientas,
+    ControlInformacion,
+    ControlImpresion,
   },
-
   data() {
     return {
       mapa: undefined,

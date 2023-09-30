@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <LLayerGroup>
     <LTileLayer
       v-for="elemento in elementosActivos"
       :key="elemento.id"
@@ -10,14 +10,15 @@
       :visible="true"
       :z-index="0"
     />
-  </div>
+  </LLayerGroup>
 </template>
 
 <script>
 import { mapState } from 'vuex';
-import { LTileLayer } from 'vue2-leaflet';
+import { LLayerGroup, LTileLayer } from 'vue2-leaflet';
 export default {
   components: {
+    LLayerGroup,
     LTileLayer,
   },
   computed: {

@@ -32,8 +32,7 @@
               <a-select
                 v-model="form.capaGeografica"
                 placeholder="Seleccione una capa geográfica"
-              >
-              </a-select>
+              />
             </a-form-model-item>
             <a-form-model-item label="Formato" prop="formato">
               <a-select

@@ -1,25 +1,14 @@
 import { mapActions } from 'vuex';
 import { notification } from 'ant-design-vue';
-
 export default {
   methods: {
     ...mapActions(['establecerCargando']),
-    /**
-     * Muestra el indicador de carga en la interfaz.
-     */
     $iniciarCarga() {
       this.establecerCargando(true);
     },
-    /**
-     * Oculta el indicador de carga en la interfaz.
-     */
     $finalizarCarga() {
       this.establecerCargando(false);
     },
-    /**
-     * Muestra un mensaje correcto en la interfaz.
-     * @param {Sring} mensaje
-     */
     $mostrarMensajeCorrecto(mensaje) {
       notification.success({
         message: 'Correcto',
@@ -32,10 +21,6 @@ export default {
         description: mensaje ?? 'El proceso se realizó con advertencias',
       });
     },
-    /**
-     * Maneja los errores de la aplicación y muestra un mensaje de error.
-     * @param {Error} error
-     */
     $manejarError(error) {
       const contenido = error.response?.data;
       const codigoError = parseInt(error.response?.status ?? 500);
@@ -52,12 +37,6 @@ export default {
         description: mensaje,
       });
     },
-    /**
-     * Obtiene el mensaje de error a mostrar.
-     * @param {String} mensaje
-     * @param {Number} codigoError
-     * @returns {String} Mensaje de error.
-     */
     obtenerMensajeError(mensaje, codigoError) {
       const errores = {
         400: 'Verifique los datos ingresados',

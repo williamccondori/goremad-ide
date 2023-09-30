@@ -46,7 +46,7 @@ export const actions = {
 
   async obtenerCapasBase({ commit }) {
     const { data } = await this.$axios.get('/capas-base/');
-    commit('establecerCapasBase', data);
+    commit('establecerMapasBase', data);
   },
 
   /*----------  Servicios externos.  ----------*/
@@ -150,7 +150,7 @@ export const mutations = {
 
   /*----------  Capas base.  ----------*/
 
-  establecerCapasBase(state, payload) {
+  establecerMapasBase(state, payload) {
     state.capasBase = payload;
   },
   establecerCapaBase(state, payload) {
