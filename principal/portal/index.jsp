@@ -1,65 +1,86 @@
-<%@page contentType="text/html" pageEncoding="UTF-8" import="DATOS.*, java.util.List" %>
-<%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
-<%-- <% request.setCharacterEncoding("UTF-8"); Post oPost=new Post(); String tex1="<div class='row'>" ; int
-cont=0; List<Post> lista = oPost.listar_publico(1);
-for (Post elem : lista)
-{
-if ((cont % 2) == 0)
-{
-tex1 +="</div>
-<div class='row'>";
-    }
-    tex1+="<div class='col-md-6'>"+
-        "<div class='noticia-item'>"+
-            "<div class='n-sup'>"+
-                "<div class='n-fecha'>"+
-                    "<div class='n-f-left'>"+elem.getFechaf()+"</div>"+
-                    "<div class='n-f-center'></div>"+
-                    "<div class='n-f-right'>"+elem.getId()+"</div>"+
-                    "</div>"+
-                "</div>"+
-            "<div class='n-img'><img
-                    src='"+(elem.getImagen()!=null?"files/"+elem.getImagen():"img/no-picture.png")+"'
-                    alt=''></div>"+
-            "<div class='n-cont'>"+
-                "<h4>"+elem.getTitulo()+"</h4>"+
-                "<p>"+elem.getResumen()+"</p>"+
-                "</div>"+
-            "<div class='n-foot'>"+
-                "<a href='"+request.getContextPath()+"/nota?id="+elem.getId()+"'>Ver más...</a>"+
-                "</div>"+
-            "</div>"+
-        "</div>";
-    cont++;
-    }
-    tex1 +="</div>";
-request.setAttribute("noticias", tex1);
-%> --%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" import="DATOS.*, java.util.List" %>
+<%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@ page import="java.util.List" %>
 
 <tags:base>
     <jsp:attribute name="titulo">
         Inicio
     </jsp:attribute>
-    <jsp:attribute name="estilos">
-    </jsp:attribute>
     <jsp:attribute name="scripts">
-        <script src="${pageContext.request.contextPath}/js/inicio.js"></script>
+        <script>
+            function obtenerFechaActual() {
+                var fecha = new Date();
+                var dia = fecha.getDate();
+                var mes = fecha.getMonth() + 1;
+                var anio = fecha.getFullYear();
+                
+                return dia + "/" + mes + "/" + anio;
+            }
+
+            var listaDeNoticias = [{
+                id: 1,
+                titulo: "Lanzamiento del Geoportal GEOGOREMAD",
+                resumen: "¡Estamos emocionados de anunciar el lanzamiento del nuevo Geoportal GOREMAD! Accede a datos geoespaciales y servicios de mapas de manera fácil y eficiente.",
+                imagen: "${pageContext.request.contextPath}/img/noticias/geoportal.png",
+                autor: "admin",
+                fecha: obtenerFechaActual()
+            }];
+
+            // Encuentra el contenedor de noticias en tu página (reemplaza 'lista-noticias' con el ID correcto).
+                var listaNoticiasContainer = document.getElementById("lista-noticias");
+
+                // Recorre la lista de noticias y crea elementos HTML para cada una.
+                for (var i = 0; i < listaDeNoticias.length; i++) {
+                    var noticia = listaDeNoticias[i];
+
+                    // Crea un nuevo elemento div para la noticia.
+                    var noticiaDiv = document.createElement("div");
+                    noticiaDiv.className = "col-md-6";
+
+                    // Construye el contenido de la noticia utilizando la concatenación de cadenas.
+                    var contenidoNoticia =
+                        '<div class="n-sup">' +
+                        '<div class="n-fecha">' +
+                        '<div class="n-f-left">' + noticia.fecha + '</div>' +
+                        '<div class="n-f-center"></div>' +
+                        '<div class="n-f-right">Autor: ' + noticia.autor + '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="n-img"><img src="' + noticia.imagen + '" alt="' + noticia.imagen + '"></div>' +
+                        '<div class="n-cont">' +
+                        '<h4>' + noticia.titulo + '</h4>' +
+                        '<p>' + noticia.resumen + '</p>' +
+                        '</div>' +
+                        '<div class="n-foot">' +
+                        '<a href="${pageContext.request.contextPath}/nota?id=' + noticia.id + '">Ver más...</a>' +
+                        '</div>';
+
+                    // Establece el contenido HTML de la noticia.
+                    noticiaDiv.innerHTML = contenidoNoticia;
+
+                    // Agrega la noticia al contenedor de noticias.
+                    listaNoticiasContainer.appendChild(noticiaDiv);
+                }
+        </script>
     </jsp:attribute>
     <jsp:body>
         <div class="slider-aux">
             <div class="camera_wrap" id="camera_wrap_1">
-                <%-- <div data-src="img/menu-1.jpg"></div>
-                <div data-src="img/background-2.jpg"></div> --%>
+                <div data-src="${pageContext.request.contextPath}/img/menus/menu.jpg"></div>
+                <div data-src="${pageContext.request.contextPath}/img/menus/menu2.jpg"></div>
+                <div data-src="${pageContext.request.contextPath}/img/menus/menu3.jpg"></div>
+                <div data-src="${pageContext.request.contextPath}/img/menus/menu4.jpg"></div>
             </div>
             <div class="clearfix"></div>
         </div>
         <div class="container">
             <div class="row" style="margin-bottom: 30px;">
+                <%-- Servicios --%>
                 <div class="col-md-3">
                     <div class="servicio-p">
-                        <a href="https://geogoremad.ide.regionmadrededios.gob.pe">
+                        <a href="https://geogoremad.ide.regionmadrededios.gob.pe" target="_blank">
                             <img src="${pageContext.request.contextPath}/img/s-visor-3.png">
-                            <h3  style="color: orange; font-weight: bold;">GEOGOREMAD</h3>
+                            <h3 style="color: orange; font-weight: bold;">GEOGOREMAD</h3>
                         </a>
                         <p>El <b>Visor <span style="color: orange; font-weight: bold;">GEOGOREMAD</span></b>, permite superponer visualmente datos vectoriales
                             y ráster, en diferentes formas, con distintos sistemas de referencia y
@@ -68,16 +89,16 @@ request.setAttribute("noticias", tex1);
                 </div>
                 <div class="col-md-3">
                     <div class="servicio-p">
-                        <a href="${pageContext.request.contextPath}/servicios">
+                        <a href="${pageContext.request.contextPath}/servicios"
                             <img src="${pageContext.request.contextPath}/img/s-visor.png">
                             <h3>Servicio de Interoperabilidad</h3>
                         </a>
-                        <p>El <b>Servicio de Interoperabilidad (WMS, WFS y WCS)</b>, permite descargar la información geográfica vectorial completa, sugeometría y tabla de atributos asociada.</p>
+                        <p>El <b>Servicio de Interoperabilidad (WMS, WFS y WCS)</b>, permite descargar la información geográfica vectorial completa, su geometría y tabla de atributos asociada.</p>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="servicio-p">
-                        <a href="https://ide.regionmadrededios.gob.pe/geonetwork">
+                        <a href="https://ide.regionmadrededios.gob.pe/geonetwork" target="_blank">
                             <img src="${pageContext.request.contextPath}/img/s-metadata.png">
                             <h3>Servicio de Visualización de Metadatos</h3>
                         </a>
@@ -86,12 +107,12 @@ request.setAttribute("noticias", tex1);
                 </div>
                 <div class="col-md-3">
                     <div class="servicio-p">
-                        <a href="https://centrospoblados.regionmadrededios.gob.pe">
+                        <a href="https://centrospoblados.regionmadrededios.gob.pe" target="_blank">
                             <img src="${pageContext.request.contextPath}/img/s-visor-5.png"
                                 style="margin-bottom: 20px; margin-top: 15px;">
                             <h3>Servicio de Categorización de Centros Poblados</h3>
                         </a>
-                        <p>El <b>Servicio de Categorización de Centros Poblados</b>, permite la publicación y búsqueda de información que describen datos, servicios basicos, actividades economicas y otros recursos referente a los centros poblados.</p>
+                        <p>El <b>Servicio de Categorización de Centros Poblados</b>, permite la publicación y búsqueda de información que describe datos, servicios básicos, actividades económicas y otros recursos referentes a los centros poblados.</p>
                     </div>
                 </div>
             </div>
@@ -104,13 +125,7 @@ request.setAttribute("noticias", tex1);
                             </div>
                         </div>
                     </div>
-
-                    <!--INICIO NOTICIAS-->
-
-                    ${noticias}
-
-                    <!--FIN NOTICIAS-->
-
+                    <div id="lista-noticias"></div>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="end-cont">
@@ -166,40 +181,13 @@ request.setAttribute("noticias", tex1);
                                             <p>Descarga documentos de carácter geográfico producidos por la IDE.</p>
                                         </div>
                                         <div class="servicio-icono">
-                                            <img
-                                                src="${pageContext.request.contextPath}/img/documents2.png">
+                                            <img src="${pageContext.request.contextPath}/img/documents2.png">
                                         </div>
                                     </div>
                                 </a>
                             </div>
                         </div>
                     </div>
-                    <%-- <div class="row">
-                        <div class="col-md-12">
-                            <div class="titulo-cont">
-                                <h3>Síguenos</h3>
-                            </div>
-                            <div class="fb-page" data-href="https://www.facebook.com/gestionterritorialmdd"
-                                data-small-header="false" data-adapt-container-width="true"
-                                data-hide-cover="false" data-show-facepile="true">
-                                <blockquote cite="https://www.facebook.com/gestionterritorialmdd"
-                                    class="fb-xfbml-parse-ignore"><a
-                                        href="https://www.facebook.com/gestionterritorialmdd">IDE</a>
-                                </blockquote>
-                            </div>
-
-                        </div>
-                    </div> --%>
-                    <%-- <div class="row">
-                        <div class="col-md-12">
-                            <div class="titulo-cont">
-                                <h3>Videos</h3>
-                            </div>
-                            <iframe width="100%" height="250"
-                                src="https://www.youtube.com/embed/UkvErzbNMzg" frameborder="0"
-                                allowfullscreen></iframe>
-                        </div>
-                    </div> --%>
                 </div>
             </div>
             <br>
@@ -214,7 +202,8 @@ request.setAttribute("noticias", tex1);
                         </h4>
                     </div>
                     <div class="modal-body">
-                        <iframe width="100%" height="450" src="https://embed.windy.com/embed2.html?lat=-13.795&lon=-70.752&detailLat=-11.870&detailLon=-70.513&width=650&height=450&zoom=6&level=surface&overlay=wind&product=ecmwf&menu=&message=true&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=km%2Fh&metricTemp=%C2%B0C&radarRange=-1" frameborder="0"></iframe>                    </div>
+                        <iframe width="100%" height="450" src="https://embed.windy.com/embed2.html?lat=-13.795&lon=-70.752&detailLat=-11.870&detailLon=-70.513&width=650&height=450&zoom=6&level=surface&overlay=wind&product=ecmwf&menu=&message=true&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=km%2Fh&metricTemp=%C2%B0C&radarRange=-1" frameborder="0"></iframe>
+                    </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-success" data-dismiss="modal">Cerrar</button>
                     </div>
