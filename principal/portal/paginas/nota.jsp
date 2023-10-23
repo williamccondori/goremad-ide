@@ -123,12 +123,12 @@
                         
                         <h4>Compartir</h4>                                                   
                         <!-- Facebook -->
-                        <a href="http://www.facebook.com/sharer.php?u=https://www.ide.goremad.gob.pe/paginas/nota?id=" id="facebook">
+                        <a href="http://www.facebook.com/sharer.php?u=https://ide.regionmadrededios.gob.pe/nota?id=" id="facebook">
                             <i class="fa fa-facebook-official" style="font-size: 30px; color: #3b5998;"></i>
                         </a>
                         <br />
                         <!-- Twitter -->
-                        <a href="https://twitter.com/share?url=https://www.ide.goremad.gob.pe/paginas/nota?id=&text=" id="twitter">
+                        <a href="https://twitter.com/share?url=https://ide.regionmadrededios.gob.pe/nota?id=&text=" id="twitter">
                             <i class="fa fa-twitter-square" style="font-size: 30px; color: #00aced;"></i>
                         </a>
                         <br>

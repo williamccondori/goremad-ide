@@ -4,13 +4,16 @@ $(document).ready(function () {
            
     tabla = $('#tabla-datos').dataTable({
         "ajax": {
-            "url": RutaBase + "/listarpost?id=1",
-            "type": "GET"
+            "url": RutaBase + "/info/noticias.json",
+            "type": "GET",
+            "dataSrc": function (json) {
+                return json;
+            }
         }, 
         processing: true,
         "columns": [  
             { "mData": "id", "sClass": "listado-datos", "bSortable": false, "mRender": function ( data, type, full ) 
-                { 
+                {
                     return '<div class="noticia-item">'+
                             '<div class="n-sup">'+
                                 '<div class="n-fecha">'+
@@ -22,7 +25,7 @@ $(document).ready(function () {
                             '<div class="row">'+
                                 '<div class="col-md-4">'+
                                     '<div class="n-img">'+
-                                        (full.imagen!=null?'<img src="'+RutaBase+'/files/'+full.imagen+'" alt="">':'<img src="'+RutaBase+'/img/no-picture.png" alt="">')+
+                                        (full.imagen!=null?'<img src="'+RutaBase+'/img/noticias/'+full.imagen+'" alt="'+full.imagen+'">':'<img src="'+RutaBase+'/img/no-picture.png" alt="Sin imagen">')+
                                     '</div>'+
                                 '</div>'+
                                 '<div class="col-md-8">'+

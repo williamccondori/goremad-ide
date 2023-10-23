@@ -1,7 +1,6 @@
 var tabla;
 
 $(document).ready(function () {
-           
     tabla = $('#tabla-datos').dataTable({
         "ajax": {
             "url": RutaBase + "/listarpost?id=4",

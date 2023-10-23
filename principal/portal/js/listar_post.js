@@ -1,10 +1,9 @@
 var tabla;
 
 $(document).ready(function () {
-           
     tabla = $('#publicaciones').dataTable({
         "ajax": {
-            "url": RutaBase + "/publicar",
+            "url": RutaBase + "/info/noticias.json",
             "type": "GET"
         }, 
         processing: true,

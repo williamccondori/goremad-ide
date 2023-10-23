@@ -6,61 +6,49 @@
     <jsp:attribute name="titulo">
         Inicio
     </jsp:attribute>
+    <jsp:attribute name="estilos">
+    </jsp:attribute>
     <jsp:attribute name="scripts">
+        <script src="${pageContext.request.contextPath}/js/inicio.js"></script>
         <script>
-            function obtenerFechaActual() {
-                var fecha = new Date();
-                var dia = fecha.getDate();
-                var mes = fecha.getMonth() + 1;
-                var anio = fecha.getFullYear();
-                
-                return dia + "/" + mes + "/" + anio;
-            }
+            var urlBase = "${pageContext.request.contextPath}";
+            fetch(urlBase + "/info/noticias.json").then(response => {
+                var noticias = response.json().then(data => {
+                    var listaNoticiasContainer = document.getElementById("lista-noticias");
+                    // Recorre la lista de noticias y crea elementos HTML para cada una.
+                    for (var i = 0; i < data.length; i++) {
+                        var noticia = data[i];
 
-            var listaDeNoticias = [{
-                id: 1,
-                titulo: "Lanzamiento del Geoportal GEOGOREMAD",
-                resumen: "¡Estamos emocionados de anunciar el lanzamiento del nuevo Geoportal GOREMAD! Accede a datos geoespaciales y servicios de mapas de manera fácil y eficiente.",
-                imagen: "${pageContext.request.contextPath}/img/noticias/geoportal.png",
-                autor: "admin",
-                fecha: obtenerFechaActual()
-            }];
+                        // Crea un nuevo elemento div para la noticia.
+                        var noticiaDiv = document.createElement("div");
+                        noticiaDiv.className = "col-md-6";
 
-            // Encuentra el contenedor de noticias en tu página (reemplaza 'lista-noticias' con el ID correcto).
-                var listaNoticiasContainer = document.getElementById("lista-noticias");
+                        // Construye el contenido de la noticia utilizando la concatenación de cadenas.
+                        var contenidoNoticia =
+                            '<div class="n-sup">' +
+                            '<div class="n-fecha">' +
+                            '<div class="n-f-left">' + noticia.fecha + '</div>' +
+                            '<div class="n-f-center"></div>' +
+                            '<div class="n-f-right">Autor: ' + noticia.autor + '</div>' +
+                            '</div>' +
+                            '</div>' +
+                            '<div class="n-img"><img src="' + urlBase + '/img/noticias/' +noticia.imagen + '" alt="' + noticia.imagen + '"></div>' +
+                            '<div class="n-cont">' +
+                            '<h4>' + noticia.titulo + '</h4>' +
+                            '<p>' + noticia.resumen + '</p>' +
+                            '</div>' +
+                            '<div class="n-foot">' +
+                            '<a href="' + urlBase + '/nota?id=' + noticia.id + '">Ver más...</a>' +
+                            '</div>';
 
-                // Recorre la lista de noticias y crea elementos HTML para cada una.
-                for (var i = 0; i < listaDeNoticias.length; i++) {
-                    var noticia = listaDeNoticias[i];
+                        // Establece el contenido HTML de la noticia.
+                        noticiaDiv.innerHTML = contenidoNoticia;
 
-                    // Crea un nuevo elemento div para la noticia.
-                    var noticiaDiv = document.createElement("div");
-                    noticiaDiv.className = "col-md-6";
-
-                    // Construye el contenido de la noticia utilizando la concatenación de cadenas.
-                    var contenidoNoticia =
-                        '<div class="n-sup">' +
-                        '<div class="n-fecha">' +
-                        '<div class="n-f-left">' + noticia.fecha + '</div>' +
-                        '<div class="n-f-center"></div>' +
-                        '<div class="n-f-right">Autor: ' + noticia.autor + '</div>' +
-                        '</div>' +
-                        '</div>' +
-                        '<div class="n-img"><img src="' + noticia.imagen + '" alt="' + noticia.imagen + '"></div>' +
-                        '<div class="n-cont">' +
-                        '<h4>' + noticia.titulo + '</h4>' +
-                        '<p>' + noticia.resumen + '</p>' +
-                        '</div>' +
-                        '<div class="n-foot">' +
-                        '<a href="${pageContext.request.contextPath}/nota?id=' + noticia.id + '">Ver más...</a>' +
-                        '</div>';
-
-                    // Establece el contenido HTML de la noticia.
-                    noticiaDiv.innerHTML = contenidoNoticia;
-
-                    // Agrega la noticia al contenedor de noticias.
-                    listaNoticiasContainer.appendChild(noticiaDiv);
-                }
+                        // Agrega la noticia al contenedor de noticias.
+                        listaNoticiasContainer.appendChild(noticiaDiv);
+                    }
+                })
+            });
         </script>
     </jsp:attribute>
     <jsp:body>

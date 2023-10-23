@@ -60,18 +60,17 @@
                         </p>        
                         
                         <h4>Compartir</h4>                                                   
-                        <div style="display: inline-block;vertical-align: top;">
-                            <div class="fb-share-button" data-href="http://ide.regionmadrededios.gob.pe/portal/notas" data-layout="button" data-size="large" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Fide.regionmadrededios.gob.pe%2Fportal%2Fnotas&amp;src=sdkpreparse">Compartir</a></div>
-                        </div>
-                        <div style="display: inline-block;vertical-align: top;">
-                            <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false" data-size="large">Tweet</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                        </div>
-                        <div style="display: inline-block;vertical-align: top;">
-                            <div class="g-plus" data-action="share" data-annotation="none" data-height="28" data-href="http://ide.regionmadrededios.gob.pe/portal/notas"></div>
-                        </div>
-                                                                
+                        <!-- Facebook -->
+                        <a href="http://www.facebook.com/sharer.php?u=https://ide.regionmadrededios.gob.pe/noticias" id="facebook">
+                            <i class="fa fa-facebook-official" style="font-size: 30px; color: #3b5998;"></i>
+                        </a>
+                        <br />
+                        <!-- Twitter -->
+                        <a href="https://twitter.com/share?url=https://ide.regionmadrededios.gob.pe/noticias" id="twitter">
+                            <i class="fa fa-twitter-square" style="font-size: 30px; color: #00aced;"></i>
+                        </a>
+                        <br>
                     </div>
-                    <br>
                 </div>
             </div>
                 
