@@ -89,7 +89,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="servicio-p">
-                        <a href="${pageContext.request.contextPath}/servicios"
+                        <a href="${pageContext.request.contextPath}/servicios">
                             <img src="${pageContext.request.contextPath}/img/s-visor.png">
                             <h3>Servicio de Interoperabilidad</h3>
                         </a>
