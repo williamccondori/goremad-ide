@@ -1,21 +1,21 @@
 <template>
-  <div>
-    <VentanaCapasOperables />
-    <VentanaCapasInteroperables />
-    <VentanaInformacionCapasOperables />
-    <VentanaResultadoInformacionCapasOperables />
-    <VentanaSubirInformacion />
-    <VentanaDescargarInformacion />
-    <VentanaBuscar />
-    <VentanaInformacionCapaWfs />
+    <div>
+        <VentanaCapasOperables />
+        <VentanaCapasInteroperables />
+        <VentanaInformacionCapasOperables />
+        <VentanaResultadoInformacionCapasOperables />
+        <VentanaSubirInformacion />
+        <VentanaDescargarInformacion />
+        <VentanaBuscar />
+        <VentanaInformacionCapaWfs />
 
-    <CapaResumenVentana />
-    <CompartirModal />
-    <MarcadorCatalogoVentana />
-    <CapaBaseCatalogoVentana />
-    <ImagenSatelitalCatalogoVentana />
-    <ComparacionVentana />
-  </div>
+        <CapaResumenVentana />
+        <CompartirModal />
+        <MarcadorCatalogoVentana />
+        <CapaBaseCatalogoVentana />
+        <ImagenSatelitalCatalogoVentana />
+        <ComparacionVentana />
+    </div>
 </template>
 <script>
 import VentanaCapasOperables from './ventanas/VentanaCapasOperables.vue';
@@ -33,21 +33,21 @@ import ImagenSatelitalCatalogoVentana from './imagen-satelital/ImagenSatelitalCa
 import ComparacionVentana from './comparacion/ComparacionVentana.vue';
 import CapaResumenVentana from './capa/CapaResumenVentana.vue';
 export default {
-  components: {
-    VentanaCapasOperables,
-    VentanaCapasInteroperables,
-    VentanaInformacionCapasOperables,
-    VentanaResultadoInformacionCapasOperables,
-    VentanaSubirInformacion,
-    VentanaDescargarInformacion,
-    VentanaBuscar,
-    VentanaInformacionCapaWfs,
-    CompartirModal,
-    MarcadorCatalogoVentana,
-    CapaBaseCatalogoVentana,
-    ImagenSatelitalCatalogoVentana,
-    ComparacionVentana,
-    CapaResumenVentana,
-  },
+    components: {
+        VentanaCapasOperables,
+        VentanaCapasInteroperables,
+        VentanaInformacionCapasOperables,
+        VentanaResultadoInformacionCapasOperables,
+        VentanaSubirInformacion,
+        VentanaDescargarInformacion,
+        VentanaBuscar,
+        VentanaInformacionCapaWfs,
+        CompartirModal,
+        MarcadorCatalogoVentana,
+        CapaBaseCatalogoVentana,
+        ImagenSatelitalCatalogoVentana,
+        ComparacionVentana,
+        CapaResumenVentana,
+    },
 };
 </script>

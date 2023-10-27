@@ -1,216 +1,216 @@
 export const state = () => ({
-  resumen: undefined,
+    resumen: undefined,
 
-  /*----------  Capas base.  ----------*/
+    /*----------  Capas base.  ----------*/
 
-  capasBase: [],
-  capaBase: undefined,
+    capasBase: [],
+    capaBase: undefined,
 
-  /*----------  Servicios externos.  ----------*/
+    /*----------  Servicios externos.  ----------*/
 
-  serviciosExternos: [],
-  servicioExterno: undefined,
+    serviciosExternos: [],
+    servicioExterno: undefined,
 
-  /*----------  Grupos de capas.  ----------*/
+    /*----------  Grupos de capas.  ----------*/
 
-  gruposCapas: [],
-  estructuraGruposCapas: [],
+    gruposCapas: [],
+    estructuraGruposCapas: [],
 
-  /*----------  Imágenes satelitales.  ----------*/
+    /*----------  Imágenes satelitales.  ----------*/
 
-  imagenesSatelitales: [],
-  imagenSatelital: undefined,
+    imagenesSatelitales: [],
+    imagenSatelital: undefined,
 
-  /*----------  Configuraciones.  ----------*/
+    /*----------  Configuraciones.  ----------*/
 
-  usuarios: [],
-  usuario: undefined,
-  configuraciones: [],
+    usuarios: [],
+    usuario: undefined,
+    configuraciones: [],
 
-  /*----------  Ventanas.  ----------*/
+    /*----------  Ventanas.  ----------*/
 
-  estaAbiertoCapaBaseFormularioVentana: false,
-  estaAbiertoServicioExternoFormularioVentana: false,
-  estaAbiertoImagenSatelitalResumenVentana: false,
-  estaAbiertoUsuarioFormularioVentana: false,
-  estaAbiertoRolFormularioVentana: false,
+    estaAbiertoCapaBaseFormularioVentana: false,
+    estaAbiertoServicioExternoFormularioVentana: false,
+    estaAbiertoImagenSatelitalResumenVentana: false,
+    estaAbiertoUsuarioFormularioVentana: false,
+    estaAbiertoRolFormularioVentana: false,
 });
 
 export const actions = {
-  async obtenerResumen({ commit }) {
-    const { data } = await this.$axios.get('/resumenes/');
-    commit('establecerResumen', data);
-  },
+    async obtenerResumen({ commit }) {
+        const { data } = await this.$axios.get('/resumenes/');
+        commit('establecerResumen', data);
+    },
 
-  /*----------  Capas base.  ----------*/
+    /*----------  Capas base.  ----------*/
 
-  async obtenerCapasBase({ commit }) {
-    const { data } = await this.$axios.get('/capas-base/');
-    commit('establecerMapasBase', data);
-  },
+    async obtenerCapasBase({ commit }) {
+        const { data } = await this.$axios.get('/capas-base/');
+        commit('establecerMapasBase', data);
+    },
 
-  /*----------  Servicios externos.  ----------*/
+    /*----------  Servicios externos.  ----------*/
 
-  async obtenerServiciosExternos({ commit }, incluirCapas = false) {
-    const { data } = await this.$axios.get('/servicios-externos/', {
-      params: { incluirCapas: incluirCapas },
-    });
-    commit('establecerServiciosExternos', data);
-  },
+    async obtenerServiciosExternos({ commit }, incluirCapas = false) {
+        const { data } = await this.$axios.get('/servicios-externos/', {
+            params: { incluirCapas: incluirCapas },
+        });
+        commit('establecerServiciosExternos', data);
+    },
 
-  /*----------  Grupos de capas.  ----------*/
+    /*----------  Grupos de capas.  ----------*/
 
-  async obtenerGruposCapas({ commit }) {
-    const { data } = await this.$axios.get('/grupos-capas/');
-    commit('establecerGruposCapas', data);
-  },
-  async obtenerGruposCapasEstructura({ commit }) {
-    const { data } = await this.$axios.get('/grupos-capas/estructuras/');
-    commit('establecerGruposCapasEstructura', data);
-  },
+    async obtenerGruposCapas({ commit }) {
+        const { data } = await this.$axios.get('/grupos-capas/');
+        commit('establecerGruposCapas', data);
+    },
+    async obtenerGruposCapasEstructura({ commit }) {
+        const { data } = await this.$axios.get('/grupos-capas/estructuras/');
+        commit('establecerGruposCapasEstructura', data);
+    },
 
-  /*----------  Imágenes satelitales.  ----------*/
+    /*----------  Imágenes satelitales.  ----------*/
 
-  async obtenerImagenesSatelitales({ commit }) {
-    const { data } = await this.$axios.get('/imagenes-satelitales/');
-    commit('establecerImagenesSatelitales', data);
-  },
+    async obtenerImagenesSatelitales({ commit }) {
+        const { data } = await this.$axios.get('/imagenes-satelitales/');
+        commit('establecerImagenesSatelitales', data);
+    },
 
-  /*----------  Configuraciones.  ----------*/
+    /*----------  Configuraciones.  ----------*/
 
-  async obtenerUsuarios({ commit }) {
-    const { data } = await this.$axios.get('/usuarios/');
-    commit('establecerUsuarios', data);
-  },
-  async obtenerConfiguraciones({ commit }) {
-    const { data } = await this.$axios.get('/configuraciones/');
-    commit('establecerConfiguraciones', data);
-  },
+    async obtenerUsuarios({ commit }) {
+        const { data } = await this.$axios.get('/usuarios/');
+        commit('establecerUsuarios', data);
+    },
+    async obtenerConfiguraciones({ commit }) {
+        const { data } = await this.$axios.get('/configuraciones/');
+        commit('establecerConfiguraciones', data);
+    },
 
-  /*----------  Ventanas.  ----------*/
+    /*----------  Ventanas.  ----------*/
 
-  abrirCapaBaseFormularioVentana({ commit }) {
-    commit('establecerCapaBase', undefined);
-    commit('establecerEstaAbiertoCapaBaseFormularioVentana', true);
-  },
-  abrirCapaBaseFormularioActualizacionVentana({ commit }, capaBase) {
-    commit('establecerCapaBase', capaBase);
-    commit('establecerEstaAbiertoCapaBaseFormularioVentana', true);
-  },
-  cerrarCapaBaseFormularioVentana({ commit }) {
-    commit('establecerEstaAbiertoCapaBaseFormularioVentana', false);
-  },
-  abrirServicioExternoFormularioVentana({ commit }) {
-    commit('establecerServicioExterno', undefined);
-    commit('establecerEstaAbiertoServicioExternoFormularioVentana', true);
-  },
-  abrirServicioExternoFormularioActualizacionVentana(
-    { commit },
-    servicioExterno
-  ) {
-    commit('establecerServicioExterno', servicioExterno);
-    commit('establecerEstaAbiertoServicioExternoFormularioVentana', true);
-  },
-  cerrarServicioExternoFormularioVentana({ commit }) {
-    commit('establecerEstaAbiertoServicioExternoFormularioVentana', false);
-  },
+    abrirCapaBaseFormularioVentana({ commit }) {
+        commit('establecerCapaBase', undefined);
+        commit('establecerEstaAbiertoCapaBaseFormularioVentana', true);
+    },
+    abrirCapaBaseFormularioActualizacionVentana({ commit }, capaBase) {
+        commit('establecerCapaBase', capaBase);
+        commit('establecerEstaAbiertoCapaBaseFormularioVentana', true);
+    },
+    cerrarCapaBaseFormularioVentana({ commit }) {
+        commit('establecerEstaAbiertoCapaBaseFormularioVentana', false);
+    },
+    abrirServicioExternoFormularioVentana({ commit }) {
+        commit('establecerServicioExterno', undefined);
+        commit('establecerEstaAbiertoServicioExternoFormularioVentana', true);
+    },
+    abrirServicioExternoFormularioActualizacionVentana(
+        { commit },
+        servicioExterno
+    ) {
+        commit('establecerServicioExterno', servicioExterno);
+        commit('establecerEstaAbiertoServicioExternoFormularioVentana', true);
+    },
+    cerrarServicioExternoFormularioVentana({ commit }) {
+        commit('establecerEstaAbiertoServicioExternoFormularioVentana', false);
+    },
 
-  abrirImagenSatelitalResumenVentana({ commit }, imagenSatelital) {
-    commit('establecerImagenSatelital', imagenSatelital);
-    commit('establecerEstaAbiertoImagenSatelitalResumenVentana', true);
-  },
-  cerrarImagenSatelitalResumenVentana({ commit }) {
-    commit('establecerImagenSatelital', undefined);
-    commit('establecerEstaAbiertoImagenSatelitalResumenVentana', false);
-  },
-  abrirUsuarioFormularioVentana({ commit }) {
-    commit('establecerUsuario', undefined);
-    commit('establecerEstaAbiertoUsuarioFormularioVentana', true);
-  },
-  abrirUsuarioFormularioActualizacionVentana({ commit }, usuario) {
-    commit('establecerUsuario', usuario);
-    commit('establecerEstaAbiertoUsuarioFormularioVentana', true);
-  },
-  cerrarUsuarioFormularioVentana({ commit }) {
-    commit('establecerEstaAbiertoUsuarioFormularioVentana', false);
-  },
-  abrirRolFormularioActualizacionVentana({ commit }, usuario) {
-    commit('establecerUsuario', usuario);
-    commit('establecerEstaAbiertoRolFormularioVentana', true);
-  },
-  cerrarRolFormularioVentana({ commit }) {
-    commit('establecerEstaAbiertoRolFormularioVentana', false);
-  },
+    abrirImagenSatelitalResumenVentana({ commit }, imagenSatelital) {
+        commit('establecerImagenSatelital', imagenSatelital);
+        commit('establecerEstaAbiertoImagenSatelitalResumenVentana', true);
+    },
+    cerrarImagenSatelitalResumenVentana({ commit }) {
+        commit('establecerImagenSatelital', undefined);
+        commit('establecerEstaAbiertoImagenSatelitalResumenVentana', false);
+    },
+    abrirUsuarioFormularioVentana({ commit }) {
+        commit('establecerUsuario', undefined);
+        commit('establecerEstaAbiertoUsuarioFormularioVentana', true);
+    },
+    abrirUsuarioFormularioActualizacionVentana({ commit }, usuario) {
+        commit('establecerUsuario', usuario);
+        commit('establecerEstaAbiertoUsuarioFormularioVentana', true);
+    },
+    cerrarUsuarioFormularioVentana({ commit }) {
+        commit('establecerEstaAbiertoUsuarioFormularioVentana', false);
+    },
+    abrirRolFormularioActualizacionVentana({ commit }, usuario) {
+        commit('establecerUsuario', usuario);
+        commit('establecerEstaAbiertoRolFormularioVentana', true);
+    },
+    cerrarRolFormularioVentana({ commit }) {
+        commit('establecerEstaAbiertoRolFormularioVentana', false);
+    },
 };
 
 export const mutations = {
-  establecerResumen(state, payload) {
-    state.resumen = payload;
-  },
+    establecerResumen(state, payload) {
+        state.resumen = payload;
+    },
 
-  /*----------  Capas base.  ----------*/
+    /*----------  Capas base.  ----------*/
 
-  establecerMapasBase(state, payload) {
-    state.capasBase = payload;
-  },
-  establecerCapaBase(state, payload) {
-    state.capaBase = payload;
-  },
+    establecerMapasBase(state, payload) {
+        state.capasBase = payload;
+    },
+    establecerCapaBase(state, payload) {
+        state.capaBase = payload;
+    },
 
-  /*----------  Servicios externos.  ----------*/
+    /*----------  Servicios externos.  ----------*/
 
-  establecerServiciosExternos(state, payload) {
-    state.serviciosExternos = payload;
-  },
-  establecerServicioExterno(state, payload) {
-    state.servicioExterno = payload;
-  },
+    establecerServiciosExternos(state, payload) {
+        state.serviciosExternos = payload;
+    },
+    establecerServicioExterno(state, payload) {
+        state.servicioExterno = payload;
+    },
 
-  /*----------  Grupo de capas.  ----------*/
+    /*----------  Grupo de capas.  ----------*/
 
-  establecerGruposCapas(state, payload) {
-    state.gruposCapas = payload;
-  },
-  establecerGruposCapasEstructura(state, payload) {
-    state.estructuraGruposCapas = payload;
-  },
+    establecerGruposCapas(state, payload) {
+        state.gruposCapas = payload;
+    },
+    establecerGruposCapasEstructura(state, payload) {
+        state.estructuraGruposCapas = payload;
+    },
 
-  /*----------  Imágenes satelitales.  ----------*/
+    /*----------  Imágenes satelitales.  ----------*/
 
-  establecerImagenesSatelitales(state, payload) {
-    state.imagenesSatelitales = payload;
-  },
-  establecerImagenSatelital(state, payload) {
-    state.imagenSatelital = payload;
-  },
+    establecerImagenesSatelitales(state, payload) {
+        state.imagenesSatelitales = payload;
+    },
+    establecerImagenSatelital(state, payload) {
+        state.imagenSatelital = payload;
+    },
 
-  /*----------  Configuraciones.  ----------*/
+    /*----------  Configuraciones.  ----------*/
 
-  establecerUsuarios(state, payload) {
-    state.usuarios = payload;
-  },
-  establecerUsuario(state, payload) {
-    state.usuario = payload;
-  },
-  establecerConfiguraciones(state, payload) {
-    state.configuraciones = payload;
-  },
+    establecerUsuarios(state, payload) {
+        state.usuarios = payload;
+    },
+    establecerUsuario(state, payload) {
+        state.usuario = payload;
+    },
+    establecerConfiguraciones(state, payload) {
+        state.configuraciones = payload;
+    },
 
-  /*----------  Ventanas.  ----------*/
+    /*----------  Ventanas.  ----------*/
 
-  establecerEstaAbiertoCapaBaseFormularioVentana(state, payload) {
-    state.estaAbiertoCapaBaseFormularioVentana = payload;
-  },
-  establecerEstaAbiertoServicioExternoFormularioVentana(state, payload) {
-    state.estaAbiertoServicioExternoFormularioVentana = payload;
-  },
-  establecerEstaAbiertoImagenSatelitalResumenVentana(state, payload) {
-    state.estaAbiertoImagenSatelitalResumenVentana = payload;
-  },
-  establecerEstaAbiertoUsuarioFormularioVentana(state, payload) {
-    state.estaAbiertoUsuarioFormularioVentana = payload;
-  },
-  establecerEstaAbiertoRolFormularioVentana(state, payload) {
-    state.estaAbiertoRolFormularioVentana = payload;
-  },
+    establecerEstaAbiertoCapaBaseFormularioVentana(state, payload) {
+        state.estaAbiertoCapaBaseFormularioVentana = payload;
+    },
+    establecerEstaAbiertoServicioExternoFormularioVentana(state, payload) {
+        state.estaAbiertoServicioExternoFormularioVentana = payload;
+    },
+    establecerEstaAbiertoImagenSatelitalResumenVentana(state, payload) {
+        state.estaAbiertoImagenSatelitalResumenVentana = payload;
+    },
+    establecerEstaAbiertoUsuarioFormularioVentana(state, payload) {
+        state.estaAbiertoUsuarioFormularioVentana = payload;
+    },
+    establecerEstaAbiertoRolFormularioVentana(state, payload) {
+        state.estaAbiertoRolFormularioVentana = payload;
+    },
 };

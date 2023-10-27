@@ -1,17 +1,17 @@
 <template>
-  <AdministracionPagina titulo="Capas base">
-    <ASpace class="app--w-100" direction="vertical">
-      <AButton
-        icon="plus"
-        type="primary"
-        @click="abrirCapaBaseFormularioVentana()"
-      >
-        Crear capa base
-      </AButton>
-      <CapaBaseCatalogo />
-    </ASpace>
-    <CapaBaseFormularioVentana />
-  </AdministracionPagina>
+    <AdministracionPagina titulo="Capas base">
+        <ASpace class="app--w-100" direction="vertical">
+            <AButton
+                icon="plus"
+                type="primary"
+                @click="abrirCapaBaseFormularioVentana()"
+            >
+                Crear capa base
+            </AButton>
+            <CapaBaseCatalogo />
+        </ASpace>
+        <CapaBaseFormularioVentana />
+    </AdministracionPagina>
 </template>
 
 <script>
@@ -21,16 +21,16 @@ import AdministracionPagina from '@/components/administrador/compartido/Administ
 import CapaBaseCatalogo from '@/components/administrador/capa-base/CapaBaseCatalogo.vue';
 import CapaBaseFormularioVentana from '@/components/administrador/capa-base/CapaBaseFormularioVentana.vue';
 export default {
-  components: {
-    AButton: Button,
-    ASpace: Space,
-    AdministracionPagina,
-    CapaBaseCatalogo,
-    CapaBaseFormularioVentana,
-  },
-  layout: 'administrador',
-  methods: {
-    ...mapActions('administrador', ['abrirCapaBaseFormularioVentana']),
-  },
+    components: {
+        AButton: Button,
+        ASpace: Space,
+        AdministracionPagina,
+        CapaBaseCatalogo,
+        CapaBaseFormularioVentana,
+    },
+    layout: 'administrador',
+    methods: {
+        ...mapActions('administrador', ['abrirCapaBaseFormularioVentana']),
+    },
 };
 </script>
