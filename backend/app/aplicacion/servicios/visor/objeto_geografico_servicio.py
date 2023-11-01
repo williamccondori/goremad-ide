@@ -195,7 +195,8 @@ class ObjetoGeograficoServicio:
         cur, conn = await self.obtener_cursor(objeto_geografico.nombre_base_datos)
 
         columna_id = list(alias_catalogo.keys())[0]
-        columnas_para_consultar = [f'"{columna}"' for columna in alias_catalogo.keys()]
+        self.keys_ = [f'"{columna}"' for columna in alias_catalogo.keys()]
+        columnas_para_consultar = self.keys_
         consulta_registro = f"""
             SELECT {", ".join(columnas_para_consultar)} FROM 
             "{objeto_geografico.nombre_esquema}"."{objeto_geografico.nombre_tabla}"

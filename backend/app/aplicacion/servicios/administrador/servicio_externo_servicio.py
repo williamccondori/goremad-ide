@@ -44,17 +44,17 @@ from app.infraestructura.mongo_db.repositorios.servicio_externo_repositorio impo
 
 class ServicioExternoServicio:
     def __init__(
-        self,
-        servicio_externo_repositorio: IServicioExternoRepositorio = Depends(
-            ServicioExternoRepositorio
-        ),
-        grupo_capa_repositorio: IGrupoCapaRepositorio = Depends(GrupoCapaRepositorio),
+            self,
+            servicio_externo_repositorio: IServicioExternoRepositorio = Depends(
+                ServicioExternoRepositorio
+            ),
+            grupo_capa_repositorio: IGrupoCapaRepositorio = Depends(GrupoCapaRepositorio),
     ):
         self._servicio_externo_repositorio = servicio_externo_repositorio
         self._grupo_capa_repositorio = grupo_capa_repositorio
 
     async def __validar_existencia_grupo_capa(
-        self, grupo_capa_id: Optional[str]
+            self, grupo_capa_id: Optional[str]
     ) -> None:
         if grupo_capa_id:
             existe_grupo_capa: bool = (
@@ -71,7 +71,7 @@ class ServicioExternoServicio:
             )
 
     async def __obtener_grupo_capa_descripcion(
-        self, grupo_capa_id: Optional[str]
+            self, grupo_capa_id: Optional[str]
     ) -> Optional[str]:
         if not grupo_capa_id:
             return None
@@ -85,7 +85,7 @@ class ServicioExternoServicio:
         return grupo_capa.nombre
 
     async def obtener_todos(
-        self, request: ObtenerTodosServicioExternoRequest
+            self, request: ObtenerTodosServicioExternoRequest
     ) -> list[ObtenerTodosServicioExternoResponse]:
         servicios_externos: list[
             ServicioExternoEntidad
@@ -103,11 +103,12 @@ class ServicioExternoServicio:
                                 id=f"{servicio_externo.id}__{capa.nombre}",
                                 url=servicio_externo.url,
                                 nombre=f"{servicio_externo.nombre}: {capa.titulo}",
+                                filtros=servicio_externo.filtros,
+                                filtros_url=f"?CQL_FILTER={servicio_externo.filtros}",
                                 atribucion=servicio_externo.atribucion,
                                 grupo_capa=await self.__obtener_grupo_capa_descripcion(
                                     servicio_externo.grupo_capa_id
-                                )
-                                or "Principal",
+                                ) or "Principal",
                                 grupo_capa_id=servicio_externo.grupo_capa_id,
                                 esta_habilitado=servicio_externo.esta_habilitado,
                             )
@@ -119,11 +120,12 @@ class ServicioExternoServicio:
                         id=servicio_externo.id,
                         url=servicio_externo.url,
                         nombre=servicio_externo.nombre,
+                        filtros=servicio_externo.filtros,
+                        filtros_url=f"?CQL_FILTER={servicio_externo.filtros}",
                         atribucion=servicio_externo.atribucion,
                         grupo_capa=await self.__obtener_grupo_capa_descripcion(
                             servicio_externo.grupo_capa_id
-                        )
-                        or "Principal",
+                        ) or "Principal",
                         grupo_capa_id=servicio_externo.grupo_capa_id,
                         esta_habilitado=servicio_externo.esta_habilitado,
                     )
@@ -131,7 +133,7 @@ class ServicioExternoServicio:
         return servicios_externos_respuesta
 
     async def obtener_por_id(
-        self, servicio_externo_id: str
+            self, servicio_externo_id: str
     ) -> ObtenerPorIdServicioExternoResponse:
         servicio_externo: ServicioExternoEntidad = (
             await self._servicio_externo_repositorio.obtener_por_id(servicio_externo_id)
@@ -144,25 +146,27 @@ class ServicioExternoServicio:
             id=servicio_externo.id,
             url=servicio_externo.url,
             nombre=servicio_externo.nombre,
+            filtros=servicio_externo.filtros,
             atribucion=servicio_externo.atribucion,
             grupo_capa_id=servicio_externo.grupo_capa_id,
             esta_habilitado=servicio_externo.esta_habilitado,
         )
 
     async def crear(
-        self, request: CrearServicioExternoRequest, usuario_auditoria_id: str
+            self, request: CrearServicioExternoRequest, usuario_auditoria_id: str
     ) -> str:
         # Se hace la validacion de que el grupo ingresado exista.
         await self.__validar_existencia_grupo_capa(request.grupo_capa_id)
-        # Se obtiene la informacion del servicio externo.
+        # Se obtiene la información del servicio externo.
         informacion_wms: InformacionWebMapServiceModelo = obtener_informacion_wms(
-            request.url
+            request.url, request.filtros
         )
         # Se realiza la creacion del servicio externo.
         servicio_externo: ServicioExternoEntidad = ServicioExternoEntidad(
             nombre=request.nombre,
             url=informacion_wms.url,
             atribucion=request.atribucion,
+            filtros=request.filtros,
             grupo_capa_id=request.grupo_capa_id,
             capas=[
                 ServicioExternoCapaEntidad(
@@ -178,16 +182,16 @@ class ServicioExternoServicio:
         return await self._servicio_externo_repositorio.crear(servicio_externo)
 
     async def actualizar(
-        self,
-        servicio_externo_id: str,
-        request: ActualizarServicioExternoRequest,
-        usuario_auditoria_id: str,
+            self,
+            servicio_externo_id: str,
+            request: ActualizarServicioExternoRequest,
+            usuario_auditoria_id: str,
     ) -> str:
         # Se hace la validacion de que el grupo ingresado exista.
         await self.__validar_existencia_grupo_capa(request.grupo_capa_id)
-        # Se obtiene la informacion del servicio externo.
+        # Se obtiene la información del servicio externo.
         informacion_wms: InformacionWebMapServiceModelo = obtener_informacion_wms(
-            request.url
+            request.url, request.filtros
         )
         # Se realiza la creacion del servicio externo.
         servicio_externo: ServicioExternoEntidad = (
@@ -196,6 +200,7 @@ class ServicioExternoServicio:
         servicio_externo.nombre = request.nombre
         servicio_externo.url = informacion_wms.url
         servicio_externo.atribucion = request.atribucion
+        servicio_externo.filtros = request.filtros
         servicio_externo.grupo_capa_id = request.grupo_capa_id
         servicio_externo.capas = [
             ServicioExternoCapaEntidad(
@@ -212,7 +217,7 @@ class ServicioExternoServicio:
         )
 
     async def eliminar(
-        self, servicio_externo_id: str, usuario_auditoria_id: str
+            self, servicio_externo_id: str, usuario_auditoria_id: str
     ) -> str:
         existe_servicio_externo: bool = (
             await self._servicio_externo_repositorio.verificar_existencia(

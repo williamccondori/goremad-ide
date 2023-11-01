@@ -1,3 +1,5 @@
+from typing import Optional
+
 import numpy as np
 import pandas as pd
 from pandas import DataFrame
@@ -19,7 +21,7 @@ class CapaModelo(BaseModel):
 
 class InformacionWebMapServiceModelo(BaseModel):
     """
-    Modelo de datos para la informacion de un servicio WMS.
+    Modelo de datos para la información de un servicio WMS.
     """
     url: str
     nombre: str
@@ -33,17 +35,35 @@ class InformacionWebMapServiceModelo(BaseModel):
 
 class InformacionFeatureModelo(BaseModel):
     """
-    Modelo de datos para la informacion de un feature de un servicio WMS.
+    Modelo de datos para la información de un feature de un servicio WMS.
     """
     clave: str
     valor: str
+    tipo: str
 
 
 class ResultadoInformacionFeatureModelo(BaseModel):
     """
-    Modelo de datos para el resultado de la informacion de un feature de un servicio WMS.
+    Modelo de datos para el resultado de la información de un feature de un servicio WMS.
     """
     informacion: list[InformacionFeatureModelo]
+
+
+def __obtener_tipo(valor: str):
+    """
+    Obtiene el tipo de un valor.
+    Args:
+        valor: Valor.
+    Returns:
+        Tipo del valor.
+    """
+    if valor.startswith("http"):
+        return "link"
+    if valor.isnumeric():
+        return "number"
+    if valor.endswith(".jpg") or valor.endswith(".png"):
+        return "image"
+    return "string"
 
 
 def __obtener_url_base(url: HttpUrl) -> HttpUrl:
@@ -75,7 +95,7 @@ def __obtener_datos_desde_dataframe(data_frames: list[DataFrame], es_geoserver: 
         if not es_geoserver:
             # En algunos casos la estructura de la tabla es diferente, especialmente en los servicios de ArcGIS,
             # en esos casos, se transpone la tabla para obtener los datos de la consulta.
-            # Si tiene un mas de un registro y dos columnas, se transpone la tabla.
+            # Si tiene más de un registro y dos columnas, se transpone la tabla.
             if data_frame.shape[0] > 1 and data_frame.shape[1] == 2:
                 data_frame = data_frame.set_index(data_frame.columns[0])  # Se realiza la correccion de indices.
                 data_frame = data_frame.transpose()
@@ -110,15 +130,16 @@ def __obtener_datos_desde_dataframe(data_frames: list[DataFrame], es_geoserver: 
         diccionario: dict = data_frame.to_dict(orient='records')[0]
         resultados.append(ResultadoInformacionFeatureModelo(
             informacion=[InformacionFeatureModelo(
-                clave=clave,  # Representa el nombre de la columna.
+                clave=clave.replace("_", " "),  # Representa el nombre de la columna.
                 valor=valor,  # Representa el valor de la columna.
+                tipo=__obtener_tipo(valor)
             ) for clave, valor in diccionario.items()]
         ))
 
     return resultados
 
 
-def obtener_informacion_wms(url: HttpUrl) -> InformacionWebMapServiceModelo:
+def obtener_informacion_wms(url: HttpUrl, filtros: Optional[str]) -> InformacionWebMapServiceModelo:
     """
     Obtiene la información de un servicio WMS.
     Args:
@@ -130,12 +151,13 @@ def obtener_informacion_wms(url: HttpUrl) -> InformacionWebMapServiceModelo:
         # Se obtiene la URL base del servicio.
         url_base: HttpUrl = __obtener_url_base(url)
         # Se realiza la consulta al servicio (Se emplea wrapper para omitir la compronacion de certificados).
-        wms: WebMapService111 = web_map_service(url_base)
+        url_base_with_filters = f"{url_base}?CQL_FILTER={filtros}" if filtros else url_base
+        wms: WebMapService111 = web_map_service(url_base_with_filters)
         if not wms:
             raise Exception()
     except Exception as excepcion:
         raise AplicacionException("No se ha podido conectar con el servicio externo") from excepcion
-    # Se obtiene la informacion relacionada a las capas.
+    # Se obtiene la información relacionada a las capas.
     capas: list[CapaModelo] = []
     capas_encontradas = wms.contents
     for capa in capas_encontradas:
@@ -177,7 +199,7 @@ def obtener_informacion_wms(url: HttpUrl) -> InformacionWebMapServiceModelo:
     )
 
 
-def obtener_features(url: HttpUrl, x: int, y: int, width: int, height: int, bounding_box: str, layers: str) \
+def obtener_feature(url: HttpUrl, x: int, y: int, width: int, height: int, bounding_box: str, layers: str) \
         -> list[ResultadoInformacionFeatureModelo]:
     """
     Obtiene la información de un servicio WMS (GetFeatureInfo).
@@ -207,7 +229,7 @@ def obtener_features(url: HttpUrl, x: int, y: int, width: int, height: int, boun
     bbox = tuple(float(i) for i in bounding_box)
     capas: list[str] = str(layers).split(',')
     # Se realiza la consulta de las caracteristicas desde la instancia del servicio.
-    # Mas informacion:
+    # Más información:
     # https://webhelp.esri.com/arcims/9.3/General/mergedProjects/wms_connect/wms_connector/get_featureinfo.htm
     # https://docs.geoserver.org/2.22.x/en/user/services/wms/reference.html#getfeatureinfo
     feature_info = wms.getfeatureinfo(
@@ -232,14 +254,14 @@ def obtener_features(url: HttpUrl, x: int, y: int, width: int, height: int, boun
     # Se obtiene la tabla de caracteristicas desde el resultado de la consulta.
     try:
         # Se emplea pandas para obtener la tabla de caracteristicas.
-        # En caso que no se obtengan resultados, este emitira una excepcion de tipo ValueError.
+        # En caso de que no se obtengan resultados, este emitira una excepcion de tipo ValueError.
         tablas: list[DataFrame] = pd.read_html(resultado_texto)
     except ValueError:
         # Si se obtiene una excepcion de tipo ValueError, se retorna una lista vacia al no haber resultados.
         return []
     # Se verifica si el servicio es de tipo GeoServer a traves de la URL base.
     es_geoserver: bool = url_base.lower().find('geoserver') != -1
-    # Se obtiene la informacion de las caracteristicas.
+    # Se obtiene la información de las caracteristicas.
     return __obtener_datos_desde_dataframe(tablas, es_geoserver)
 
 

@@ -10,4 +10,5 @@ class CrearServicioExternoRequest(BaseModelo):
     nombre: str
     atribucion: str
     grupo_capa_id: Optional[str]
+    filtros: Optional[str]
     esta_habilitado: bool

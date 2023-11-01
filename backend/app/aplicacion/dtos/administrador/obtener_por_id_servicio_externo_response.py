@@ -7,6 +7,7 @@ class ObtenerPorIdServicioExternoResponse(BaseModelo):
     id: str
     url: str
     nombre: str
+    filtros: Optional[str]
     atribucion: str
     grupo_capa_id: Optional[str]
     esta_habilitado: bool

@@ -16,7 +16,7 @@ from app.aplicacion.utilidades.wms import (
     ResultadoInformacionFeatureModelo,
     InformacionWebMapServiceModelo,
     obtener_informacion_wms,
-    obtener_features,
+    obtener_feature,
 )
 
 
@@ -68,7 +68,7 @@ class WebMapServiceServicio:
     async def obtener_features(
         self, request: ObtenerFeaturesWebMapServiceRequest
     ) -> list[ObtenerFeaturesWebMapServiceResponse]:
-        resultados: list[ResultadoInformacionFeatureModelo] = obtener_features(
+        resultados: list[ResultadoInformacionFeatureModelo] = obtener_feature(
             request.url,
             request.x,
             request.y,

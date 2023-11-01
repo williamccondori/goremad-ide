@@ -153,7 +153,9 @@ class InicialServicio:
                         servicio_titulo=servicio_externo.nombre,
                         nombre=capa.nombre,
                         titulo=capa.titulo,
-                        url=servicio_externo.url,
+                        url=self.__obtener_url(servicio_externo.url, servicio_externo.filtros),
+                        url_query=servicio_externo.url,
+                        filtros=servicio_externo.filtros,
                         url_leyenda=url_leyenda,
                         atribucion=servicio_externo.atribucion,
                         cuadro_delimitador=capa.cuadro_delimitador,
@@ -247,3 +249,9 @@ class InicialServicio:
             zoom_inicial=zoom_inicial,
             estructura_objetos_geograficos=estructura_objetos_geograficos
         )
+
+    @staticmethod
+    def __obtener_url(wms_url: str, filtros: str) -> str:
+        if filtros:
+            return f"{wms_url}?CQL_FILTER={filtros}"
+        return wms_url

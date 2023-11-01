@@ -10,6 +10,8 @@ class CapaResponse(BaseModelo):
     nombre: str
     titulo: str
     url: str
+    url_query: str
+    filtros: Optional[str]
     url_leyenda: str
     atribucion: str
     cuadro_delimitador: list[float]

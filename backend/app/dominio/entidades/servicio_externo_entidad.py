@@ -22,6 +22,7 @@ class ServicioExternoEntidad(BaseEntidad):
     url: str
     nombre: str
     atribucion: str
+    filtros: Optional[str]
     grupo_capa_id: Optional[str]
     capas: list[ServicioExternoCapaEntidad]
     esta_habilitado: bool
