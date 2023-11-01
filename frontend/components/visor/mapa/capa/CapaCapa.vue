@@ -18,8 +18,10 @@
 </template>
 
 <script>
+// noinspection NpmUsedModulesInstalled
 import { mapState } from 'vuex';
 import { LWMSTileLayer } from 'vue2-leaflet';
+
 export default {
     components: {
         LWMSTileLayer,

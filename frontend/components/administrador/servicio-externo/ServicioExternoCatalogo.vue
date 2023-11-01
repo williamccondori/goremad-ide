@@ -46,6 +46,11 @@ export default {
                     key: 'nombre',
                 },
                 {
+                    title: 'URL',
+                    dataIndex: 'url',
+                    key: 'url',
+                },
+                {
                     title: 'Acciones',
                     dataIndex: 'id',
                     key: 'id',

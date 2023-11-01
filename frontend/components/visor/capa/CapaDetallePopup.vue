@@ -1,21 +1,27 @@
 <template>
-    <LMarker v-if="posicion" :lat-lng="posicion">
+    <LMarker
+        v-if="posicion"
+        ref="referenciaMarcador"
+        :lat-lng="posicion"
+        :icon="marcadorIcono"
+        @ready="marcadorListo"
+    >
         <LPopup>
-            <ATabs type="card">
-                <ATabPane
+            <a-tabs type="card">
+                <a-tab-pane
                     v-for="caracteristica in caracteristicas"
                     :key="caracteristica.id"
                 >
                     <span slot="tab">
-                        <i class="bx bx-table"/>
+                        <i class="bx bx-table" />
                     </span>
                     <div class="app--contenedor-vertical-pequenio">
                         <div>
-                            <ATag color="green">
+                            <a-tag color="green">
                                 Servicio: <b>{{ caracteristica.titulo }} </b>
-                            </ATag>
+                            </a-tag>
                         </div>
-                        <ATable
+                        <a-table
                             bordered
                             :columns="columnas"
                             :data-source="caracteristica.propiedades"
@@ -24,24 +30,20 @@
                             size="small"
                         />
                     </div>
-                </ATabPane>
-            </ATabs>
+                </a-tab-pane>
+            </a-tabs>
         </LPopup>
     </LMarker>
 </template>
 
 <script>
-import {Table, Tabs, Tag} from 'ant-design-vue';
-import {mapState} from 'vuex';
-import {v4 as uuidv4} from 'uuid';
-import {findRealParent, LMarker, LPopup} from 'vue2-leaflet';
+import L from 'leaflet';
+import { mapState } from 'vuex';
+import { v4 as uuidv4 } from 'uuid';
+import { findRealParent, LMarker, LPopup } from 'vue2-leaflet';
 
 export default {
     components: {
-        ATabs: Tabs,
-        ATabPane: Tabs.TabPane,
-        ATag: Tag,
-        ATable: Table,
         LMarker,
         LPopup,
     },
@@ -49,6 +51,11 @@ export default {
         return {
             posicion: undefined,
             caracteristicas: [],
+            marcadorIcono: L.icon({
+                iconUrl: require('@/assets/img/marcador.png'),
+                iconSize: [30, 30],
+                iconAnchor: [15, 15],
+            }),
             columnas: [
                 {
                     title: 'Propiedad',
@@ -81,6 +88,12 @@ export default {
         });
     },
     methods: {
+        marcadorListo() {
+            const marcardor = this.$refs.referenciaMarcador?.mapObject;
+            if (marcardor) {
+                marcardor.openPopup();
+            }
+        },
         obtenerTituloServicio(servicioId) {
             const servicio = this.capas.find(
                 (servicio) => servicio.servicioId === servicioId
@@ -106,8 +119,9 @@ export default {
                 }
                 serviciosAConsultar.push({
                     id: servicioId,
-                    url: capas[0].url,
-                    capas: capas.map((capa) => capa.nombre),
+                    url: capas[0].urlQuery,
+                    capas: capas.map((capa) => capa.nombre).join(','),
+                    filtros: capas[0].filtros
                 });
             });
             try {
@@ -120,8 +134,9 @@ export default {
                 for (const servicio of serviciosAConsultar) {
                     parametros.url = servicio.url;
                     parametros.layers = servicio.capas;
-                    const {data} = await this.$axios.get(
-                        "/visor/web-map-services/features/",
+                    parametros.filtros = servicio.filtros;
+                    const { data } = await this.$axios.get(
+                        '/visor/web-map-services/features/',
                         {
                             params: parametros,
                         }
@@ -142,7 +157,9 @@ export default {
                         servicioEncontrado.resultados.forEach((resultado) => {
                             this.caracteristicas.push({
                                 id: uuidv4(),
-                                titulo: this.obtenerTituloServicio(servicioEncontrado.id),
+                                titulo: this.obtenerTituloServicio(
+                                    servicioEncontrado.id
+                                ),
                                 propiedades: resultado.informacion,
                             });
                         });

@@ -8,12 +8,12 @@
         <span slot="title" style="text-transform: uppercase">
             <b>{{ titulo }}</b>
         </span>
-        <AFormModel
+        <a-form-model
             ref="referenciaFormulario"
             :model="formulario"
             @submit.prevent="guardar()"
         >
-            <AFormModelItem
+            <a-form-model-item
                 label="URL:"
                 prop="url"
                 :rules="[
@@ -23,12 +23,12 @@
                     },
                 ]"
             >
-                <AInput
+                <a-input
                     v-model="formulario.url"
                     placeholder="Ingrese la URL del servicio externo"
                 />
-            </AFormModelItem>
-            <AFormModelItem
+            </a-form-model-item>
+            <a-form-model-item
                 label="Nombre:"
                 prop="nombre"
                 :rules="[
@@ -38,12 +38,54 @@
                     },
                 ]"
             >
-                <AInput
+                <a-input
                     v-model="formulario.nombre"
                     placeholder="Ingrese el nombre del servicio externo"
                 />
-            </AFormModelItem>
-            <AFormModelItem
+            </a-form-model-item>
+            <a-form-model-item label="Filtros CQL:" prop="filtros">
+                <a-alert>
+                    <div slot="message">
+                        <div>
+                            <b>Nota:</b> Los filtros CQL son opcionales. Si se
+                            ingresan, se aplicarán a todas las capas del
+                            servicio externo, por tanto, se recomienda aplicar a
+                            servicios de. una sola capa.
+                        </div>
+                        <div>
+                            <b>Importante!</b>
+                            <ul>
+                                <li>Separar los filtros por comas.</li>
+                                <li>
+                                    Los nombre de las columnas deben venir de la
+                                    base de datos, no del alias.
+                                </li>
+                                <li>
+                                    <i>
+                                        Función experimental, puede no
+                                        funcionar.
+                                    </i>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </a-alert>
+                <a-input
+                    v-model="formulario.filtros"
+                    placeholder="Ingrese filtros CQL"
+                >
+                    <span slot="addonAfter">
+                        <a-tooltip placement="top" title="Ayuda">
+                            <a-icon
+                                type="question-circle"
+                                style="cursor: pointer"
+                                @click="openHelpWindow()"
+                            />
+                        </a-tooltip>
+                    </span>
+                </a-input>
+            </a-form-model-item>
+            <a-form-model-item
                 label="Atribución:"
                 prop="atribucion"
                 :rules="[
@@ -53,68 +95,52 @@
                     },
                 ]"
             >
-                <AInput
+                <a-input
                     v-model="formulario.atribucion"
                     placeholder="Ingrese la atribución del servicio externo"
                 />
-            </AFormModelItem>
-            <AFormModelItem label="Grupo de capas:" prop="grupoCapaId">
-                <ASelect
+            </a-form-model-item>
+            <a-form-model-item label="Grupo de capas:" prop="grupoCapaId">
+                <a-select
                     v-model="formulario.grupoCapaId"
                     :allow-clear="true"
                     placeholder="Seleccione un grupo de capas"
+                    style="width: 100%"
                 >
-                    <ASelectOption
+                    <a-select-option
                         v-for="elemento in gruposCapas"
                         :key="elemento.id"
                         :value="elemento.id"
                     >
                         {{ elemento.nombre }}
-                    </ASelectOption>
-                </ASelect>
-            </AFormModelItem>
-            <AFormModelItem label="¿Está habilitado?:" prop="estaHabilitado">
+                    </a-select-option>
+                </a-select>
+            </a-form-model-item>
+            <a-form-model-item label="¿Está habilitado?:" prop="estaHabilitado">
                 <ACheckbox v-model="formulario.estaHabilitado" />
-            </AFormModelItem>
+            </a-form-model-item>
             <div>
                 <AButton block html-type="submit" icon="save" type="primary">
                     {{ titulo }}
                 </AButton>
             </div>
-        </AFormModel>
+        </a-form-model>
     </ADrawer>
 </template>
 
 <script>
-import {
-    Drawer,
-    FormModel,
-    Input,
-    Select,
-    Checkbox,
-    Button,
-} from 'ant-design-vue';
-import { mapState, mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 
 const formulario = {
     url: '',
     nombre: '',
     atribucion: '',
+    filtros: '',
     grupoCapaId: undefined,
     estaHabilitado: true,
 };
 
 export default {
-    components: {
-        ADrawer: Drawer,
-        AFormModel: FormModel,
-        AFormModelItem: FormModel.Item,
-        AInput: Input,
-        ASelect: Select,
-        ASelectOption: Select.Option,
-        ACheckbox: Checkbox,
-        AButton: Button,
-    },
     data() {
         return {
             formulario: { ...formulario },
@@ -165,6 +191,7 @@ export default {
                     });
                     this.formulario.nombre = servicioExterno.nombre;
                     this.formulario.url = servicioExterno.url;
+                    this.formulario.filtros = servicioExterno.filtros;
                     this.formulario.atribucion = servicioExterno.atribucion;
                     this.formulario.grupoCapaId = servicioExterno.grupoCapaId;
                     this.formulario.estaHabilitado =
@@ -213,6 +240,12 @@ export default {
                     }
                 }
             });
+        },
+        openHelpWindow() {
+            window.open(
+                'https://docs.geoserver.org/2.23.x/en/user/tutorials/cql/cql_tutorial.html',
+                '_blank'
+            );
         },
     },
 };

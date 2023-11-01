@@ -1,6 +1,5 @@
 <template>
-    <ADrawer
-        :mask="false"
+    <a-drawer
         :visible="estaAbiertoCapaResumenVentana"
         :width="esMovil ? '100%' : 400"
         @close="cerrarCapaResumenVentana()"
@@ -8,119 +7,94 @@
         <span slot="title" style="text-transform: uppercase">
             <b>Información de las capas activas</b>
         </span>
-        <AFormModel ref="referenciaFormulario" :model="formulario">
-            <AFormModelItem label="Capa activa">
-                <ASelect
+        <a-form-model ref="referenciaFormulario" :model="formulario">
+            <a-form-model-item label="Capa activa">
+                <a-select
                     v-model="formulario.elementoActivoId"
                     :allow-clear="true"
                     placeholder="Seleccione"
                     @change="cambiarElementoActivoId"
                 >
-                    <ASelectOption
+                    <a-select-option
                         v-for="elemento in elementosActivos"
                         :key="elemento.id"
                         :value="elemento.id"
                     >
                         {{ elemento.titulo }}
-                    </ASelectOption>
-                </ASelect>
-            </AFormModelItem>
-        </AFormModel>
+                    </a-select-option>
+                </a-select>
+            </a-form-model-item>
+        </a-form-model>
         <div v-if="elementoActivo" class="app--contenedor-vertical-pequenio">
-            <ADescriptions
+            <a-descriptions
                 bordered
                 :column="1"
                 size="small"
                 :title="elementoActivo.titulo"
             >
-                <ADescriptionsItem label="Servicio:">
+                <a-descriptions-item label="Servicio:">
                     {{ elementoActivo.servicioTitulo }}
-                </ADescriptionsItem>
-                <ADescriptionsItem label="Autor:">
+                </a-descriptions-item>
+                <a-descriptions-item label="Autor:">
                     {{ elementoActivo.atribucion }}
-                </ADescriptionsItem>
-                <ADescriptionsItem label="Título:">
+                </a-descriptions-item>
+                <a-descriptions-item label="Título:">
                     {{ elementoActivo.titulo }}
-                </ADescriptionsItem>
-                <ADescriptionsItem label="Nombre:">
+                </a-descriptions-item>
+                <a-descriptions-item label="Nombre:">
                     <ATag size="small"> {{ elementoActivo.nombre }}</ATag>
-                </ADescriptionsItem>
-                <ADescriptionsItem label="Leyenda:">
+                </a-descriptions-item>
+                <a-descriptions-item label="Leyenda:">
                     <img alt="Leyenda" :src="elementoActivo.urlLeyenda" />
-                </ADescriptionsItem>
-            </ADescriptions>
-            <ACard size="small">
+                </a-descriptions-item>
+            </a-descriptions>
+            <a-card size="small">
                 <span>Transparencia:</span>
-                <ASlider
+                <a-slider
                     v-model="transparencia"
                     :max="1"
                     :min="0"
                     :step="0.1"
                 />
-            </ACard>
-            <ACard size="small">
-                <AButton
+            </a-card>
+            <a-card size="small">
+                <a-button
                     block
                     icon="upload"
                     @click="traerAlFrente(elementoActivo.id)"
                 >
                     Traer al frente
-                </AButton>
-                <ADivider />
-                <AButton
+                </a-button>
+                <a-divider />
+                <a-button
                     block
                     icon="search"
                     @click="verAreaCobertura(elementoActivo.cuadroDelimitador)"
                 >
                     Zoom a la capa
-                </AButton>
-                <ADivider />
-                <AButton
+                </a-button>
+                <a-divider />
+                <a-button
                     block
                     icon="delete"
                     type="danger"
                     @click="eliminarCapaActivaYCerrar(elementoActivo.id)"
                 >
                     Remover capa del mapa
-                </AButton>
-            </ACard>
+                </a-button>
+            </a-card>
         </div>
-    </ADrawer>
+    </a-drawer>
 </template>
 
 <script>
-import {
-    Drawer,
-    Select,
-    FormModel,
-    Button,
-    Card,
-    Slider,
-    Divider,
-    Descriptions,
-    Tag,
-} from 'ant-design-vue';
-import { mapState, mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 
 const formulario = {
     elementoActivoId: undefined,
 };
 
 export default {
-    components: {
-        ADrawer: Drawer,
-        ASelect: Select,
-        ASelectOption: Select.Option,
-        AFormModel: FormModel,
-        AFormModelItem: FormModel.Item,
-        AButton: Button,
-        ACard: Card,
-        ASlider: Slider,
-        ADivider: Divider,
-        ADescriptions: Descriptions,
-        ADescriptionsItem: Descriptions.Item,
-        ATag: Tag,
-    },
     data() {
         return {
             formulario: { ...formulario },
@@ -135,10 +109,9 @@ export default {
             'capas',
         ]),
         elementosActivos() {
-            const elementosActivos = this.capas.filter((capa) => {
+            return this.capas.filter((capa) => {
                 return this.capasActivas.includes(capa.id);
             });
-            return elementosActivos;
         },
         transparencia: {
             get() {

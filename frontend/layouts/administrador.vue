@@ -1,24 +1,23 @@
 <template>
-    <div class="app--pagina">
-        <ASpin :spinning="estaCargando">
-            <div class="contenedor-principal">
-                <Cabecera />
-                <ALayout style="background: none">
-                    <AdministracionMenu v-if="$auth.loggedIn" />
-                    <ALayoutContent style="padding: 1rem">
-                        <nuxt />
-                    </ALayoutContent>
-                </ALayout>
-            </div>
-        </ASpin>
-    </div>
+    <a-spin :spinning="estaCargando">
+        <div class="container">
+            <Cabecera />
+            <a-layout style="background: none">
+                <AdministracionMenu v-if="$auth.loggedIn" />
+                <a-layout-content style="padding: 1rem">
+                    <nuxt />
+                </a-layout-content>
+            </a-layout>
+        </div>
+    </a-spin>
 </template>
 
 <script>
-import { Spin, Layout } from 'ant-design-vue';
-import { mapState, mapActions } from 'vuex';
+import { Layout, Spin } from 'ant-design-vue';
+import { mapActions, mapState } from 'vuex';
 import Cabecera from '@/components/compartido/Cabecera.vue';
 import AdministracionMenu from '@/components/administrador/compartido/AdministracionMenu.vue';
+
 export default {
     components: {
         ASpin: Spin,
@@ -42,10 +41,10 @@ export default {
 </script>
 
 <style scoped>
-.contenedor-principal {
-    min-height: 100%;
+.container {
+    height: 100vh;
     display: grid;
-    grid-template-rows: var(--altura-cabecera) 1fr;
+    grid-template-rows: 60px 1fr;
     background-size: 5px 5px;
     background-image: radial-gradient(
         hsla(215 28% 17% / 0.2) 0.5px,

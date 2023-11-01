@@ -14,11 +14,12 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import PaginaCarga from '../components/compartido/PaginaCarga.vue';
 import Cabecera from '../components/compartido/Cabecera.vue';
 import ModalBienvenida from '../components/visor/ModalBienvenida.vue';
 import Mapa from '../components/visor/Mapa.vue';
+
 export default {
     components: { PaginaCarga, Cabecera, ModalBienvenida, Mapa },
     auth: false,
