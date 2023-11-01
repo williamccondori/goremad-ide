@@ -194,7 +194,8 @@ class WebMapService111(object):
 
     def getfeatureinfo(self, layers=None, styles=None, srs=None, bbox=None, output_format=None, size=None, time=None,
                        transparent=False, bgcolor='#FFFFFF', exceptions='application/vnd.ogc.se_xml', query_layers=None,
-                       xy=None, info_format=None, feature_count=20, method='Get', timeout=None, **kwargs):
+                       xy=None, info_format=None, feature_count=20, method='Get', timeout=None, cql_filter=None,
+                       **kwargs):
         try:
             base_url = next((m.get('url') for m in self.get_operation_by_name('GetFeatureInfo').methods
                              if m.get('type').lower() == method.lower()))
@@ -222,6 +223,8 @@ class WebMapService111(object):
         request['y'] = str(xy[1])
         request['info_format'] = info_format
         request['feature_count'] = str(feature_count)
+        if cql_filter:
+            request['CQL_FILTER'] = str(cql_filter)
         data = urlencode(request)
         self.request = bind_url(base_url) + data
         u = openURL(base_url, data, method, timeout=timeout or self.timeout, auth=self.auth, headers=self.headers,

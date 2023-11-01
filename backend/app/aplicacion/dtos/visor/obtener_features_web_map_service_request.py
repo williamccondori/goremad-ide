@@ -1,3 +1,5 @@
+from typing import Optional
+
 from pydantic import HttpUrl
 
 from app.aplicacion.parseadores.base_modelo import BaseModelo
@@ -14,6 +16,7 @@ class ObtenerFeaturesWebMapServiceRequest(BaseModelo):
         height (int): Alto del area de referencia.
         bounding_box (str): Bounding box del area de referencia.
         layers (str): Capas del servicio web map service.
+        filtros (str): Filtros del servicio web map service.
     """
 
     url: HttpUrl
@@ -23,3 +26,4 @@ class ObtenerFeaturesWebMapServiceRequest(BaseModelo):
     height: int
     bounding_box: str
     layers: str
+    filtros: Optional[str] = None

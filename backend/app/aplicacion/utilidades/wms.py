@@ -142,22 +142,20 @@ def __obtener_datos_desde_dataframe(data_frames: list[DataFrame], es_geoserver: 
 def obtener_informacion_wms(url: HttpUrl, filtros: Optional[str]) -> InformacionWebMapServiceModelo:
     """
     Obtiene la información de un servicio WMS.
-    Args:
-        url: URL del servicio.
-    Returns:
-        Información del servicio WMS.
+    :param url: URL del servicio.
+    :param filtros: Filtros.
+    :return: Información del servicio.
     """
     try:
         # Se obtiene la URL base del servicio.
         url_base: HttpUrl = __obtener_url_base(url)
-        # Se realiza la consulta al servicio (Se emplea wrapper para omitir la compronacion de certificados).
-        url_base_with_filters = f"{url_base}?CQL_FILTER={filtros}" if filtros else url_base
-        wms: WebMapService111 = web_map_service(url_base_with_filters)
+        # Se realiza la consulta al servicio (Se emplea wrapper para omitir la combrobación de certificados).
+        wms: WebMapService111 = web_map_service(url_base)
         if not wms:
             raise Exception()
     except Exception as excepcion:
         raise AplicacionException("No se ha podido conectar con el servicio externo") from excepcion
-    # Se obtiene la información relacionada a las capas.
+    # Se obtiene la información relacionada con las capas.
     capas: list[CapaModelo] = []
     capas_encontradas = wms.contents
     for capa in capas_encontradas:
@@ -199,8 +197,8 @@ def obtener_informacion_wms(url: HttpUrl, filtros: Optional[str]) -> Informacion
     )
 
 
-def obtener_feature(url: HttpUrl, x: int, y: int, width: int, height: int, bounding_box: str, layers: str) \
-        -> list[ResultadoInformacionFeatureModelo]:
+def obtener_feature(url: HttpUrl, x: int, y: int, width: int, height: int,
+                    bounding_box: str, layers: str, filtros: str) -> list[ResultadoInformacionFeatureModelo]:
     """
     Obtiene la información de un servicio WMS (GetFeatureInfo).
     Args:
@@ -211,13 +209,14 @@ def obtener_feature(url: HttpUrl, x: int, y: int, width: int, height: int, bound
         height: Alto de la imagen.
         bounding_box: Bounding box.
         layers: Capas.
+        filtros: Filtros.
     Returns:
         Información del servicio.
     """
     try:
         # Se obtiene la URL base del servicio.
         url_base: HttpUrl = __obtener_url_base(url)
-        # Se realiza la consulta al servicio (Se emplea wrapper para omitir la compronacion de certificados).
+        # Se realiza la consulta al servicio (Se emplea wrapper para omitir la combrobación de certificados).
         wms: WebMapService111 = web_map_service(url_base)
         if not wms:
             raise Exception()
@@ -246,9 +245,11 @@ def obtener_feature(url: HttpUrl, x: int, y: int, width: int, height: int, bound
         # Lista de capas intervinientes en la consulta.
         layers=capas,
         # Lista de capas consideradas en la consulta.
-        query_layers=capas
+        query_layers=capas,
+        # Filtrado de caracteristicas.
+        cql_filter=filtros
     )
-    # Se obtiene el resulta y se decodifican los bytes a texto.
+    # Se obtiene el resultado y se decodifican los bytes a texto.
     resultado: bytes = feature_info.read()
     resultado_texto = resultado.decode('utf-8')
     # Se obtiene la tabla de caracteristicas desde el resultado de la consulta.

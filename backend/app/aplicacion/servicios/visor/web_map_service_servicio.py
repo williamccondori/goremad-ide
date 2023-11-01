@@ -23,7 +23,7 @@ from app.aplicacion.utilidades.wms import (
 class WebMapServiceServicio:
     @staticmethod
     def ____mapear_informacion_web_map_service(
-        resultado: InformacionWebMapServiceModelo,
+            resultado: InformacionWebMapServiceModelo,
     ) -> ObtenerInformacionWebMapServiceResponse:
         return ObtenerInformacionWebMapServiceResponse(
             url=resultado.url,
@@ -44,7 +44,7 @@ class WebMapServiceServicio:
 
     @staticmethod
     def __mapear_features_web_map_service(
-        resultados: list[ResultadoInformacionFeatureModelo],
+            resultados: list[ResultadoInformacionFeatureModelo],
     ) -> list[ObtenerFeaturesWebMapServiceResponse]:
         return [
             ObtenerFeaturesWebMapServiceResponse(
@@ -60,13 +60,13 @@ class WebMapServiceServicio:
         ]
 
     async def obtener_informacion(
-        self, request: ObtenerInformacionWebMapServiceRequest
+            self, request: ObtenerInformacionWebMapServiceRequest
     ) -> ObtenerInformacionWebMapServiceResponse:
-        resultado: InformacionWebMapServiceModelo = obtener_informacion_wms(request.url)
+        resultado: InformacionWebMapServiceModelo = obtener_informacion_wms(request.url, request.filtros)
         return self.____mapear_informacion_web_map_service(resultado)
 
     async def obtener_features(
-        self, request: ObtenerFeaturesWebMapServiceRequest
+            self, request: ObtenerFeaturesWebMapServiceRequest
     ) -> list[ObtenerFeaturesWebMapServiceResponse]:
         resultados: list[ResultadoInformacionFeatureModelo] = obtener_feature(
             request.url,
@@ -76,5 +76,6 @@ class WebMapServiceServicio:
             request.height,
             request.bounding_box,
             request.layers,
+            request.filtros
         )
         return self.__mapear_features_web_map_service(resultados)
