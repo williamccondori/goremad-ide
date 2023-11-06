@@ -26,6 +26,10 @@
                 <a-icon type="cluster" />
                 <span>Grupos de capas</span>
             </a-menu-item>
+            <a-menu-item key="/administrador/publicaciones">
+                <a-icon type="book" />
+                <span>Publicaciones</span>
+            </a-menu-item>
             <a-menu-item key="/administrador/imagenes-satelitales">
                 <a-icon type="picture" />
                 <span>Imágenes satelitales</span>

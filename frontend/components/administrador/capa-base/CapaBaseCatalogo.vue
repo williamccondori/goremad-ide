@@ -1,5 +1,5 @@
 <template>
-    <ATable
+    <a-table
         bordered
         :columns="columnas"
         :data-source="capasBase"
@@ -7,31 +7,25 @@
         size="middle"
     >
         <template #acciones="id">
-            <AButton size="small" type="dashed" @click="editar(id)">
+            <a-button size="small" type="dashed" @click="editar(id)">
                 <AIcon type="edit" />
-            </AButton>
-            <APopconfirm
+            </a-button>
+            <a-popconfirm
                 title="¿Está seguro que desea eliminar este registro?"
                 @confirm="eliminar(id)"
             >
-                <AButton size="small" type="dashed">
+                <a-button size="small" type="dashed">
                     <AIcon type="delete" />
-                </AButton>
-            </APopconfirm>
+                </a-button>
+            </a-popconfirm>
         </template>
-    </ATable>
+    </a-table>
 </template>
 
 <script>
-import { Table, Button, Popconfirm, Icon } from 'ant-design-vue';
-import { mapState, mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
+
 export default {
-    components: {
-        ATable: Table,
-        AButton: Button,
-        APopconfirm: Popconfirm,
-        AIcon: Icon,
-    },
     data() {
         return {
             columnas: [

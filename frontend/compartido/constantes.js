@@ -12,3 +12,9 @@ export const TIPO_GEOMETRIA = {
     PUNTO: 'Point',
 };
 export const ATRIBUCION_GENERAL = 'Gobierno Regional de Madre de Dios';
+
+export const LISTA_TIPOS_PUBLICACION = [
+    { id: 'publicacion', nombre: 'Publicaciones' },
+    { id: 'documento', nombre: 'Documentos' },
+    { id: 'noticia', nombre: 'Noticias' },
+];

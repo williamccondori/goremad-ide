@@ -147,6 +147,14 @@
                                     <a-switch v-model="form.estaHabilitado" />
                                 </a-form-model-item>
                             </a-col>
+                            <a-col :lg="6" :md="12" :sm="12" :xs="24">
+                                <a-form-model-item
+                                    label="¿Puede descargar?"
+                                    prop="puedeDescargar"
+                                >
+                                    <a-switch v-model="form.puedeDescargar" />
+                                </a-form-model-item>
+                            </a-col>
                             <a-col :lg="24" :md="24" :sm="24" :xs="24">
                                 <a-form-model-item
                                     label="Descripción"
@@ -245,6 +253,7 @@ export default {
                 descripcion: '',
                 estilo: '',
                 estaHabilitado: true,
+                puedeDescargar: true,
                 grupoId: undefined,
             },
             grupos: [],
@@ -321,6 +330,7 @@ export default {
                 estilo: record.estilo,
                 estaHabilitado: record.estaHabilitado,
                 grupoId: record.grupoId,
+                puedeDescargar: record.puedeDescargar,
             };
             this.tituloFormulario = 'Editar registro';
             this.collapseActivo = 'formularioPanel';
@@ -360,6 +370,7 @@ export default {
                 estilo: '',
                 estaHabilitado: true,
                 grupoId: undefined,
+                puedeDescargar: true,
             };
             this.collapseActivo = undefined;
             this.tituloFormulario = 'Agregar registro';

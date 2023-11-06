@@ -1,5 +1,5 @@
 <template>
-    <div style="height: 100vh">
+    <div style="min-height: 100vh">
         <div v-if="estaCargando || !configuracionAplicada" style="height: 100%">
             <PaginaCarga />
         </div>

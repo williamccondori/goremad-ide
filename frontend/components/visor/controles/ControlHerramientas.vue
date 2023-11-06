@@ -57,15 +57,15 @@
                         <i class="bx bx-label" />
                     </a-button>
                 </a-tooltip>
-                <a-tooltip title="Gráficos">
-                    <a-button
-                        shape="circle"
-                        type="primary"
-                        @click="abrirVentana('Graficos')"
-                    >
-                        <i class="bx bx-chart" />
-                    </a-button>
-                </a-tooltip>
+                <!--                <a-tooltip title="Gráficos">-->
+                <!--                    <a-button-->
+                <!--                        shape="circle"-->
+                <!--                        type="primary"-->
+                <!--                        @click="abrirVentana('Graficos')"-->
+                <!--                    >-->
+                <!--                        <i class="bx bx-chart" />-->
+                <!--                    </a-button>-->
+                <!--                </a-tooltip>-->
                 <a-tooltip title="Compartir">
                     <a-button
                         shape="circle"

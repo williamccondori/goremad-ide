@@ -1,52 +1,48 @@
 <template>
     <AdministracionPagina>
-        <ASpace class="app--w-100" direction="vertical">
-            <AAlert
+        <a-space class="app--w-100" direction="vertical">
+            <a-alert
                 :closable="false"
                 description="Módulo de administración de contenidos de la plataforma geoespacial GEOGOREMAD."
                 message="¡Bienvenido al módulo de administración del GEOGOREMAD!"
                 type="success"
             />
             <div v-if="resumen" class="contenedor">
-                <ACard hoverable>
-                    <AStatistic
-                        title="Total de servicios locales"
-                        :value="resumen.totalServiciosLocales"
-                    />
-                </ACard>
-                <ACard hoverable>
-                    <AStatistic
+                <!--                <a-card hoverable>-->
+                <!--                    <a-statistic-->
+                <!--                        title="Total de servicios locales"-->
+                <!--                        :value="resumen.totalServiciosLocales"-->
+                <!--                    />-->
+                <!--                </a-card>-->
+                <a-card hoverable>
+                    <a-statistic
                         title="Total de capas base"
                         :value="resumen.totalCapasBase"
                     />
-                </ACard>
-                <ACard hoverable>
-                    <AStatistic
+                </a-card>
+                <a-card hoverable>
+                    <a-statistic
                         title="Total de servicios externos"
                         :value="resumen.totalServiciosExternos"
                     />
-                </ACard>
-                <ACard hoverable>
-                    <AStatistic
+                </a-card>
+                <a-card hoverable>
+                    <a-statistic
                         title="Total de usuarios"
                         :value="resumen.totalUsuarios"
                     />
-                </ACard>
+                </a-card>
             </div>
-        </ASpace>
+        </a-space>
     </AdministracionPagina>
 </template>
 
 <script>
-import { Card, Statistic, Space, Alert } from 'ant-design-vue';
-import { mapState, mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 import AdministracionPagina from '@/components/administrador/compartido/AdministracionPagina.vue';
+
 export default {
     components: {
-        ACard: Card,
-        AStatistic: Statistic,
-        ASpace: Space,
-        AAlert: Alert,
         AdministracionPagina,
     },
     layout: 'administrador',
