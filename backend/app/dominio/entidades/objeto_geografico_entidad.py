@@ -14,3 +14,4 @@ class ObjetoGeograficoEntidad(BaseEntidad):
     estilo: Optional[str]
     grupo_id: str
     esta_habilitado: bool
+    puede_descargar: Optional[bool]

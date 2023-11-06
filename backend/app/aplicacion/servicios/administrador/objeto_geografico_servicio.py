@@ -61,6 +61,7 @@ class ObjetoGeograficoServicio:
             descripcion=request.descripcion,
             estilo=request.estilo,
             esta_habilitado=request.esta_habilitado,
+            puede_descargar=request.puede_descargar,
             grupo_id=request.grupo_id
         )
         objeto_geografico.registrar_creacion(usuario_auditoria_id)
@@ -79,6 +80,7 @@ class ObjetoGeograficoServicio:
         objeto_geografico.descripcion = request.descripcion
         objeto_geografico.estilo = request.estilo
         objeto_geografico.esta_habilitado = request.esta_habilitado
+        objeto_geografico.puede_descargar = request.puede_descargar
         objeto_geografico.grupo_id = request.grupo_id
         objeto_geografico.registrar_actualizacion(usuario_auditoria_id)
         return await self._objeto_geografico_repositorio.actualizar(objeto_geografico_id, objeto_geografico)

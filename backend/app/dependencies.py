@@ -6,6 +6,7 @@ from app.dominio.entidades.catalogo_entidad import CatalogoEntidad
 from app.dominio.entidades.grupo_entidad import GrupoEntidad
 from app.dominio.entidades.objeto_geografico_entidad import ObjetoGeograficoEntidad
 from app.dominio.entidades.objeto_geografico_geometria_entidad import ObjetoGeograficoGeometriaEntidad
+from app.dominio.entidades.publicacion_entidad import PublicacionEntidad
 from app.dominio.entidades.tema_entidad import TemaEntidad
 from app.dominio.repositorios.base_repositorio import IBaseRepositorio
 from app.infraestructura.mongo_db.repositorios.base_repositorio import BaseRepositorio
@@ -39,3 +40,7 @@ def registrar_repo_objeto_geografico(client: MongoClient = Depends(get_mongo_cli
 def registrar_repo_objeto_geografico_geometria(client: MongoClient = Depends(get_mongo_client)) -> IBaseRepositorio:
     return BaseRepositorio(client[settings.MONGODB_NOMBRE_BASE_DATOS]["objetos_geograficos_geometrias"],
                            ObjetoGeograficoGeometriaEntidad)
+
+
+def registrar_repo_publicacion(client: MongoClient = Depends(get_mongo_client)) -> IBaseRepositorio:
+    return BaseRepositorio(client[settings.MONGODB_NOMBRE_BASE_DATOS]["publicaciones"], PublicacionEntidad)

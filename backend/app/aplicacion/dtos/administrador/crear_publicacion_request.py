@@ -4,9 +4,9 @@ from app.aplicacion.parseadores.base_modelo import BaseModelo
 
 
 class CrearPublicacionRequest(BaseModelo):
-    capa: str
-    espacio_trabajo: str
+    tipo: str
     titulo: str
-    es_consultable: bool
+    resumen: str
+    contenido: Optional[str]
+    imagen: Optional[str]
     esta_habilitado: bool
-    grupo_capa_id: Optional[str]

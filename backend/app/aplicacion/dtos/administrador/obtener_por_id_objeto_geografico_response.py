@@ -13,4 +13,5 @@ class ObtenerPorIdObjetoGeograficoResponse(BaseModelo):
     descripcion: Optional[str]
     estilo: Optional[str]
     esta_habilitado: bool
+    puede_descargar: bool
     grupo_id: str

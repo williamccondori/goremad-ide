@@ -24,16 +24,15 @@ from app.api.controllers.administrador.objeto_geografico_controller import objet
 from app.api.controllers.administrador.programacion_controller import (
     programacion_controller,
 )
+from app.api.controllers.administrador.publicacion_controller import publicacion_controller
 from app.api.controllers.administrador.resumen_controller import resumen_controller
 from app.api.controllers.administrador.servicio_externo_controller import (
     servicio_externo_controller,
 )
 from app.api.controllers.administrador.tema_controller import tema_controller
 from app.api.controllers.administrador.usuario_controller import usuario_controller
+from app.api.controllers.portal.publicacion_controller import publicacion_controller as publicacion_portal_controller
 from app.api.controllers.visor.carga_controller import carga_controller as carga_visor_controller
-from app.api.controllers.visor.objeto_geografico_controller import (
-    objeto_geografico_controller as objeto_geografico_visor_controller,
-)
 from app.api.controllers.visor.coordenada_controller import (
     coordenada_controller as coordenada_visor_controller,
 )
@@ -42,6 +41,9 @@ from app.api.controllers.visor.imagen_satelital_controller import (
 )
 from app.api.controllers.visor.inicial_controller import (
     inicial_controller as inicial_visor_controller,
+)
+from app.api.controllers.visor.objeto_geografico_controller import (
+    objeto_geografico_controller as objeto_geografico_visor_controller,
 )
 from app.api.controllers.visor.servicio_local_controller import (
     servicio_local_controller,
@@ -108,6 +110,9 @@ app.include_router(
     prefix="/api/v1/servicios-locales",
     tags=["Servicios locales"],
 )
+app.include_router(
+    publicacion_controller, prefix="/api/v1/publicaciones", tags=["Publicaciones"]
+)
 
 # Objetos geográficos, capas que ya existen en la base de datos de distribución.
 # TODO Agregar validación de datos a través del análisis de las tablas existentes.
@@ -152,6 +157,13 @@ app.include_router(
 app.include_router(carga_visor_controller, prefix="/api/v1/visor/cargas", tags=["Carga (Visor)"])
 app.include_router(objeto_geografico_visor_controller, prefix="/api/v1/visor/objetos-geograficos",
                    tags=["Objetos geográficos (Visor)"])
+
+# --------------------------------
+# URL para el portal antiguo.
+# --------------------------------
+
+app.include_router(publicacion_portal_controller, prefix="/api/v1/portal/publicaciones",
+                   tags=["Publicaciones (Portal)"])
 
 
 class ExcepcionResponse(BaseModelo):
