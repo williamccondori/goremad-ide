@@ -10,54 +10,44 @@
         <a-space direction="vertical" style="width: 100%">
             <a-tabs default-active-key="capasOperables" type="card">
                 <a-tab-pane key="capasOperables" tab="Capas">
-                    <a-form-model
-                        :model="form"
-                        @submit.prevent="descargarInformacionCapas()"
-                    >
-                        <a-form-model-item label="Temática" prop="tematica">
-                            <a-select
-                                v-model="form.tematica"
-                                placeholder="Seleccione una temática"
-                                @change="form.capaGeografica = undefined"
-                            >
-                                <a-select-option
-                                    v-for="tematica in tematicas"
-                                    :key="tematica.id"
-                                >
-                                    {{ tematica.nombre }}
-                                </a-select-option>
-                            </a-select>
-                        </a-form-model-item>
-                        <a-form-model-item
-                            label="Capa geográfica"
-                            prop="capaGeografica"
+                    <a-collapse expand-icon-position="right">
+                        <a-collapse-panel
+                            v-for="catalogo in estructuraObjetosGeograficos"
+                            :key="catalogo.id"
+                            class="ant-collapse-fluid"
                         >
-                            <a-select
-                                v-model="form.capaGeografica"
-                                placeholder="Seleccione una capa geográfica"
-                            />
-                        </a-form-model-item>
-                        <a-form-model-item label="Formato" prop="formato">
-                            <a-select
-                                v-model="form.formato"
-                                placeholder="Seleccione un formato"
+                            <span slot="header">
+                                <b>{{ catalogo.nombre }}</b>
+                            </span>
+                            <a-collapse
+                                :bordered="false"
+                                expand-icon-position="right"
                             >
-                                <a-select-option
-                                    v-for="formato in formatos"
-                                    :key="formato.id"
+                                <a-collapse-panel
+                                    v-for="tema in catalogo.temas"
+                                    :key="tema.id"
                                 >
-                                    {{ formato.nombre }}
-                                </a-select-option>
-                            </a-select>
-                        </a-form-model-item>
-                        <a-button block html-type="submit" type="primary">
-                            <a-icon type="download" />
-                            Descargar
-                        </a-button>
-                    </a-form-model>
-                </a-tab-pane>
-                <a-tab-pane key="dibujos" tab="Dibujos">
-                    Aquí de podrá descargar dibujos
+                                    <span slot="header">
+                                        <b>{{ tema.nombre }}</b>
+                                    </span>
+                                    <div
+                                        v-for="grupo in tema.grupos"
+                                        :key="grupo.id"
+                                    >
+                                        <p>
+                                            <b>{{ grupo.nombre }}</b>
+                                        </p>
+                                        <div
+                                            v-for="objeto in grupo.objetos"
+                                            :key="objeto.id"
+                                        >
+                                            {{ objeto.nombre }}
+                                        </div>
+                                    </div>
+                                </a-collapse-panel>
+                            </a-collapse>
+                        </a-collapse-panel>
+                    </a-collapse>
                 </a-tab-pane>
             </a-tabs>
         </a-space>
@@ -65,27 +55,18 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
+
 export default {
-    data() {
-        return {
-            form: {
-                tematica: undefined,
-                capaGeografica: undefined,
-                formato: undefined,
-            },
-            tematicas: [],
-            formatos: [],
-            gruposDiponibles: [],
-        };
-    },
     computed: {
         ...mapState(['tamanioVentana']),
-        ...mapState('visor', ['estaAbiertoVentanaDescargarInformacion']),
+        ...mapState('visor', [
+            'estaAbiertoVentanaDescargarInformacion',
+            'estructuraObjetosGeograficos',
+        ]),
     },
     methods: {
         ...mapActions('visor', ['cerrarVentana']),
-        descargarInformacionCapas() {},
     },
 };
 </script>
