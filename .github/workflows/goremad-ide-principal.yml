@@ -31,9 +31,17 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
-    needs: build
+    needs: build # Este trabajo depende del éxito del trabajo de construcción
     steps:
-      - uses: actions/checkout@v3
-      - name: Deploy
-        run: |
-          echo "Deploying to production"
+      # Despliegue en producción mediante SSH
+      - name: Deploy to Production via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /var/geogoremad
+            docker compose pull
+            docker compose up -d
+            yes | docker system prune -a
