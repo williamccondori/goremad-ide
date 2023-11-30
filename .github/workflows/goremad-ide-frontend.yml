@@ -62,4 +62,4 @@ jobs:
             cd /var/geogoremad
             docker compose pull
             docker compose up -d
-            docker system prune -a
+            yes | docker system prune -a
