@@ -218,7 +218,15 @@
         <servlet-name>panservicios</servlet-name>
         <url-pattern>/admin/servicios</url-pattern>
     </servlet-mapping>
-
+    <!-- PASACALLE -->
+    <servlet>
+        <servlet-name>pasacalle</servlet-name>
+        <jsp-file>/paginas/pasacalle.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>pasacalle</servlet-name>
+        <url-pattern>/pasacalle</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout> 30 </session-timeout>
     </session-config>

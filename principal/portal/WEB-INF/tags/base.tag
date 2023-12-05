@@ -110,6 +110,7 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">DOCUMENTACIÓN <span class="caret"></span></a>
                         <ul class="dropdown-menu">
+                            <li><a href="${pageContext.request.contextPath}/pasacalle">🎊 Pasacalle 2023</a></li>
                             <li><a href="${pageContext.request.contextPath}/mapas">Descarga de Mapas</a></li>
                             <li><a href="${pageContext.request.contextPath}/simbolos">Catálogo de Objetos y Símbolos</a></li>
                             <li><a href="${pageContext.request.contextPath}/manuales">Manuales y Normas</a></li>
