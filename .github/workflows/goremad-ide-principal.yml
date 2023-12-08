@@ -41,7 +41,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /var/geogoremad
+            cd /var/ide
             docker compose pull
             docker compose up -d
             yes | docker system prune -a
