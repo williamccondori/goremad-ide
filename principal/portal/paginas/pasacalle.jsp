@@ -27,7 +27,7 @@
                         </div>
                         <div class="col-md-12">
                             <div class="col-md-4 col-xl-4">
-                                <a href="${pageContext.request.contextPath}/files/bases.docx" target="_blank"
+                                <a href="${pageContext.request.contextPath}/files/bases.pdf" target="_blank"
                                     class="btn btn-info">DESCARGAR BASES</a>
                             </div>
                             <div class="col-md-4 col-xl-4">
